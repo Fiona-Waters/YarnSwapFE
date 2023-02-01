@@ -1,5 +1,5 @@
 import { getListings } from "../api/yarn-swap-api"
-import Home from "../components/listings";
+import { HomePageTemplate } from "../components/templates/homePageTemplate";
 import {useQuery} from 'react-query';
 
 const HomePage = () => {
@@ -14,8 +14,7 @@ const HomePage = () => {
         )
     }
     return (
-        <Home
-        listings={data} />
+        <HomePageTemplate listings={data}/>
     );
 };
 
