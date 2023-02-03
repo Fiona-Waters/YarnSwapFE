@@ -18,4 +18,11 @@ module.exports = {
     "storyStoreV7": false,
     "emotionAlias": false
   },
+  async viteFinal(config, { configType }) {
+    // return the customized config
+    return mergeConfig(config, {
+      // customize the Vite config here
+      
+    });
+  },
 }
