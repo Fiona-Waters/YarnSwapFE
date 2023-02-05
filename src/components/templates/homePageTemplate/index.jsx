@@ -1,4 +1,5 @@
 import { Box, Button, ButtonGroup, HStack, SimpleGrid, useBreakpoint, useBreakpointValue, VStack } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
 import { Logo } from "../../atoms/logo";
 import { PrimaryButton } from "../../atoms/primaryButton";
 
@@ -27,8 +28,8 @@ export function HomePageTemplate(props) {
             </Box>
             <HStack>
                 <ButtonGroup spacing='3'>
-                    <PrimaryButton label={'Register'}/>
-                    <PrimaryButton label={'Login'}/>
+                <Link to={'register'}><PrimaryButton label={'Register'}/></Link>
+                <Link to={'login'}><PrimaryButton label={'Login'}/></Link>
                 </ButtonGroup>
             </HStack>
             <Box >
