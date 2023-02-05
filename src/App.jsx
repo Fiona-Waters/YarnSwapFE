@@ -7,8 +7,8 @@ import MainLayout from "./components/layouts/main"
 import { QueryClient, QueryClientProvider } from "react-query"
 import { ChakraProvider } from "@chakra-ui/react"
 import { theme } from './theme.js'
-import SignInScreen from "./firebase.jsx"
 import RegisterLogin from "./pages/register-login"
+import DashboardPage from "./pages/dashboardPage"
 
 
 function App() {
@@ -22,6 +22,7 @@ function App() {
         <Route path="login" element={<RegisterLogin/>}/>
         <Route path="register" element={<RegisterLogin/>}/>
           <Route path="/*" element={<MainLayout />}>
+            <Route path="dashboard" element={<DashboardPage/>}/>
             <Route path="about" element={ <About/> }/>
             <Route path="listings" element={ <Listings/> }/>
           </Route>      

@@ -1,11 +1,11 @@
 import { ChakraProvider } from '@chakra-ui/react';
 import React from 'react';
 import { theme } from '../../../theme';
-import { Logo } from './index';
+import { NavigationMenu } from './index';
 
 export default {
-  title: 'Atoms/Logo',
-  component: Logo,
+  title: 'Organisms/Nav',
+  component: NavigationMenu,
 
   decorators: [
     (Story) => (
@@ -18,12 +18,14 @@ export default {
   ],
 };
 
+const Template = (args) => <NavigationMenu {...args} />;
 
-const Template = (args) => <Logo {...args} />;
+export const MainNav = Template.bind({});
+MainNav.args = {
 
-export const Default = Template.bind();
-Default.args = {
-  w: 32,
-  h: 32
-}
+};
+
+
+
+
 

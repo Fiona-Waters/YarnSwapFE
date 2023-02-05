@@ -1,9 +1,7 @@
 import { getListings } from "../api/yarn-swap-api"
-import { HomePageTemplate } from "../components/templates/homePageTemplate";
 import { useQuery } from 'react-query';
-import { Logo } from "../components/atoms/logo";
 
-const HomePage = () => {
+const DashboardPage = () => {
     const { data, isLoading } = useQuery('listings',
         getListings
     );
@@ -14,13 +12,11 @@ const HomePage = () => {
             <div>Loading</div>
         )
     }
-    // TODO add search bar etc see wireframes
+    // TODO return users own listings etc see wireframe
     return (
         <>
-           
-            <HomePageTemplate listings={data} />
         </>
     );
 };
 
-export default HomePage;
+export default DashboardPage;

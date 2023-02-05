@@ -10,11 +10,11 @@ export default {
 
   decorators: [
     (Story) => (
-        <ChakraProvider theme={theme}>
-          
-          <Story />
-          
-        </ChakraProvider>
+      <ChakraProvider theme={theme}>
+
+        <Story />
+
+      </ChakraProvider>
     ),
   ],
 };

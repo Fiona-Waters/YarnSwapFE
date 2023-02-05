@@ -4,6 +4,8 @@ import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import firebase from 'firebase/compat/app';
 import { FacebookAuthProvider, getAuth, EmailAuthProvider } from "firebase/auth";
 import { GoogleAuthProvider } from "firebase/auth";
+import { Box, Text, VStack } from "@chakra-ui/react";
+import { Logo } from "./components/atoms/logo";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -21,32 +23,38 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app)
+export const auth = getAuth(app)
 
 
 const uiConfig = {
-    // Popup signin flow rather than redirect flow.
-    signInFlow: 'popup',
-    // Redirect to /signedIn after sign in is successful. Alternatively you can provide a callbacks.signInSuccess function.
-    signInSuccessUrl: '/signedIn',
-    // We will display Google and Facebook as auth providers.
-    signInOptions: [
-      GoogleAuthProvider.PROVIDER_ID,
-//      FacebookAuthProvider.PROVIDER_ID,
-      EmailAuthProvider.PROVIDER_ID
-      
-   //   firebase.auth.FacebookAuthProvider.PROVIDER_ID,
-    ],
-  };
+  // Popup signin flow rather than redirect flow.
+  signInFlow: 'popup',
+  // Redirect to /signedIn after sign in is successful. Alternatively you can provide a callbacks.signInSuccess function.
+  signInSuccessUrl: '/signedIn',
+  // We will display Google and Facebook as auth providers.
+  signInOptions: [
+    GoogleAuthProvider.PROVIDER_ID,
+    //      FacebookAuthProvider.PROVIDER_ID,
+    EmailAuthProvider.PROVIDER_ID
 
-  function SignInScreen() {
-    return (
-      <div>
-        <h1>My App</h1>
-        <p>Please sign-in:</p>
-        <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth} />
-      </div>
-    );
-  }
-  
-  export default SignInScreen
+    //   firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+  ],
+};
+
+function SignInScreen() {
+  return (
+    <VStack h='full' w='full' minH='100vh' spacing={12} pt={120}>
+      <Box>
+        <Logo w={40} h={40} />
+      </Box>
+      <Box>
+        <Text >Please choose your preferred method below...</Text>
+      </Box>
+      <Box>
+      <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth} />
+      </Box>
+    </VStack>
+  );
+}
+
+export default SignInScreen

@@ -4,10 +4,7 @@ import SignInScreen from "../firebase";
 const RegisterLogin = () =>
 {
     return (
-        <>
-        <Logo/>
         <SignInScreen />
-        </>
     )
 }
 
