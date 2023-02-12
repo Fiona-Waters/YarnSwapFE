@@ -1,4 +1,4 @@
-import { Box, Button, ButtonGroup, Card, CardBody, CardFooter, CardHeader, Divider, Flex, Heading, Image, List, ListItem, Stack, Text, useBreakpointValue } from "@chakra-ui/react";
+import { Box, Button, ButtonGroup, Card, CardBody, CardFooter, CardHeader, Image, List, ListItem, useBreakpointValue } from "@chakra-ui/react";
 import { InfoRow } from "../../atoms/infoRow";
 
 export function Listing(props) {

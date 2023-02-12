@@ -1,6 +1,6 @@
-import { Box, Flex, HStack, Spacer, VStack } from '@chakra-ui/react';
+import { Box, Container, Flex, HStack, Spacer, Stack, VStack } from '@chakra-ui/react';
 import { getAuth, signOut } from 'firebase/auth';
-import { Outlet, Link, useNavigate } from 'react-router-dom';
+import { Outlet, Link, useNavigate, Router, Navigate } from 'react-router-dom';
 import { DarkModeButton } from '../atoms/darkModeButton';
 import { Logo } from '../atoms/logo';
 import { PrimaryButton } from '../atoms/primaryButton';
@@ -17,28 +17,32 @@ function MainLayout() {
             console.log("Error logging out", error)
         });
     }
-    return (
+    console.log("AUTH", auth)
+    const user = auth.currentUser;
+    console.log("USER",user)
 
-        <VStack h="full" w="full" minH="100vh" spacing={12} pt={120}>
-            <HStack>
-                <Box>
+   // if (user) {
+        return (
+            <>
+                <HStack w="full" p={4}>
+                    <Spacer />
                     <DarkModeButton />
-                </Box>
-                <Box>
                     <PrimaryButton onclick={handleLogout} label={'Logout'} />
-                </Box>
-            </HStack>
-            <Box>
-                <Logo h={40} w={40} />
-            </Box>
-            <Box>
-                <NavigationMenu />
-            </Box>
 
-            <Outlet />
+                </HStack>
+                <Container maxW="container.xl" centerContent>
 
-        </VStack>
-    )
+                    <Logo h={40} w={40} />
+                    <NavigationMenu />
+                    <Stack flex="1" w="full" pt={12}>
+                        <Outlet />
+                    </Stack>
+                </Container>
+            </>
+        )
+ //   } else {
+   //     return <Navigate replace to="/" />
+    //}
 }
 
 export default MainLayout; 
