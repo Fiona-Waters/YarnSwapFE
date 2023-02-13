@@ -5,6 +5,7 @@ import { DarkModeButton } from '../atoms/darkModeButton';
 import { Logo } from '../atoms/logo';
 import { PrimaryButton } from '../atoms/primaryButton';
 import { NavigationMenu } from '../organisms/nav';
+import { useAuthState } from 'react-firebase-hooks/auth';
 
 function MainLayout() {
     const navigate = useNavigate();
@@ -17,11 +18,26 @@ function MainLayout() {
             console.log("Error logging out", error)
         });
     }
-    console.log("AUTH", auth)
-    const user = auth.currentUser;
-    console.log("USER",user)
+    console.log("USER", auth.currentUser)
 
-   // if (user) {
+    const [user, loading, error] = useAuthState(auth)
+
+
+    if (loading) {
+        return (
+            <div>
+                <p>Logging in...</p>
+            </div>
+        )
+    }
+    if (error) {
+        return (
+            <div>
+                <p>Error: {error}</p>
+            </div>
+        )
+    }
+    if (user) {
         return (
             <>
                 <HStack w="full" p={4}>
@@ -40,9 +56,9 @@ function MainLayout() {
                 </Container>
             </>
         )
- //   } else {
-   //     return <Navigate replace to="/" />
-    //}
+    } else {
+        return <Navigate replace to="/" />
+    }
 }
 
 export default MainLayout; 
