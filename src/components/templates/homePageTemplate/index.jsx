@@ -34,7 +34,7 @@ export function HomePageTemplate(props) {
             </HStack>
             <Box >
                 <SimpleGrid columns={gridCount} spacing={'25'}>
-                    {listings.map((listing, i) => (
+                    {listings?.map((listing, i) => (
                         <Listing listing={listing} key={i}></Listing>
                     ))}
                     

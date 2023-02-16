@@ -35,7 +35,7 @@ export function Listing(props) {
                         <InfoRow label={"Swappable"} value={listing?.swappable} />
                     </ListItem>
                     <ListItem borderBottomColor={'brand.blue'} borderBottomWidth={'1px'}>
-                        <InfoRow label={"Status"} value={listing?.status}/>
+                        <InfoRow label={"Status"} value={listing?.status?.statusName}/>
                     </ListItem>
                 </List>
             </CardBody>
