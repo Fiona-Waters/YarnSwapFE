@@ -6,14 +6,17 @@ import { PrimaryButton } from "../../atoms/primaryButton";
 import { useForm } from "react-hook-form";
 
 export function AddListingForm(props) {
-    const { isOpen, onClose } = props;
+    const { isOpen, onClose, refreshListings } = props;
     const { data: brands } = useQuery('getBrands', getBrands)
     const { data: weights } = useQuery('getWeights', getWeights)
     const { data: fibres } = useQuery('getFibres', getFibres)
-    const { register, handleSubmit, formState: { errors, isSubmitting }, } = useForm();
+    const { register, handleSubmit, formState: { errors, isSubmitting }, reset} = useForm({defaultValues: {swappable:'true', }});
 
-    function onSubmit(values) {
-        addListing(values)
+    async function onSubmit(values) {
+        await addListing(values)
+        onClose()
+        reset()
+        refreshListings()
     }
 
     return (
@@ -104,10 +107,10 @@ export function AddListingForm(props) {
                                 </NumberInput>
                             </FormControl><FormControl>
                                 <FormLabel htmlFor='swappable'>Yarn Destiny</FormLabel>
-                                <RadioGroup name='swappable' id='swappable' >
+                                <RadioGroup name='swappable' id='swappable'{...register('swappable')} >
                                     <Stack direction='row'>
-                                        <Radio value='true'  {...register('swappable')}>Swap</Radio>
-                                        <Radio value='false'  {...register('swappable')}>Stash</Radio>
+                                        <Radio value='true'>Swap</Radio>
+                                        <Radio value='false'>Stash</Radio>
                                     </Stack>
                                 </RadioGroup>
                             </FormControl><FormControl>

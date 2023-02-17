@@ -4,7 +4,7 @@ import { getAuth } from "firebase/auth";
 import { DashboardTemplate } from "../components/templates/dashboardTemplate";
 
 const DashboardPage = () => {
-    const { data, isLoading } = useQuery('listings',
+    const { data, isLoading, refetch } = useQuery('listings',
         getListings
     );
 
@@ -20,7 +20,7 @@ const DashboardPage = () => {
     }
     // TODO return users own listings etc see wireframe
     return (
-        <DashboardTemplate listings={data}/>
+        <DashboardTemplate listings={data} refreshListings={refetch}/>
         
     );
 };

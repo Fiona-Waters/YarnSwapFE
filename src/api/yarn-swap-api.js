@@ -1,7 +1,11 @@
+//const baseURL = "http://localhost:8080"
+const baseURL = import.meta.env.VITE_BASE_URL
+
+
 export const getListings = async () => {
     try {
         const response = await fetch(
-            "http://localhost:8080/listings"
+            `${baseURL}/listings`
         );
         if (!response.ok) {
             throw new Error(response.json().message);
@@ -16,7 +20,7 @@ export const addListing = async (newListing) => {
     console.log("NEW LISTING", newListing)
     try {
         const response = await fetch(
-            "http://localhost:8080/listings"
+            `${baseURL}/listings`
         , {
             method: 'POST',
             headers: {
@@ -38,7 +42,7 @@ export const addListing = async (newListing) => {
 export const getBrands = async () => {
     try {
         const response = await fetch(
-            "http://localhost:8080/brands"
+            `${baseURL}/brands`
         );
         if (!response.ok) {
             throw new Error(response.json().message);
@@ -52,7 +56,7 @@ export const getBrands = async () => {
 export const getWeights = async () => {
     try {
         const response = await fetch(
-            "http://localhost:8080/weights"
+            `${baseURL}/weights`
         );
         if (!response.ok) {
             throw new Error(response.json().message);
@@ -66,7 +70,7 @@ export const getWeights = async () => {
 export const getFibres = async () => {
     try {
         const response = await fetch(
-            "http://localhost:8080/fibres"
+            `${baseURL}/fibres`
         );
         if (!response.ok) {
             throw new Error(response.json().message);

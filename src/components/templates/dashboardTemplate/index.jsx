@@ -9,7 +9,7 @@ export function DashboardTemplate(props) {
     //TODO get and display users own listings
 
 
-    const { listings } = props
+    const { listings, refreshListings } = props
 
     const bp = useBreakpoint();
 
@@ -32,7 +32,7 @@ export function DashboardTemplate(props) {
                 <Spacer/>
                 <PrimaryButton label={'Search'} onclick={onOpen} />
             </HStack>
-            <AddListingForm isOpen={isOpen} onClose={onClose} />
+            <AddListingForm isOpen={isOpen} onClose={onClose} refreshListings={refreshListings}/>
 
             <SimpleGrid columns={gridCount} spacing={'25'} w={'full'}>
                 {listings?.map((listing, i) => (
