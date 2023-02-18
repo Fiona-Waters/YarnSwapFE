@@ -10,7 +10,7 @@ export function AddListingForm(props) {
     const { data: brands } = useQuery('getBrands', getBrands)
     const { data: weights } = useQuery('getWeights', getWeights)
     const { data: fibres } = useQuery('getFibres', getFibres)
-    const { register, handleSubmit, formState: { errors, isSubmitting }, reset } = useForm({ defaultValues: { swappable: 'true', } });
+    const { register, handleSubmit, formState: { errors, isSubmitting }, reset } = useForm({ defaultValues: { swappable: true, } });
 
     async function onSubmit(values) {
         values.userId = currentUser;
@@ -83,6 +83,7 @@ export function AddListingForm(props) {
                                 <Input id='unitWeight' placeholder="100" type='number' {...register('unitWeight', {
                                     required: 'This is required',
                                     minLength: { value: 1, message: 'please include weight in grams' },
+                                    valueAsNumber: true
                                 })} />
                                 <FormErrorMessage>
                                     {errors.unitWeight && errors.unitWeight.message}
@@ -92,6 +93,7 @@ export function AddListingForm(props) {
                                 <Input id='meterage' placeholder="425" type='number' {...register('meterage', {
                                     required: 'This is required',
                                     minLength: { value: 3, message: 'please include length in metres' },
+                                    valueAsNumber: true
                                 })} />
                                 <FormErrorMessage>
                                     {errors.meterage && errors.meterage.message}
@@ -103,7 +105,8 @@ export function AddListingForm(props) {
                                 <FormLabel htmlFor='originalCount'>Quantity</FormLabel>
                                 <NumberInput id='originalCount' defaultValue={1} min={1} max={20} {...register('originalCount', {
                                     required: 'This is required',
-                                    minLength: { value: 1, message: 'please include a quantity' }
+                                    minLength: { value: 1, message: 'please include a quantity' },
+                                    valueAsNumber: true
                                 })}>
                                     <NumberInputField />
                                     <NumberInputStepper>
@@ -113,14 +116,10 @@ export function AddListingForm(props) {
                                 </NumberInput>
                             </FormControl><FormControl>
                                 <FormLabel htmlFor='swappable'>Yarn Destiny</FormLabel>
-                                <RadioGroup id='swappable'{...register('swappable', {
-                                    required: 'This is required'
-                                })} >
-                                    <Stack direction='row'>
-                                        <Radio value='true'>Swap</Radio>
-                                        <Radio value='false'>Stash</Radio>
-                                    </Stack>
-                                </RadioGroup>
+                                <Select {...register('swappable')}>
+                                    <option value={true}>Swap</option>
+                                    <option value={false}>Stash</option>
+                                </Select>
                             </FormControl><FormControl>
                                 {
                                     // TODO IMAGE UPLOAD

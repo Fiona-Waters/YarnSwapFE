@@ -43,7 +43,7 @@ function MainLayout() {
                 <HStack w="full" p={4}>
                     <Spacer />
                     <DarkModeButton />
-                    <PrimaryButton onclick={handleLogout} label={'Logout'} />
+                    <PrimaryButton onClick={handleLogout} label={'Logout'} />
 
                 </HStack>
                 <Container maxW="container.xl" centerContent>

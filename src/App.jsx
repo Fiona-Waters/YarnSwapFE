@@ -9,6 +9,7 @@ import { ChakraProvider } from "@chakra-ui/react"
 import { theme } from './theme.js'
 import RegisterLogin from "./pages/register-login"
 import DashboardPage from "./pages/dashboardPage"
+import ListingsPage from "./pages/listingsPage"
 
 
 function App() {
@@ -24,7 +25,7 @@ function App() {
           <Route path="/*" element={<MainLayout />}>
             <Route path="dashboard" element={<DashboardPage/>}/>
             <Route path="about" element={ <About/> }/>
-            <Route path="listings" element={ <Listings/> }/>
+            <Route path="listings" element={ <ListingsPage/> }/>
           </Route>      
 
       </Routes>

@@ -10,7 +10,7 @@ export function DashboardTemplate(props) {
     const { listings, refreshListings, currentUser } = props
 
     let userListings = [];
-    listings.map((listing) => {
+    listings?.map((listing) => {
         if (listing.userId == currentUser) {
             userListings.push(listing)
         }
@@ -33,9 +33,9 @@ export function DashboardTemplate(props) {
     return (
         <VStack w="full" flex="1" spacing={12} >
             <HStack w="full" >
-                <PrimaryButton label={'Create Listing'} onclick={onOpen} />
+                <PrimaryButton label={'Create Listing'} onClick={onOpen} />
                 <Spacer />
-                <PrimaryButton label={'Search'} onclick={onOpen} />
+                <PrimaryButton label={'Search'} onClick={onOpen} />
             </HStack>
             <Heading bg='brand.blue' alignSelf={"flex-start"} fontFamily={"sans-serif"} fontSize={"2xl"} color={'black'} fontWeight={'bold'}>My Listings</Heading>
 
