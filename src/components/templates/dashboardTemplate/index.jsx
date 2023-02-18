@@ -1,15 +1,20 @@
-import { useBreakpoint, useBreakpointValue, useDisclosure, HStack, VStack, Box, SimpleGrid, Spacer } from "@chakra-ui/react";
+import { useBreakpoint, useBreakpointValue, useDisclosure, HStack, VStack, Box, SimpleGrid, Spacer, Heading } from "@chakra-ui/react";
+import { getBrands } from "../../../api/yarn-swap-api";
 import { PrimaryButton } from "../../atoms/primaryButton";
 import { AddListingForm } from "../../organisms/addListingForm";
 import { Listing } from "../../organisms/listing";
 
 export function DashboardTemplate(props) {
-    //TODO create 'add listing' form and functionality
     //TODO add search box and functionality
-    //TODO get and display users own listings
 
+    const { listings, refreshListings, currentUser } = props
 
-    const { listings, refreshListings } = props
+    let userListings = [];
+    listings.map((listing) => {
+        if (listing.userId == currentUser) {
+            userListings.push(listing)
+        }
+    })
 
     const bp = useBreakpoint();
 
@@ -29,14 +34,16 @@ export function DashboardTemplate(props) {
         <VStack w="full" flex="1" spacing={12} >
             <HStack w="full" >
                 <PrimaryButton label={'Create Listing'} onclick={onOpen} />
-                <Spacer/>
+                <Spacer />
                 <PrimaryButton label={'Search'} onclick={onOpen} />
             </HStack>
-            <AddListingForm isOpen={isOpen} onClose={onClose} refreshListings={refreshListings}/>
+            <Heading bg='brand.blue' alignSelf={"flex-start"} fontFamily={"sans-serif"} fontSize={"2xl"} color={'black'} fontWeight={'bold'}>My Listings</Heading>
 
-            <SimpleGrid columns={gridCount} spacing={'25'} w={'full'}>
-                {listings?.map((listing, i) => (
-                    <Listing listing={listing} key={i}></Listing>
+            <AddListingForm isOpen={isOpen} onClose={onClose} refreshListings={refreshListings} currentUser={currentUser} />
+
+            <SimpleGrid columns={gridCount} spacing={'8'} w={'full'}>
+                {userListings?.map((listing, i) => (
+                    <Listing listing={listing} key={i} currentUser={currentUser}></Listing>
                 ))}
 
             </SimpleGrid>

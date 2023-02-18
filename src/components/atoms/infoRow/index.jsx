@@ -1,10 +1,11 @@
 
-import { Heading, Stack, Text, useBreakpointValue } from "@chakra-ui/react";
+import { Heading, Spacer, Stack, Text, useBreakpointValue } from "@chakra-ui/react";
+import { Listing } from "../../organisms/listing";
 
 
 export function InfoRow(props) {
 
-    const {label, value} = props
+    const {label, value1, value2} = props
 
     const textLayout = useBreakpointValue({
         base: 'column',
@@ -13,9 +14,10 @@ export function InfoRow(props) {
 
     return (
 
-        <Stack direction={textLayout} spacing={2}>
-            <Heading size={'sm:'}>{label}: </Heading>
-            <Text flex="1">{value}</Text>
+        <Stack direction={textLayout} spacing={6}  alignItems={"center"}  >
+            <Heading size={'sm'} fontWeight={"bold"}  >{label}: </Heading>
+            
+            <Text size={'sm'}  flex="1"  align={"end"}>{value1} {value2}</Text>
         </Stack>
     )
 }

@@ -6,17 +6,20 @@ import { PrimaryButton } from "../../atoms/primaryButton";
 import { useForm } from "react-hook-form";
 
 export function AddListingForm(props) {
-    const { isOpen, onClose, refreshListings } = props;
+    const { isOpen, onClose, refreshListings, currentUser } = props;
     const { data: brands } = useQuery('getBrands', getBrands)
     const { data: weights } = useQuery('getWeights', getWeights)
     const { data: fibres } = useQuery('getFibres', getFibres)
-    const { register, handleSubmit, formState: { errors, isSubmitting }, reset} = useForm({defaultValues: {swappable:'true', }});
+    const { register, handleSubmit, formState: { errors, isSubmitting }, reset } = useForm({ defaultValues: { swappable: 'true', } });
 
     async function onSubmit(values) {
+        values.userId = currentUser;
+
         await addListing(values)
         onClose()
         reset()
         refreshListings()
+
     }
 
     return (
@@ -98,7 +101,10 @@ export function AddListingForm(props) {
                                 <Input id='dyeLot' placeholder="abc123" type='text' {...register('dyeLot')} />
                             </FormControl><FormControl>
                                 <FormLabel htmlFor='originalCount'>Quantity</FormLabel>
-                                <NumberInput id='originalCount' defaultValue={1} min={1} max={20} {...register('originalCount')}>
+                                <NumberInput id='originalCount' defaultValue={1} min={1} max={20} {...register('originalCount', {
+                                    required: 'This is required',
+                                    minLength: { value: 1, message: 'please include a quantity' }
+                                })}>
                                     <NumberInputField />
                                     <NumberInputStepper>
                                         <NumberIncrementStepper />
@@ -107,7 +113,9 @@ export function AddListingForm(props) {
                                 </NumberInput>
                             </FormControl><FormControl>
                                 <FormLabel htmlFor='swappable'>Yarn Destiny</FormLabel>
-                                <RadioGroup name='swappable' id='swappable'{...register('swappable')} >
+                                <RadioGroup id='swappable'{...register('swappable', {
+                                    required: 'This is required'
+                                })} >
                                     <Stack direction='row'>
                                         <Radio value='true'>Swap</Radio>
                                         <Radio value='false'>Stash</Radio>
@@ -124,7 +132,7 @@ export function AddListingForm(props) {
                     </form>
                 </DrawerBody>
                 <DrawerFooter minH="24">
-                    <Button variant='outline' mr={4} onClick={onClose}>
+                    <Button variant='outline' mr={4} onClick={onClose} >
                         Cancel
                     </Button>
                     <PrimaryButton label="Save" isLoading={isSubmitting} type='submit' form="add-listing-form" />

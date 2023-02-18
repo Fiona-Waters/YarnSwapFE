@@ -10,7 +10,7 @@ const DashboardPage = () => {
 
     const auth = getAuth()
 
-    console.log("AUTH",auth.currentUser)
+    console.log("AUTH",auth.currentUser.uid)
 
 
     if (isLoading) {
@@ -20,7 +20,7 @@ const DashboardPage = () => {
     }
     // TODO return users own listings etc see wireframe
     return (
-        <DashboardTemplate listings={data} refreshListings={refetch}/>
+        <DashboardTemplate listings={data} refreshListings={refetch} currentUser={auth.currentUser.uid}/>
         
     );
 };

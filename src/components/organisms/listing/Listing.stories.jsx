@@ -39,7 +39,7 @@ MyListing.args = {
     brand: 'Green Elephant Yarn',
     colourway: 'Sunshine',
     weight: 'DK',
-    fibreContent: '100% Wool'
+    fibreContent: 'Wool'
   }
 };
 
