@@ -7,6 +7,6 @@ export function PrimaryButton(props) {
     const {label, onClick } = props
 
     return (
-        <Button {...props} onClick={onClick} border={'2px'} borderColor={'gray.500'} backgroundColor={'brand.blue'} textColor={'black'} role={'add to wishlist'} >{label}</Button>
+        <Button {...props} onClick={onClick} border={'2px'} borderColor={'gray.500'} backgroundColor={'brand.blue'} textColor={'black'} >{label}</Button>
     )
 }

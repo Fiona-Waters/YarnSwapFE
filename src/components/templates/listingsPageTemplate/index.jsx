@@ -10,7 +10,6 @@ export function ListingsPageTemplate(props) {
     let allOtherListings = [];
     listings.map((listing) => {
         if (listing.userId != currentUser && listing.swappable == true) {
-            console.log("SWAPPABLE", listing.swappable)
             allOtherListings.push(listing)
         }
     })

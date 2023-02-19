@@ -4,21 +4,37 @@ import { useQuery } from "react-query";
 import { addListing, getBrands, getFibres, getWeights } from "../../../api/yarn-swap-api";
 import { PrimaryButton } from "../../atoms/primaryButton";
 import { useForm } from "react-hook-form";
+import ImageUploading from 'react-images-uploading'
 
 export function AddListingForm(props) {
     const { isOpen, onClose, refreshListings, currentUser } = props;
     const { data: brands } = useQuery('getBrands', getBrands)
     const { data: weights } = useQuery('getWeights', getWeights)
     const { data: fibres } = useQuery('getFibres', getFibres)
-    const { register, handleSubmit, formState: { errors, isSubmitting }, reset } = useForm({ defaultValues: { swappable: true, } });
+    const { register, handleSubmit, formState: { errors, isSubmitting }, reset, setValue } = useForm({ defaultValues: { swappable: true, } });
+    const [images, setImages] = React.useState([]);
+    const maxNumber = 1;
+
+
+    const onChange = (imageList, addUpdateIndex) => {
+        //data for submit
+        console.log("imagelist", imageList)
+        const dataUrl = imageList[0]?.data_url
+        console.log("data_url", dataUrl)
+        setValue('image', dataUrl)
+        setImages(imageList)
+    };
 
     async function onSubmit(values) {
         values.userId = currentUser;
 
+        values.swappable = values.swappable === true
+        console.log("SWAPPABLE", values.swappable)
         await addListing(values)
         onClose()
         reset()
         refreshListings()
+        setImages([])
 
     }
 
@@ -38,8 +54,7 @@ export function AddListingForm(props) {
                 <DrawerBody p="8">
                     <form onSubmit={handleSubmit(onSubmit)} id="add-listing-form">
                         <VStack spacing="6">
-
-                            <FormControl>
+                            <FormControl isInvalid={!!errors.brand}>
                                 <FormLabel htmlFor='brand'>Brand</FormLabel>
                                 <Select id='brand'
                                     {...register('brand', {
@@ -49,7 +64,9 @@ export function AddListingForm(props) {
                                         <option value={brand.brandName}>{brand.brandName} </option>
                                     ))}
                                 </Select>
-                            </FormControl><FormControl>
+                                <FormErrorMessage>{errors.brand?.message}</FormErrorMessage>
+                            </FormControl>
+                            <FormControl isInvalid={!!errors.colourway}>
                                 <FormLabel htmlFor='colourway'>Colourway</FormLabel>
                                 <Input id='colourway' placeholder='Colourway' type='text' {...register('colourway', {
                                     required: 'This is required',
@@ -58,7 +75,8 @@ export function AddListingForm(props) {
                                 <FormErrorMessage>
                                     {errors.colourway && errors.colourway.message}
                                 </FormErrorMessage>
-                            </FormControl><FormControl>
+                            </FormControl>
+                            <FormControl isInvalid={!!errors.weight}>
                                 <FormLabel htmlFor='weight'>Weight</FormLabel>
                                 <Select id='weight'
                                     {...register('weight', {
@@ -68,7 +86,9 @@ export function AddListingForm(props) {
                                         <option value={weight.weightName}>{weight.weightName} </option>
                                     ))}
                                 </Select>
-                            </FormControl><FormControl>
+                                <FormErrorMessage>{errors.weight?.message}</FormErrorMessage>
+                            </FormControl>
+                            <FormControl isInvalid={!!errors.fibreContent}>
                                 <FormLabel htmlFor='fibreContent'>Fibre Content</FormLabel>
                                 <Select id='fibreContent'
                                     {...register('fibreContent', {
@@ -78,7 +98,9 @@ export function AddListingForm(props) {
                                         <option value={fibre.fibreName}>{fibre.fibreName} </option>
                                     ))}
                                 </Select>
-                            </FormControl><FormControl>
+                                <FormErrorMessage>{errors.fibreContent?.message}</FormErrorMessage>
+                            </FormControl>
+                            <FormControl isInvalid={!!errors.unitWeight}>
                                 <FormLabel htmlFor='unitWeight'>Unit Weight (grams)</FormLabel>
                                 <Input id='unitWeight' placeholder="100" type='number' {...register('unitWeight', {
                                     required: 'This is required',
@@ -88,20 +110,24 @@ export function AddListingForm(props) {
                                 <FormErrorMessage>
                                     {errors.unitWeight && errors.unitWeight.message}
                                 </FormErrorMessage>
-                            </FormControl><FormControl>
+                            </FormControl>
+                            <FormControl isInvalid={!!errors.meterage}>
                                 <FormLabel htmlFor='meterage'>Length (metres)</FormLabel>
                                 <Input id='meterage' placeholder="425" type='number' {...register('meterage', {
                                     required: 'This is required',
                                     minLength: { value: 3, message: 'please include length in metres' },
                                     valueAsNumber: true
                                 })} />
-                                <FormErrorMessage>
+                                <FormErrorMessage >
                                     {errors.meterage && errors.meterage.message}
                                 </FormErrorMessage>
-                            </FormControl><FormControl>
+                            </FormControl>
+                            <FormControl isInvalid={!!errors.dyeLot}>
                                 <FormLabel htmlFor='dyeLot'>Dyelot</FormLabel>
                                 <Input id='dyeLot' placeholder="abc123" type='text' {...register('dyeLot')} />
-                            </FormControl><FormControl>
+                                <FormErrorMessage>{errors.dyeLot?.message}</FormErrorMessage>
+                            </FormControl>
+                            <FormControl isInvalid={!!errors.originalCount}>
                                 <FormLabel htmlFor='originalCount'>Quantity</FormLabel>
                                 <NumberInput id='originalCount' defaultValue={1} min={1} max={20} {...register('originalCount', {
                                     required: 'This is required',
@@ -114,17 +140,65 @@ export function AddListingForm(props) {
                                         <NumberDecrementStepper />
                                     </NumberInputStepper>
                                 </NumberInput>
-                            </FormControl><FormControl>
+                                <FormErrorMessage>{errors.originalCount?.message}</FormErrorMessage>
+                            </FormControl>
+                            <FormControl isInvalid={!!errors.swappable}>
                                 <FormLabel htmlFor='swappable'>Yarn Destiny</FormLabel>
-                                <Select {...register('swappable')}>
+                                <Select {...register('swappable', {
+                                    required: 'This is required'
+                                })}>
                                     <option value={true}>Swap</option>
                                     <option value={false}>Stash</option>
                                 </Select>
-                            </FormControl><FormControl>
-                                {
-                                    // TODO IMAGE UPLOAD
-                                }
-                                <FormLabel>Image</FormLabel>
+                                <FormErrorMessage>{errors.swappable?.message}</FormErrorMessage>
+                            </FormControl>
+                            <FormControl isInvalid={!!errors.image}>
+                                <FormLabel htmlFor="image">Image</FormLabel>
+
+                                <div className="App">
+                                    <ImageUploading
+                                        multiple
+                                        value={images}
+                                        onChange={onChange}
+                                        maxNumber={maxNumber}
+                                        dataURLKey="data_url"
+                                    >
+                                        {({
+                                            imageList,
+                                            onImageUpload,
+                                            onImageUpdate,
+                                            onImageRemove,
+                                            isDragging,
+                                            dragProps,
+                                        }) => (
+                                            // write your building UI
+                                            <div className="upload__image-wrapper">
+                                                <Button border={'2px'} borderColor={'gray.500'} textColor={'black'}
+                                                    style={isDragging ? { color: 'red' } : undefined}
+                                                    onClick={onImageUpload}
+                                                    {...dragProps}
+                                                >
+                                                    Click here to upload an image or just drag and drop
+                                                </Button>
+                                                &nbsp;
+                                                <Divider />
+                                                {imageList.map((image, index) => (
+                                                    <div key={index} className="image-item">
+                                                        <img src={image['data_url']} alt="" width="100" />
+                                                        <div className="image-item__btn-wrapper">
+                                                            <Button border={'2px'} borderColor={'gray.500'} backgroundColor={'brand.blue'} textColor={'black'}
+                                                                onClick={() => onImageUpdate(index)}>Update Image</Button>
+                                                            <Divider />
+                                                            <Button border={'2px'} borderColor={'gray.500'} backgroundColor={'red.200'} textColor={'black'} onClick={() => onImageRemove(index)}>Remove Image</Button>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
+                                    </ImageUploading>
+                                    <Input type="hidden" {...register('image', { required: true })} />
+                                </div>
+                                <FormErrorMessage>{errors.image?.message}</FormErrorMessage>
                             </FormControl>
 
                         </VStack>
