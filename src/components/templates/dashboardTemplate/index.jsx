@@ -1,4 +1,6 @@
 import { useBreakpoint, useBreakpointValue, useDisclosure, HStack, VStack, Box, SimpleGrid, Spacer, Heading } from "@chakra-ui/react";
+import { useState } from "react";
+import { set } from "react-hook-form";
 import { getBrands } from "../../../api/yarn-swap-api";
 import { PrimaryButton } from "../../atoms/primaryButton";
 import { AddListingForm } from "../../organisms/addListingForm";
@@ -9,12 +11,25 @@ export function DashboardTemplate(props) {
 
     const { listings, refreshListings, currentUser } = props
 
+    const [ listingToEdit, setListingToEdit ] = useState()
+
     let userListings = [];
     listings?.map((listing) => {
         if (listing.userId == currentUser) {
             userListings.push(listing)
         }
     })
+
+    const initiateEditListing = (listing) => {
+        console.log("initiate edit listing", listing)
+        setListingToEdit(listing)
+        onOpen()
+    }
+
+    const initiateCreateListing = () => {
+        setListingToEdit({})
+        onOpen()
+    }
 
     const bp = useBreakpoint();
 
@@ -29,21 +44,18 @@ export function DashboardTemplate(props) {
 
     const { isOpen, onOpen, onClose } = useDisclosure()
 
-    console.log(bp, gridCount);
     return (
         <VStack w="full" flex="1" spacing={12} >
             <HStack w="full" >
-                <PrimaryButton label={'Create Listing'} onClick={onOpen} />
+                <PrimaryButton label={'Create Listing'} onClick={initiateCreateListing} />
                 <Spacer />
                 <PrimaryButton label={'Search'} onClick={onOpen} />
             </HStack>
             <Heading bg='brand.blue' alignSelf={"flex-start"} fontFamily={"sans-serif"} fontSize={"2xl"} color={'black'} fontWeight={'bold'}>My Listings</Heading>
-
-            <AddListingForm isOpen={isOpen} onClose={onClose} refreshListings={refreshListings} currentUser={currentUser} />
-
+            <AddListingForm isOpen={isOpen} onClose={onClose} refreshListings={refreshListings} currentUser={currentUser} listing={listingToEdit}/>
             <SimpleGrid columns={gridCount} spacing={'8'} w={'full'}>
                 {userListings?.map((listing, i) => (
-                    <Listing listing={listing} key={i} currentUser={currentUser}></Listing>
+                    <Listing initiateEditListing={initiateEditListing} listing={listing} key={i} currentUser={currentUser} ></Listing>
                 ))}
 
             </SimpleGrid>

@@ -1,42 +1,51 @@
 import { Checkbox, Divider, FormControl, FormHelperText, FormLabel, HStack, VStack, Image, Input, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Radio, RadioGroup, Select, Stack, Drawer, DrawerOverlay, DrawerContent, DrawerBody, DrawerCloseButton, DrawerHeader, DrawerFooter, Button, FormErrorMessage, useFormControlStyles } from "@chakra-ui/react";
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useQuery } from "react-query";
-import { addListing, getBrands, getFibres, getWeights } from "../../../api/yarn-swap-api";
+import { addListing, getBrands, getFibres, getListings, getWeights } from "../../../api/yarn-swap-api";
 import { PrimaryButton } from "../../atoms/primaryButton";
 import { useForm } from "react-hook-form";
 import ImageUploading from 'react-images-uploading'
 
 export function AddListingForm(props) {
-    const { isOpen, onClose, refreshListings, currentUser } = props;
+    const { isOpen, onClose, refreshListings, currentUser, listings, listing } = props;
     const { data: brands } = useQuery('getBrands', getBrands)
     const { data: weights } = useQuery('getWeights', getWeights)
     const { data: fibres } = useQuery('getFibres', getFibres)
-    const { register, handleSubmit, formState: { errors, isSubmitting }, reset, setValue } = useForm({ defaultValues: { swappable: true, } });
+    const listingMemo = useMemo(() => {
+        return listing;
+    }, [listing])
+    const { register, handleSubmit, formState: { errors, isSubmitting, }, reset, setValue, } = useForm({ defaultValues: listingMemo });
     const [images, setImages] = React.useState([]);
     const maxNumber = 1;
-
+    var edit = listing?.id;
 
     const onChange = (imageList, addUpdateIndex) => {
         //data for submit
-        console.log("imagelist", imageList)
         const dataUrl = imageList[0]?.data_url
-        console.log("data_url", dataUrl)
         setValue('image', dataUrl)
         setImages(imageList)
     };
 
     async function onSubmit(values) {
         values.userId = currentUser;
-
-        values.swappable = values.swappable === true
-        console.log("SWAPPABLE", values.swappable)
+        values.swappable = values.swappable === true;
+        values.status = values.status
         await addListing(values)
         onClose()
         reset()
         refreshListings()
         setImages([])
-
     }
+    console.log(listing)
+    const archiveListing = () => {
+        listing.status = "Archived"
+        console.log(listing.status)
+        onClose()
+    }
+
+    useEffect(() => {
+        reset(listing);
+    }, [listing])
 
     return (
         <Drawer
@@ -50,10 +59,15 @@ export function AddListingForm(props) {
             <DrawerOverlay />
             <DrawerContent>
                 <DrawerCloseButton />
-                <DrawerHeader bg="brand.blue" minH="24">Add a Listing</DrawerHeader>
+                {edit
+                    ? <DrawerHeader bg="brand.blue" minH="24">Edit Listing</DrawerHeader>
+                    : <DrawerHeader bg="brand.blue" minH="24">Add a Listing</DrawerHeader>
+                }
                 <DrawerBody p="8">
                     <form onSubmit={handleSubmit(onSubmit)} id="add-listing-form">
                         <VStack spacing="6">
+                            <Input type="hidden" {...register('id')} />
+                            <Input type="hidden" {...register('status')}/>
                             <FormControl isInvalid={!!errors.brand}>
                                 <FormLabel htmlFor='brand'>Brand</FormLabel>
                                 <Select id='brand'
@@ -205,6 +219,11 @@ export function AddListingForm(props) {
                     </form>
                 </DrawerBody>
                 <DrawerFooter minH="24">
+                {edit
+                    ? <PrimaryButton label="Archive Listing" size="md" p="6" onClick={archiveListing}/>
+                    : <></>
+                }
+                <Divider/>
                     <Button variant='outline' mr={4} onClick={onClose} >
                         Cancel
                     </Button>

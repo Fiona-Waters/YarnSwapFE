@@ -18,7 +18,6 @@ function MainLayout() {
             console.log("Error logging out", error)
         });
     }
-    console.log("USER", auth.currentUser)
 
     const [user, loading, error] = useAuthState(auth)
 

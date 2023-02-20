@@ -1,8 +1,7 @@
-import { Box, Button, ButtonGroup, Card, CardBody, CardFooter, CardHeader, Image, List, ListItem, useBreakpointValue } from "@chakra-ui/react";
+import { Box, Button, ButtonGroup, Card, CardBody, CardFooter, CardHeader, Image, List, ListItem, useBreakpointValue, useDisclosure } from "@chakra-ui/react";
 import { InfoRow } from "../../atoms/infoRow";
 
 export function Listing(props) {
-
     const textLayout = useBreakpointValue({
         base: 'column',
         md: 'row'
@@ -20,6 +19,18 @@ export function Listing(props) {
     } else {
         isYarnSwappable = "No"
     }
+    const { initiateEditListing } = props;
+
+    
+    const onEditClick = () => {
+        initiateEditListing(listing)
+    }
+
+    if (listing.status == "Archived") {
+        const message = "This listing has been Archived"
+    }
+   
+
 
     return (
         <Card maxW={72} minW={56} align={"center"} border='4px' p={0} borderColor={'brand.teal'} >
@@ -55,13 +66,13 @@ export function Listing(props) {
                         <InfoRow label={"Swappable"} value1={isYarnSwappable} />
                     </ListItem>
                     <ListItem borderBottomColor={'brand.blue'} borderBottomWidth={'1px'}>
-                        <InfoRow label={"Status"} value1={listing?.status?.statusName} />
+                        <InfoRow label={"Status"} value1={listing?.status} />
                     </ListItem>
                 </List>
             </CardBody>
             <CardFooter>
                 {isListingOwner
-                    ? <Button border={'2px'} borderColor={'gray.500'} backgroundColor={'brand.blue'} textColor={'black'} role={'edit'}>Edit</Button>
+                    ? <Button border={'2px'} borderColor={'gray.500'} backgroundColor={'brand.blue'} textColor={'black'} role={'edit'} onClick={onEditClick} >Edit</Button>
 
                     : <ButtonGroup spacing='3'>
                         <Button border={'2px'} borderColor={'gray.500'} backgroundColor={'brand.blue'} textColor={'black'} role={'add to wishlist'}>Add to Wishlist</Button>

@@ -28,16 +28,14 @@ export const addListing = async (newListing) => {
             },
             body: JSON.stringify(newListing)
         });
-        console.log("THIS ONE",JSON.stringify(newListing))
         if (!response.ok) {
             throw new Error(response.json().message);
         }
-        console.log("HELLO addListing", response.json);
         return await response.json();
     } catch (error) {
         throw error;
     }
-}
+};
 
 export const getBrands = async () => {
     try {
@@ -51,7 +49,7 @@ export const getBrands = async () => {
     } catch (error) {
         throw error;
     }
-}
+};
 
 export const getWeights = async () => {
     try {
@@ -65,7 +63,7 @@ export const getWeights = async () => {
     } catch (error) {
         throw error;
     }
-}
+};
 
 export const getFibres = async () => {
     try {
@@ -79,4 +77,4 @@ export const getFibres = async () => {
     } catch (error) {
         throw error;
     }
-}
+};
