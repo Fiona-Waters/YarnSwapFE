@@ -1,10 +1,21 @@
-import { Checkbox, Divider, FormControl, FormHelperText, FormLabel, HStack, VStack, Image, Input, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Radio, RadioGroup, Select, Stack, Drawer, DrawerOverlay, DrawerContent, DrawerBody, DrawerCloseButton, DrawerHeader, DrawerFooter, Button, FormErrorMessage, useFormControlStyles } from "@chakra-ui/react";
+import {
+    Divider, FormControl, FormLabel, VStack, Input,
+    NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper,
+    Select, Drawer, DrawerOverlay, DrawerContent, DrawerBody, DrawerCloseButton,
+    DrawerHeader, DrawerFooter, Button, FormErrorMessage
+} from "@chakra-ui/react";
 import React, { useEffect, useMemo, useState } from 'react';
 import { useQuery } from "react-query";
 import { addListing, getBrands, getFibres, getListings, getWeights } from "../../../api/yarn-swap-api";
 import { PrimaryButton } from "../../atoms/primaryButton";
 import { useForm } from "react-hook-form";
 import ImageUploading from 'react-images-uploading'
+import {
+    Alert,
+    AlertIcon,
+    AlertTitle,
+    AlertDescription,
+} from '@chakra-ui/react'
 
 export function AddListingForm(props) {
     const { isOpen, onClose, refreshListings, currentUser, listings, listing } = props;
@@ -14,7 +25,7 @@ export function AddListingForm(props) {
     const listingMemo = useMemo(() => {
         return listing;
     }, [listing])
-    const { register, handleSubmit, formState: { errors, isSubmitting, }, reset, setValue, } = useForm({ defaultValues: listingMemo });
+    const { register, handleSubmit, setError, formState: { errors, isSubmitting }, reset, setValue, } = useForm({ defaultValues: listingMemo });
     const [images, setImages] = React.useState([]);
     const maxNumber = 1;
     var edit = listing?.id;
@@ -30,13 +41,20 @@ export function AddListingForm(props) {
         values.userId = currentUser;
         values.swappable = values.swappable === true;
         values.status = values.status
-        await addListing(values)
-        onClose()
-        reset()
-        refreshListings()
-        setImages([])
+        try {
+            await addListing(values)
+            onClose()
+            reset()
+            refreshListings()
+            setImages([])
+        } catch (e) {
+            console.log(e.message)
+            setError('root.serverError', {
+                message: e.message,
+                type: '401'
+            })
+        }
     }
-    console.log(listing)
     const archiveListing = () => {
         listing.status = "Archived"
         console.log(listing.status)
@@ -64,6 +82,12 @@ export function AddListingForm(props) {
                     : <DrawerHeader bg="brand.blue" minH="24">Add a Listing</DrawerHeader>
                 }
                 <DrawerBody p="8">
+                    {errors.root && 
+                    <Alert status='error'>
+                        <AlertIcon />
+                        <AlertTitle></AlertTitle>
+                        <AlertDescription>You are not authorised to perform this action</AlertDescription></Alert>}
+                        
                     <form onSubmit={handleSubmit(onSubmit)} id="add-listing-form">
                         <VStack spacing="6">
                             <Input type="hidden" {...register('id')} />
@@ -210,7 +234,7 @@ export function AddListingForm(props) {
                                             </div>
                                         )}
                                     </ImageUploading>
-                                    <Input type="hidden" {...register('image', { required: true })} />
+                                    <Input type="hidden" {...register('image', { required: false })} />
                                 </div>
                                 <FormErrorMessage>{errors.image?.message}</FormErrorMessage>
                             </FormControl>
@@ -219,11 +243,11 @@ export function AddListingForm(props) {
                     </form>
                 </DrawerBody>
                 <DrawerFooter minH="24">
-                {edit
-                    ? <PrimaryButton label="Archive Listing" size="md" p="6" onClick={archiveListing}/>
-                    : <></>
-                }
-                <Divider/>
+                    {edit
+                        ? <PrimaryButton label="Archive Listing" size="md" p="6" onClick={archiveListing} />
+                        : <></>
+                    }
+                    <Divider />
                     <Button variant='outline' mr={4} onClick={onClose} >
                         Cancel
                     </Button>

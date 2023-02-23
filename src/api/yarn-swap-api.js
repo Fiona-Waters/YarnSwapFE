@@ -1,5 +1,6 @@
 //const baseURL = "http://localhost:8080"
 const baseURL = import.meta.env.VITE_BASE_URL
+import { auth } from '../firebase';
 
 
 export const getListings = async () => {
@@ -17,19 +18,21 @@ export const getListings = async () => {
 };
 
 export const addListing = async (newListing) => {
+    const token = await auth.currentUser.getIdToken(true)
     console.log("NEW LISTING", newListing)
     try {
         const response = await fetch(
             `${baseURL}/listings`
-        , {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(newListing)
-        });
+            , {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-ID-TOKEN': token
+                },
+                body: JSON.stringify(newListing)
+            });
         if (!response.ok) {
-            throw new Error(response.json().message);
+            throw new Error(response.statusText);
         }
         return await response.json();
     } catch (error) {
