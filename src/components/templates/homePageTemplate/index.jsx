@@ -9,6 +9,13 @@ export function HomePageTemplate(props) {
 
     const { listings } = props;
 
+    let availableListings = [];
+    listings?.map((listing) => {
+        if (listing.swappable == true && listing.status == 'Available') {
+            availableListings.push(listing)
+        }
+    })
+
     const bp = useBreakpoint();
 
     const gridCount = useBreakpointValue({
@@ -34,7 +41,7 @@ export function HomePageTemplate(props) {
             </HStack>
             <Box >
                 <SimpleGrid columns={gridCount} spacing={'25'}>
-                    {listings?.map((listing, i) => (
+                    {availableListings?.map((listing, i) => (
                         <Listing listing={listing} key={i}></Listing>
                     ))}
                     
