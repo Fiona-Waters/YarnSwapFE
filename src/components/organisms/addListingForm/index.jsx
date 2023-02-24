@@ -2,9 +2,9 @@ import {
     Divider, FormControl, FormLabel, VStack, Input,
     NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper,
     Select, Drawer, DrawerOverlay, DrawerContent, DrawerBody, DrawerCloseButton,
-    DrawerHeader, DrawerFooter, Button, FormErrorMessage
+    DrawerHeader, DrawerFooter, Button, FormErrorMessage, Portal, useBoolean, Switch
 } from "@chakra-ui/react";
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useQuery } from "react-query";
 import { addListing, getBrands, getFibres, getListings, getWeights } from "../../../api/yarn-swap-api";
 import { PrimaryButton } from "../../atoms/primaryButton";
@@ -16,6 +16,7 @@ import {
     AlertTitle,
     AlertDescription,
 } from '@chakra-ui/react'
+import { useToast } from '@chakra-ui/react'
 
 export function AddListingForm(props) {
     const { isOpen, onClose, refreshListings, currentUser, listings, listing } = props;
@@ -28,7 +29,11 @@ export function AddListingForm(props) {
     const { register, handleSubmit, setError, formState: { errors, isSubmitting }, reset, setValue, } = useForm({ defaultValues: listingMemo });
     const [images, setImages] = React.useState([]);
     const maxNumber = 1;
+    const toast = useToast();
+    const [ swappable, setSwappable, ] = useBoolean(listing?.swappable);
     var edit = listing?.id;
+    var archived = Boolean(listing?.status === "Archived");
+    console.log("SWAPPABLE, useBoolean", swappable)
 
     const onChange = (imageList, addUpdateIndex) => {
         //data for submit
@@ -36,6 +41,11 @@ export function AddListingForm(props) {
         setValue('image', dataUrl)
         setImages(imageList)
     };
+    const onSwappableChanged = () => {
+        console.log("IM FIRING")
+        setSwappable.toggle()
+        setValue('swappable', swappable)
+    }
 
     async function onSubmit(values) {
         values.userId = currentUser;
@@ -47,6 +57,7 @@ export function AddListingForm(props) {
             reset()
             refreshListings()
             setImages([])
+            setSwappable.off()
         } catch (e) {
             console.log(e.message)
             setError('root.serverError', {
@@ -57,8 +68,26 @@ export function AddListingForm(props) {
     }
     const archiveListing = () => {
         listing.status = "Archived"
-        console.log(listing.status)
-        onClose()
+        toast({
+            title: 'Listing Archived.',
+            description: "Click the Save button to update your listing",
+            status: 'success',
+            duration: 9000,
+            isClosable: true,
+        })
+        //        onClose()
+    }
+
+    const unArchiveListing = () => {
+        listing.status = "Available"
+        toast({
+            title: 'Listing Available.',
+            description: "Click the Save button to update your listing",
+            status: 'success',
+            duration: 9000,
+            isClosable: true,
+        })
+        //    onClose()
     }
 
     useEffect(() => {
@@ -82,16 +111,16 @@ export function AddListingForm(props) {
                     : <DrawerHeader bg="brand.blue" minH="24">Add a Listing</DrawerHeader>
                 }
                 <DrawerBody p="8">
-                    {errors.root && 
-                    <Alert status='error'>
-                        <AlertIcon />
-                        <AlertTitle></AlertTitle>
-                        <AlertDescription>You are not authorised to perform this action</AlertDescription></Alert>}
-                        
+                    {errors.root &&
+                        <Alert status='error'>
+                            <AlertIcon />
+                            <AlertTitle></AlertTitle>
+                            <AlertDescription>You are not authorised to perform this action</AlertDescription></Alert>}
+
                     <form onSubmit={handleSubmit(onSubmit)} id="add-listing-form">
                         <VStack spacing="6">
                             <Input type="hidden" {...register('id')} />
-                            <Input type="hidden" {...register('status')}/>
+                            <Input type="hidden" {...register('status')} />
                             <FormControl isInvalid={!!errors.brand}>
                                 <FormLabel htmlFor='brand'>Brand</FormLabel>
                                 <Select id='brand'
@@ -180,7 +209,14 @@ export function AddListingForm(props) {
                                 </NumberInput>
                                 <FormErrorMessage>{errors.originalCount?.message}</FormErrorMessage>
                             </FormControl>
-                            <FormControl isInvalid={!!errors.swappable}>
+                            <FormControl>
+                                <FormLabel htmlFor='swappable'>Swappable</FormLabel>
+                                <Switch  {...register('swappable', {
+                                    setValueAs: 
+                                })}/>
+                                <Input type="hidden" {...register('swappable')} />
+                            </FormControl>
+                            {/* <FormControl isInvalid={!!errors.swappable}>
                                 <FormLabel htmlFor='swappable'>Yarn Destiny</FormLabel>
                                 <Select {...register('swappable', {
                                     required: 'This is required'
@@ -189,7 +225,7 @@ export function AddListingForm(props) {
                                     <option value={false}>Stash</option>
                                 </Select>
                                 <FormErrorMessage>{errors.swappable?.message}</FormErrorMessage>
-                            </FormControl>
+                            </FormControl> */}
                             <FormControl isInvalid={!!errors.image}>
                                 <FormLabel htmlFor="image">Image</FormLabel>
 
@@ -209,7 +245,6 @@ export function AddListingForm(props) {
                                             isDragging,
                                             dragProps,
                                         }) => (
-                                            // write your building UI
                                             <div className="upload__image-wrapper">
                                                 <Button border={'2px'} borderColor={'gray.500'} textColor={'black'}
                                                     style={isDragging ? { color: 'red' } : undefined}
@@ -243,8 +278,13 @@ export function AddListingForm(props) {
                     </form>
                 </DrawerBody>
                 <DrawerFooter minH="24">
-                    {edit
-                        ? <PrimaryButton label="Archive Listing" size="md" p="6" onClick={archiveListing} />
+                    {edit && !archived
+                        ? <PrimaryButton label="Archive Listing" size="md" p="8" onClick={archiveListing} />
+                        : <></>
+                    }
+                    <br></br>
+                    {archived
+                        ? <PrimaryButton label="Make Listing Active" size="md" p="8" onClick={unArchiveListing} />
                         : <></>
                     }
                     <Divider />

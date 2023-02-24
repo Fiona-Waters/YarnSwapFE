@@ -1,4 +1,5 @@
 import { Box, Button, ButtonGroup, Card, CardBody, CardFooter, CardHeader, Image, List, ListItem, useBreakpointValue, useDisclosure } from "@chakra-ui/react";
+import { auth } from "../../../firebase";
 import { InfoRow } from "../../atoms/infoRow";
 
 export function Listing(props) {
@@ -21,7 +22,7 @@ export function Listing(props) {
     }
     const { initiateEditListing } = props;
 
-    
+
     const onEditClick = () => {
         initiateEditListing(listing)
     }
@@ -29,7 +30,6 @@ export function Listing(props) {
     if (listing.status == "Archived") {
         const message = "This listing has been Archived"
     }
-   
 
 
     return (
@@ -70,16 +70,20 @@ export function Listing(props) {
                     </ListItem>
                 </List>
             </CardBody>
-            <CardFooter>
-                {isListingOwner
-                    ? <Button border={'2px'} borderColor={'gray.500'} backgroundColor={'brand.blue'} textColor={'black'} role={'edit'} onClick={onEditClick} >Edit</Button>
+            {currentUser
+                ? <CardFooter>
+                    {isListingOwner
+                        ? <Button border={'2px'} borderColor={'gray.500'} backgroundColor={'brand.blue'} textColor={'black'} role={'edit'} onClick={onEditClick} >Edit</Button>
 
-                    : <ButtonGroup spacing='3'>
-                        <Button border={'2px'} borderColor={'gray.500'} backgroundColor={'brand.blue'} textColor={'black'} role={'add to wishlist'}>Add to Wishlist</Button>
-                        <Button border={'2px'} borderColor={'gray.500'} backgroundColor={'brand.blue'} textColor={'black'} role={'request swap'}>Swap</Button>
-                    </ButtonGroup>
-                }
-            </CardFooter>
+                        : <ButtonGroup spacing='3'>
+                            <Button border={'2px'} borderColor={'gray.500'} backgroundColor={'brand.blue'} textColor={'black'} role={'add to wishlist'}>Add to Wishlist</Button>
+                            <Button border={'2px'} borderColor={'gray.500'} backgroundColor={'brand.blue'} textColor={'black'} role={'request swap'}>Swap</Button>
+                        </ButtonGroup>
+                    }
+                </CardFooter>
+
+                : <></>
+            }
         </Card>
     )
 }
