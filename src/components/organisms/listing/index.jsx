@@ -1,6 +1,7 @@
 import { Box, Button, ButtonGroup, Card, CardBody, CardFooter, CardHeader, Image, List, ListItem, useBreakpointValue, useDisclosure } from "@chakra-ui/react";
 import { auth } from "../../../firebase";
 import { InfoRow } from "../../atoms/infoRow";
+import { ListingHeadBody } from "../../molecules/listingHeadBody";
 
 export function Listing(props) {
     const textLayout = useBreakpointValue({
@@ -34,42 +35,7 @@ export function Listing(props) {
 
     return (
         <Card maxW={72} minW={56} align={"center"} border='4px' p={0} borderColor={'brand.teal'} >
-            <CardHeader >
-                <Box>
-                    <Image boxSize='190px' objectFit='cover' borderRadius='lg' src={listing?.image} />
-                </Box>
-            </CardHeader>
-            <CardBody w={'full'}>
-                <List>
-                    <ListItem borderBottomColor={'brand.blue'} borderBottomWidth={'1px'}>
-                        <InfoRow label={"Brand"} value1={listing?.brand} />
-                    </ListItem>
-                    <ListItem borderBottomColor={'brand.blue'} borderBottomWidth={'1px'}>
-                        <InfoRow label={"Colourway"} value1={listing?.colourway} />
-                    </ListItem>
-                    <ListItem borderBottomColor={'brand.blue'} borderBottomWidth={'1px'}>
-                        <InfoRow label={"Fibre Content"} value1={listing?.fibreContent} />
-                    </ListItem>
-                    <ListItem borderBottomColor={'brand.blue'} borderBottomWidth={'1px'}>
-                        <InfoRow label={"Weight"} value1={listing?.weight + " /"} value2={listing.unitWeight + 'g'} />
-                    </ListItem>
-                    <ListItem borderBottomColor={'brand.blue'} borderBottomWidth={'1px'}>
-                        <InfoRow label={"Length(m)"} value1={listing?.meterage} />
-                    </ListItem>
-                    {listing.dyeLot && <ListItem borderBottomColor={'brand.blue'} borderBottomWidth={'1px'}>
-                        <InfoRow label={"Dye Lot"} value1={listing?.dyeLot} />
-                    </ListItem>}
-                    <ListItem borderBottomColor={'brand.blue'} borderBottomWidth={'1px'}>
-                        <InfoRow label={"Amount"} value1={listing?.originalCount} />
-                    </ListItem>
-                    <ListItem borderBottomColor={'brand.blue'} borderBottomWidth={'1px'}>
-                        <InfoRow label={"Swappable"} value1={isYarnSwappable} />
-                    </ListItem>
-                    <ListItem borderBottomColor={'brand.blue'} borderBottomWidth={'1px'}>
-                        <InfoRow label={"Status"} value1={listing?.status} />
-                    </ListItem>
-                </List>
-            </CardBody>
+            <ListingHeadBody listing={listing} currentUser={currentUser} isYarnSwappable={isYarnSwappable} />
             {currentUser
                 ? <CardFooter>
                     {isListingOwner
