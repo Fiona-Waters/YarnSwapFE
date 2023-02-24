@@ -19,7 +19,7 @@ export const theme = extendTheme({
 },
   fonts: {
     body: "system-ui, Roboto Mono, sans-serif",
-    heading: "Georgia, serif",
+    heading: "system-ui, Roboto Mono, sans-serif",
     mono: "Menlo, monospace",
   },
   fontSizes: {

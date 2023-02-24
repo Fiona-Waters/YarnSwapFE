@@ -10,6 +10,7 @@ import { theme } from './theme.js'
 import RegisterLogin from "./pages/register-login"
 import DashboardPage from "./pages/dashboardPage"
 import ListingsPage from "./pages/listingsPage"
+import SwapsPage from "./pages/swapsPage"
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
             <Route path="dashboard" element={<DashboardPage/>}/>
             <Route path="about" element={ <About/> }/>
             <Route path="listings" element={ <ListingsPage/> }/>
+            <Route path="swaps" element={ <SwapsPage/> } />
           </Route>      
 
       </Routes>

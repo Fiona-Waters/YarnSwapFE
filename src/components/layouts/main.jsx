@@ -1,4 +1,4 @@
-import { Box, Container, Flex, HStack, Spacer, Stack, VStack } from '@chakra-ui/react';
+import { Box, Container, Divider, Flex, HStack, Spacer, Stack, VStack } from '@chakra-ui/react';
 import { getAuth, signOut } from 'firebase/auth';
 import { Outlet, Link, useNavigate, Router, Navigate } from 'react-router-dom';
 import { DarkModeButton } from '../atoms/darkModeButton';
@@ -48,6 +48,7 @@ function MainLayout() {
                 <Container maxW="container.xl" centerContent>
 
                     <Logo h={40} w={40} />
+                    <br></br>
                     <NavigationMenu />
                     <Stack flex="1" w="full" pt={12}>
                         <Outlet />

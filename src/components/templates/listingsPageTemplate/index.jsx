@@ -9,7 +9,7 @@ export function ListingsPageTemplate(props) {
 
     let allOtherListings = [];
     listings.map((listing) => {
-        if (listing.userId != currentUser && listing.swappable == true) {
+        if (listing.userId != currentUser && listing.swappable == true && listing.status == 'Available') {
             allOtherListings.push(listing)
         }
     })

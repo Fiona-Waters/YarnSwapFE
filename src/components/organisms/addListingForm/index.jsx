@@ -212,7 +212,7 @@ export function AddListingForm(props) {
                             <FormControl>
                                 <FormLabel htmlFor='swappable'>Swappable</FormLabel>
                                 <Switch  {...register('swappable', {
-                                    setValueAs: 
+                                    setValueAs: swappable
                                 })}/>
                                 <Input type="hidden" {...register('swappable')} />
                             </FormControl>
