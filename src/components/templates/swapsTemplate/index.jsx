@@ -6,7 +6,7 @@ import { SwapCard } from "../../organisms/swapCard";
 
 export function SwapsTemplate(props) {
 
-    const { listings, refreshListings, currentUser } = props
+    const { swaps, listings, refreshListings, currentUser } = props
 
     const bp = useBreakpoint();
 
@@ -19,7 +19,7 @@ export function SwapsTemplate(props) {
         '2xl': 4
     })
 
-      return (
+    return (
         <>
             <Spacer />
             <Tabs>
@@ -39,10 +39,10 @@ export function SwapsTemplate(props) {
 
                                 <br></br>
 
-                                <SimpleGrid columns={gridCount} spacing={'8'} w={'full'}>
+                                <SimpleGrid columns={2} spacing={'8'} w={'full'}>
                                     {listings?.map((listing, i) => (
-                                        <SwapCard listing={listing} key={i} currentUser={currentUser} refreshListings={refreshListings}/>
-                                 //       <Listing listing={listing} key={i} currentUser={currentUser} refreshListings={refreshListings}></Listing>
+                                        <SwapCard listing={listing} key={i} currentUser={currentUser} refreshListings={refreshListings} />
+                                        // <Listing listing={listing} key={i} currentUser={currentUser} refreshListings={refreshListings}></Listing>
                                     ))}
                                 </SimpleGrid>
                             </Box>
@@ -53,9 +53,10 @@ export function SwapsTemplate(props) {
                             <Box flex='1' p={5} align={"center"} >
                                 <Heading as='h3' size='md'> Outgoing Swap Requests </Heading>
                                 <br></br>
-                                <SimpleGrid columns={gridCount} spacing={'8'} w={'full'}>
+                                <SimpleGrid columns={2} spacing={'8'} w={'full'}>
                                     {listings?.map((listing, i) => (
-                                        <Listing listing={listing} key={i} currentUser={currentUser} refreshListings={refreshListings}></Listing>
+                                        <SwapCard listing={listing} key={i} currentUser={currentUser} refreshListings={refreshListings} />
+                                        // <Listing listing={listing} key={i} currentUser={currentUser} refreshListings={refreshListings}></Listing>
                                     ))}
                                 </SimpleGrid>
                             </Box>

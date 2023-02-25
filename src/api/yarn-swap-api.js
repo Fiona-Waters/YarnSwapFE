@@ -40,6 +40,43 @@ export const addListing = async (newListing) => {
     }
 };
 
+export const getSwaps = async () => {
+    try {
+        const response = await fetch(
+            `${baseURL}/swaps`
+        );
+        if (!response.ok) {
+            throw new Error(response.json().message);
+        }
+        return await response.json();
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const addSwap = async (newSwap) => {
+    const token = await auth.currentUser.getIdToken(true)
+    console.log("NEW SWAP", newSwap)
+    try {
+        const response = await fetch(
+            `${baseURL}/swaps`
+            , {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-ID-TOKEN': token
+                },
+                body: JSON.stringify(newSwap)
+            });
+        if (!response.ok) {
+            throw new Error(response.statusText);
+        }
+        return await response.json();
+    } catch (error) {
+        throw error;
+    }
+};
+
 export const getBrands = async () => {
     try {
         const response = await fetch(

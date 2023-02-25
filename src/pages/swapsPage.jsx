@@ -1,11 +1,11 @@
-import { getListings } from "../api/yarn-swap-api"
+import { getListings, getSwaps } from "../api/yarn-swap-api"
 import { useQuery } from 'react-query';
 import { getAuth } from "firebase/auth";
 import { SwapsTemplate } from "../components/templates/swapsTemplate";
 
 const SwapsPage = () => {
-    const { data, isLoading, refetch } = useQuery('listings',
-        getListings
+    const { data, isLoading, refetch } = useQuery('swaps',
+        getSwaps
     );
 
     console.log("data", data)
@@ -18,7 +18,7 @@ const SwapsPage = () => {
         )
     }
     return (
-        <SwapsTemplate listings={data}/>
+        <SwapsTemplate swaps={data}/>
         
     );
 };
