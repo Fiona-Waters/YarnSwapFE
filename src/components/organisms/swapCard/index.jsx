@@ -3,22 +3,48 @@ import { PrimaryButton } from "../../atoms/primaryButton";
 import { ListingHeadBody } from "../../molecules/listingHeadBody";
 
 export function SwapCard(props) {
-/**
- *  badges - Swap requested(yellow), swap denied(red), swap accepted(green)
- */
-   
+    const { swap, listing } = props
+    console.log("STATUS", swap.swap.swapStatus)
+    /**
+     * 
+     * 
+     */
+    const badge = () => {
+        if (swap.swap.swapStatus === "swap requested") {
+            return (
+                <Badge colorScheme={'yellow'} fontSize='18px'>Swap Requested</Badge>
+            )
+        }
+        if (swap.swap.swapStatus === "swap denied") {
+            return (
+                <Badge colorScheme={'red'} fontSize='18px'>Swap Denied</Badge>
+            )
+        }
+        if (swap.swap.swapStatus === "swap accepted") {
+            return (
+                <Badge colorScheme={'green'} fontSize='18px'>Swap Accepted</Badge>
+            )
+        }
+    }
+    function onSubmitDeclined() {
+        // swap.swap.swapStatus == "swap declined"
+        // call update swap function to update above
+        // allow these to be removed from swap area?
+    }
 
-    const { listings, swap } = props
+    function onSubmitAccepted() {
+        //swap.swap.swapStatus == "swap accepted"
+        //call update swap function to update above
+        // create a chat between both users
+        // add this chat to the swap - send to firebase
+    }
     return (
         <>
 
             <Card maxW='lg' minW={56} align={"center"} p={5} border='4px' borderColor={'brand.blue'} >
-                <Badge colorScheme={'yellow'} fontSize='18px'>Swap Requested</Badge>
-                <Badge colorScheme={'green'} fontSize='18px'>Swap Accepted</Badge>
-                <Badge colorScheme={'red'} fontSize='18px'>Swap Denied</Badge>
-
+                {badge()}
                 <HStack divider={<StackDivider />} spacing='4'>
-                    <ListingHeadBody listings={listings} swap={swap} />
+                    <ListingHeadBody listing={listing} />
                 </HStack>
                 <br></br>
                 <CardFooter>

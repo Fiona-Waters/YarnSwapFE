@@ -9,6 +9,7 @@ export function HomePageTemplate(props) {
 
     const { listings } = props;
 
+    //TODO change to use state and use effect
     let availableListings = [];
     listings?.map((listing) => {
         if (listing.swappable == true && listing.status == 'Available') {

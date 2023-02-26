@@ -18,7 +18,7 @@ const SwapsPage = () => {
         )
     }
     return (
-        <SwapsTemplate swaps={data}/>
+        <SwapsTemplate swaps={data} refreshListings={refetch} currentUser={auth.currentUser.uid}/>
         
     );
 };

@@ -13,6 +13,7 @@ export function DashboardTemplate(props) {
 
     const [ listingToEdit, setListingToEdit ] = useState()
 
+    //TODO change to use state and use effect
     let userListings = [];
     listings?.map((listing) => {
         if (listing.userId == currentUser) {
@@ -49,7 +50,7 @@ export function DashboardTemplate(props) {
             <HStack w="full" >
                 <PrimaryButton label={'Create Listing'} onClick={initiateCreateListing} />
                 <Spacer />
-                <PrimaryButton label={'Search'} onClick={onOpen} />
+                <PrimaryButton label={'Search'} />
             </HStack>
             <Heading bg='brand.blue' alignSelf={"flex-start"} fontFamily={"sans-serif"} fontSize={"2xl"} color={'black'} fontWeight={'bold'}>My Listings</Heading>
             <AddListingForm isOpen={isOpen} onClose={onClose} refreshListings={refreshListings} currentUser={currentUser} listing={listingToEdit}/>

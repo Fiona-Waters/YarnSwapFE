@@ -6,7 +6,7 @@ export function ListingsPageTemplate(props) {
     //TODO add search box and functionality
 
     const { listings, refreshListings, currentUser } = props
-
+    //TODO change to use state and useEffect
     let allOtherListings = [];
     listings.map((listing) => {
         if (listing.userId != currentUser && listing.swappable == true && listing.status == 'Available') {
