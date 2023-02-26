@@ -4,22 +4,22 @@ import { getAuth } from "firebase/auth";
 import { SwapsTemplate } from "../components/templates/swapsTemplate";
 
 const SwapsPage = () => {
-    const { data, isLoading, refetch } = useQuery('swaps',
+    const { data: swaps, isLoading: isLoading1, refetch: refetch1 } = useQuery('swaps',
         getSwaps
     );
-
-    console.log("data", data)
-
+    const { data: listings, isLoading: isLoading2, refetch: refetch2 } = useQuery('listings',
+     getListings
+    );
     const auth = getAuth()
 
-    if (isLoading) {
+    if (isLoading1) {
         return (
             <div>Loading</div>
         )
     }
     return (
-        <SwapsTemplate swaps={data} refreshListings={refetch} currentUser={auth.currentUser.uid}/>
-        
+        <SwapsTemplate swaps={swaps} listings={listings} refreshListings={refetch2} refreshSwaps={refetch2} currentUser={auth.currentUser.uid} />
+
     );
 };
 

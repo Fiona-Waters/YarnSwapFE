@@ -27,7 +27,6 @@ export function DashboardTemplate(props) {
 
 
     const initiateEditListing = (listing) => {
-        console.log("initiate edit listing", listing)
         setListingToEdit(listing)
         onOpen()
     }

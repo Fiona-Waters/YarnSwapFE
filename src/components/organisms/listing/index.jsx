@@ -2,20 +2,18 @@ import { Box, Button, ButtonGroup, Card, CardBody, CardFooter, CardHeader, Image
 import { auth } from "../../../firebase";
 import { InfoRow } from "../../atoms/infoRow";
 import { ListingHeadBody } from "../../molecules/listingHeadBody";
-import { addSwap } from "../../../api/yarn-swap-api";
+import { addListing, addSwap } from "../../../api/yarn-swap-api";
+import { useState } from "react";
 
 export function Listing(props) {
     const textLayout = useBreakpointValue({
         base: 'column',
         md: 'row'
     })
-    let isListingOwner;
-    const { listing, currentUser } = props
-    if (currentUser == listing.userId) {
-        isListingOwner = true
-    } else {
-        isListingOwner = false
-    }
+    const { listing, currentUser, refreshListings } = props
+
+    var isListingOwner = Boolean(currentUser == listing.userId)
+
     let isYarnSwappable;
     if (listing.swappable == true) {
         isYarnSwappable = "Yes"
@@ -23,7 +21,6 @@ export function Listing(props) {
         isYarnSwappable = "No"
     }
     const { initiateEditListing } = props;
-
 
     const onEditClick = () => {
         initiateEditListing(listing)
@@ -33,20 +30,27 @@ export function Listing(props) {
         const message = "This listing has been Archived"
     }
 
+    const [ isClicked, setIsClicked ] = useState(false)
+    
     let newSwap = {}
-
-    async function onSubmit() {
-        // values.SwapID = ?       
+    console.log("before",listing.status)
+    async function onSubmitSwap() {
+        // if(!isClicked) setIsClicked(true)
+        // disabled = {isClicked}
+        const thisListing = listing
+        thisListing.status = "Unavailable"
+        await addListing(thisListing)
+        console.log("thislisting after", thisListing.status)
         newSwap.swapperUserID = listing.userId
         newSwap.SwappeeUserID = currentUser;
         newSwap.listingID = listing.id
         newSwap.SwapStatus = "swap requested"
-        console.log('NEW SWAP', newSwap)
         try {
             await addSwap(newSwap)
         } catch (e) {
             console.log(e.message)
         }
+        refreshListings()
     }
 
     return (
@@ -59,7 +63,7 @@ export function Listing(props) {
 
                         : <ButtonGroup spacing='3'>
                             <Button border={'2px'} borderColor={'gray.500'} backgroundColor={'brand.blue'} textColor={'black'} role={'add to wishlist'}>Add to Wishlist</Button>
-                            <Button border={'2px'} borderColor={'gray.500'} backgroundColor={'brand.blue'} textColor={'black'} role={'request swap'} onClick={onSubmit}>Swap</Button>
+                            <Button border={'2px'} borderColor={'gray.500'} backgroundColor={'brand.blue'} textColor={'black'} role={'request swap'} onClick={onSubmitSwap} >Swap</Button>
                         </ButtonGroup>
                     }
                 </CardFooter>

@@ -15,10 +15,8 @@ const ListingsPage = () => {
             <div>Loading</div>
         )
     }
-    // TODO return all apart from users own listings
     return (
         <ListingsPageTemplate listings={data} refreshListings={refetch} currentUser={auth.currentUser.uid}/>
-        
     );
 };
 

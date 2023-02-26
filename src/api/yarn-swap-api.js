@@ -19,7 +19,6 @@ export const getListings = async () => {
 
 export const addListing = async (newListing) => {
     const token = await auth.currentUser.getIdToken(true)
-    console.log("NEW LISTING", newListing)
     try {
         const response = await fetch(
             `${baseURL}/listings`
@@ -56,7 +55,6 @@ export const getSwaps = async () => {
 
 export const addSwap = async (newSwap) => {
     const token = await auth.currentUser.getIdToken(true)
-    console.log("NEW SWAP", newSwap)
     try {
         const response = await fetch(
             `${baseURL}/swaps`

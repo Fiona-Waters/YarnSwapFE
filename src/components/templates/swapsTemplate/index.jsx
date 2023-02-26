@@ -8,7 +8,7 @@ import { SwapCard } from "../../organisms/swapCard";
 
 export function SwapsTemplate(props) {
 
-    const { swaps, refreshListings, currentUser } = props
+    const { swaps, listings, refreshListings, refreshSwaps, currentUser } = props
     const [inComingSwaps, setIncomingSwaps] = useState([])
     const [outgoingSwaps, setOutgoingSwaps] = useState([])
 
@@ -16,19 +16,16 @@ export function SwapsTemplate(props) {
         const i = [];
         const o = [];
         swaps?.map((swap) => {
-            if (swap.swap.swapperUserId == currentUser) {
+            if (swap.swap.swapperUserId == currentUser && swap.swap.swapStatus != "Archived") {
                 i.push(swap)
             }
-            if (swap.swap.swappeeUserId == currentUser) {
+            if (swap.swap.swappeeUserId == currentUser && swap.swap.swapStatus != "Archived") {
                 o.push(swap)
             }
         })
         setIncomingSwaps(i),
             setOutgoingSwaps(o);
     }, [swaps, currentUser])
-
-
-
 
     const bp = useBreakpoint();
 
@@ -40,7 +37,6 @@ export function SwapsTemplate(props) {
         xl: 2,
         '2xl': 2
     })
-    console.log('swapper length', outgoingSwaps, 'swappee length', inComingSwaps)
     return (
         <>
             <Spacer />
@@ -62,7 +58,7 @@ export function SwapsTemplate(props) {
                                 <SimpleGrid columns={gridCount} spacing={'8'} w={'full'}>
                                     {inComingSwaps?.map((swap, i) =>
                                     (
-                                        <SwapCard listing={swap.listing} swap={swap} key={i} currentUser={currentUser} refreshListings={refreshListings} />
+                                        <SwapCard listings={listings} listing={swap.listing} swap={swap} key={i} currentUser={currentUser} refreshListings={refreshListings} refreshSwaps={refreshSwaps} />
                                     ))}
                                 </SimpleGrid>
                             </Box>
@@ -75,7 +71,7 @@ export function SwapsTemplate(props) {
                                 <br></br>
                                 <SimpleGrid columns={gridCount} spacing={'8'} w={'full'}>
                                     {outgoingSwaps?.map((swap, i) => (
-                                        <SwapCard listing={swap.listing} swap={swap} key={i} currentUser={currentUser} refreshListings={refreshListings} />
+                                        <SwapCard listings={listings} listing={swap.listing} swap={swap} key={i} currentUser={currentUser} refreshListings={refreshListings} />
                                     ))}
                                 </SimpleGrid>
                             </Box>
