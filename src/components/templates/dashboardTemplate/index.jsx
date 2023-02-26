@@ -1,4 +1,5 @@
 import { useBreakpoint, useBreakpointValue, useDisclosure, HStack, VStack, Box, SimpleGrid, Spacer, Heading } from "@chakra-ui/react";
+import { useEffect } from "react";
 import { useState } from "react";
 import { set } from "react-hook-form";
 import { getBrands } from "../../../api/yarn-swap-api";
@@ -11,15 +12,19 @@ export function DashboardTemplate(props) {
 
     const { listings, refreshListings, currentUser } = props
 
-    const [ listingToEdit, setListingToEdit ] = useState()
+    const [listingToEdit, setListingToEdit] = useState()
+    const [userListings, setUserListings] = useState([])
 
-    //TODO change to use state and use effect
-    let userListings = [];
-    listings?.map((listing) => {
-        if (listing.userId == currentUser) {
-            userListings.push(listing)
-        }
-    })
+    useEffect(() => {
+        const l = [];
+        listings?.map((listing) => {
+            if (listing.userId == currentUser) {
+                l.push(listing)
+            }
+        })
+        setUserListings(l)
+    }, [listings, currentUser])
+
 
     const initiateEditListing = (listing) => {
         console.log("initiate edit listing", listing)
@@ -53,7 +58,7 @@ export function DashboardTemplate(props) {
                 <PrimaryButton label={'Search'} />
             </HStack>
             <Heading bg='brand.blue' alignSelf={"flex-start"} fontFamily={"sans-serif"} fontSize={"2xl"} color={'black'} fontWeight={'bold'}>My Listings</Heading>
-            <AddListingForm isOpen={isOpen} onClose={onClose} refreshListings={refreshListings} currentUser={currentUser} listing={listingToEdit}/>
+            <AddListingForm isOpen={isOpen} onClose={onClose} refreshListings={refreshListings} currentUser={currentUser} listing={listingToEdit} />
             <SimpleGrid columns={gridCount} spacing={'8'} w={'full'}>
                 {userListings?.map((listing, i) => (
                     <Listing initiateEditListing={initiateEditListing} listing={listing} key={i} currentUser={currentUser} ></Listing>

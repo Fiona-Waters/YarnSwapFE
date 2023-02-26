@@ -1,4 +1,5 @@
 import { Box, Button, ButtonGroup, HStack, SimpleGrid, useBreakpoint, useBreakpointValue, VStack } from "@chakra-ui/react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Logo } from "../../atoms/logo";
 import { PrimaryButton } from "../../atoms/primaryButton";
@@ -8,14 +9,18 @@ import { Listing } from "../../organisms/listing";
 export function HomePageTemplate(props) {
 
     const { listings } = props;
-
-    //TODO change to use state and use effect
-    let availableListings = [];
-    listings?.map((listing) => {
-        if (listing.swappable == true && listing.status == 'Available') {
-            availableListings.push(listing)
-        }
-    })
+    const [ availableListings, setAvailableListings ] = useState([])
+   
+    useEffect(() => {
+        const l = [];
+        listings?.map((listing) => {
+            if (listing.swappable == true && listing.status == 'Available') {
+                l.push(listing)
+            }
+        })
+        setAvailableListings(l)
+    }, [listings])
+    
 
     const bp = useBreakpoint();
 

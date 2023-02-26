@@ -1,4 +1,6 @@
 import { useBreakpoint, useBreakpointValue, useDisclosure, HStack, VStack, Box, SimpleGrid, Spacer, Heading } from "@chakra-ui/react";
+import { useState, useEffect } from "react";
+import { set } from "react-hook-form";
 import { PrimaryButton } from "../../atoms/primaryButton";
 import { Listing } from "../../organisms/listing";
 
@@ -6,13 +8,18 @@ export function ListingsPageTemplate(props) {
     //TODO add search box and functionality
 
     const { listings, refreshListings, currentUser } = props
-    //TODO change to use state and useEffect
-    let allOtherListings = [];
-    listings.map((listing) => {
-        if (listing.userId != currentUser && listing.swappable == true && listing.status == 'Available') {
-            allOtherListings.push(listing)
-        }
-    })
+    const [ allOtherListings, setAllOtherListings ] = useState()
+    
+    useEffect(() => {
+        const l = [];
+        listings.map((listing) => {
+            if (listing.userId != currentUser && listing.swappable == true && listing.status == 'Available') {
+                l.push(listing)
+            }
+        })
+        setAllOtherListings(l);
+    }, [listings, currentUser])
+    
 
     const bp = useBreakpoint();
 
