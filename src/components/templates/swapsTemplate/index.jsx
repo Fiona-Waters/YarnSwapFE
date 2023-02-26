@@ -23,8 +23,9 @@ export function SwapsTemplate(props) {
                 o.push(swap)
             }
         })
-        setIncomingSwaps(i),
-            setOutgoingSwaps(o);
+        setIncomingSwaps(i);
+        setOutgoingSwaps(o);
+        console.log('Use Effect Called', swaps)
     }, [swaps, currentUser])
 
     const bp = useBreakpoint();

@@ -56,9 +56,9 @@ export function DashboardTemplate(props) {
                 <Spacer />
                 <PrimaryButton label={'Search'} />
             </HStack>
-            <Heading bg='brand.blue' alignSelf={"flex-start"} fontFamily={"sans-serif"} fontSize={"2xl"} color={'black'} fontWeight={'bold'}>My Listings</Heading>
+            <Heading alignSelf={"flex-start"} fontFamily={"sans-serif"} fontSize={"2xl"} color={'black'} fontWeight={'bold'}>My Listings</Heading>
             <AddListingForm isOpen={isOpen} onClose={onClose} refreshListings={refreshListings} currentUser={currentUser} listing={listingToEdit} />
-            <SimpleGrid columns={gridCount} spacing={'8'} w={'full'}>
+            <SimpleGrid p={'5'} columns={gridCount} spacing={'8'} w={'full'}>
                 {userListings?.map((listing, i) => (
                     <Listing initiateEditListing={initiateEditListing} listing={listing} key={i} currentUser={currentUser} ></Listing>
                 ))}

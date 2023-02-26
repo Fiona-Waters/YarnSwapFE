@@ -42,9 +42,9 @@ export function SwapCard(props) {
         await addSwap(thisSwap)
         swapListing.status = "Available"
         await addListing(swapListing)
-        refreshListings()
-        refreshSwaps()
-        // TODO allow these to be removed from swap area? add a remove button that user clicks?
+        await refreshListings()
+        await refreshSwaps()
+        
     }
 
     async function onSubmitAccepted() {
@@ -59,7 +59,7 @@ export function SwapCard(props) {
         const thisSwap = swap.swap
         thisSwap.swapStatus = "Archived"
         await addSwap(thisSwap)
-        refreshSwaps()
+        await refreshSwaps()
     }
 
     const incomingSwapButtons = () => {
@@ -71,11 +71,11 @@ export function SwapCard(props) {
                 </ButtonGroup>
             )
         }
-        if (incomingSwap && swapDeclined) {
-            return (
-                <PrimaryButton label='Remove' onClick={removeSwap} />
-            )
-        }
+        // if (incomingSwap && swapDeclined) {
+        //     return (
+        //         <PrimaryButton label='Remove' onClick={removeSwap} />
+        //     )
+        // }
     }
 
     const outgoingSwapButtons = () => {

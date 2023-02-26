@@ -4,10 +4,10 @@ import { getAuth } from "firebase/auth";
 import { SwapsTemplate } from "../components/templates/swapsTemplate";
 
 const SwapsPage = () => {
-    const { data: swaps, isLoading: isLoading1, refetch: refetch1 } = useQuery('swaps',
+    const { data: swaps, isLoading: isLoading1, refetch: refetchSwaps } = useQuery('swaps',
         getSwaps
     );
-    const { data: listings, isLoading: isLoading2, refetch: refetch2 } = useQuery('listings',
+    const { data: listings, isLoading: isLoading2, refetch: refetchListing } = useQuery('listings',
      getListings
     );
     const auth = getAuth()
@@ -18,7 +18,7 @@ const SwapsPage = () => {
         )
     }
     return (
-        <SwapsTemplate swaps={swaps} listings={listings} refreshListings={refetch2} refreshSwaps={refetch2} currentUser={auth.currentUser.uid} />
+        <SwapsTemplate swaps={swaps} listings={listings} refreshListings={refetchListing} refreshSwaps={refetchSwaps} currentUser={auth.currentUser.uid} />
 
     );
 };

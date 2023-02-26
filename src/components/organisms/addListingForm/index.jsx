@@ -18,7 +18,7 @@ import {
 } from '@chakra-ui/react'
 import { useToast } from '@chakra-ui/react'
 import { storage } from "../../../firebase";
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage"
+import { ref, getDownloadURL, uploadString } from "firebase/storage"
 
 export function AddListingForm(props) {
     const { isOpen, onClose, refreshListings, currentUser, listings, listing } = props;
@@ -30,23 +30,32 @@ export function AddListingForm(props) {
     }, [listing])
     const { register, handleSubmit, setError, formState: { errors, isSubmitting }, reset, setValue, } = useForm({ defaultValues: listingMemo });
     const [images, setImages] = React.useState([]);
-    const [ file, setFile ] = React.useState("");
+    const [file, setFile] = React.useState("");
     const maxNumber = 1;
     const toast = useToast();
-    const [ swappable, setSwappable, ] = useBoolean(listing?.swappable);
+    const [swappable, setSwappable,] = useBoolean(listing?.swappable);
     var edit = listing?.id;
     var archived = Boolean(listing?.status === "Archived");
-  //  console.log("SWAPPABLE, useBoolean", swappable)
-    
-    const onChange = (imageList, addUpdateIndex) => {
+    //  console.log("SWAPPABLE, useBoolean", swappable)
+
+    const onChange = async (imageList, addUpdateIndex) => {
         //data for submit
         console.log("imagelist", imageList)
         const dataUrl = imageList[0]?.data_url
-        setValue('image', dataUrl)
+        const filename = imageList[0]?.file.name
         setImages(imageList)
+        if (dataUrl) {
+            const storageRef = ref(storage, `/files/${currentUser}/${filename}`)
+            const uploadRes = await uploadString(storageRef, dataUrl, 'data_url');
+            console.log('uploadRes', uploadRes);
+            if (uploadRes.ref) {
+                const downloadUrl = await getDownloadURL(uploadRes.ref)
+                setValue('image', downloadUrl);
+            }
+        }
     };
     const onSwappableChanged = () => {
- //       console.log("IM FIRING")
+        //       console.log("IM FIRING")
         setSwappable.toggle()
         setValue('swappable', swappable)
     }
@@ -106,33 +115,6 @@ export function AddListingForm(props) {
     function handleChange(event) {
         setFile(event.target.files[0])
     }
-
-    function handleUpload() {
-        if (!file) {
-            alert("Please choose a file first")
-        }
-        const storageRef = ref(storage, `/files/${file.name}`)
-        const uploadTask = uploadBytesResumable(storageRef, file)
-
-        uploadTask.on(
-            "state_changed",
-            (snapshot) => {
-                const percent = Math.round(
-                    (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-                );
-                //update progress
-                setPercent(percent);
-            },
-            (err) => console.log(err),
-            () => {
-                getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-                    console.log(url);
-                });
-            }
-        );
-    }
-
-
 
     return (
         <Drawer
@@ -253,7 +235,7 @@ export function AddListingForm(props) {
                                 <FormLabel htmlFor='swappable'>Swappable</FormLabel>
                                 <Switch  {...register('swappable', {
                                     setValueAs: swappable
-                                })}/>
+                                })} />
                                 <Input type="hidden" {...register('swappable')} />
                             </FormControl>
                             {/* <FormControl isInvalid={!!errors.swappable}>
@@ -273,7 +255,7 @@ export function AddListingForm(props) {
                                     <ImageUploading
                                         multiple
                                         value={images}
-                                        onChange={handleChange}
+                                        onChange={onChange}
                                         maxNumber={maxNumber}
                                         dataURLKey="data_url"
                                     >
@@ -293,7 +275,6 @@ export function AddListingForm(props) {
                                                 >
                                                     Click here to upload an image or just drag and drop
                                                 </Button>
-                                                <Button onClick={handleUpload}>Add to firebase</Button>
                                                 &nbsp;
                                                 <Divider />
                                                 {imageList.map((image, index) => (
@@ -310,7 +291,7 @@ export function AddListingForm(props) {
                                             </div>
                                         )}
                                     </ImageUploading>
-                                    <Input type="file" {...register('image', { required: false })} />
+                                    <Input type="hidden" {...register('image', { required: false })} />
                                 </div>
                                 <FormErrorMessage>{errors.image?.message}</FormErrorMessage>
                             </FormControl>
