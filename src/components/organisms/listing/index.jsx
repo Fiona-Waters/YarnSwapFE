@@ -10,7 +10,7 @@ export function Listing(props) {
     })
     const { listing, currentUser, refreshListings } = props
 
-    var isListingOwner = Boolean(currentUser == listing.userId)
+    var isListingOwner = Boolean(currentUser.uid == listing.userId)
     //TODO only allow swap if user has a token!
     let isYarnSwappable;
     if (listing.swappable == true) {
@@ -29,8 +29,9 @@ export function Listing(props) {
         const thisListing = listing
         thisListing.status = "Unavailable"
         await addListing(thisListing)
+        newSwap.swapName = `${thisListing.brand} ${thisListing.colourway} Yarn Chat`
         newSwap.swapperUserID = listing.userId
-        newSwap.SwappeeUserID = currentUser;
+        newSwap.SwappeeUserID = currentUser.uid;
         newSwap.listingID = listing.id
         newSwap.SwapStatus = "swap requested"
         try {

@@ -11,6 +11,7 @@ import RegisterLogin from "./pages/register-login"
 import DashboardPage from "./pages/dashboardPage"
 import ListingsPage from "./pages/listingsPage"
 import SwapsPage from "./pages/swapsPage"
+import { SwapChatPage } from "./pages/swapChatPage"
 
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
             <Route path="about" element={ <About/> }/>
             <Route path="listings" element={ <ListingsPage/> }/>
             <Route path="swaps" element={ <SwapsPage/> } />
+            <Route path="swapchat" element={<SwapChatPage/> }/>
           </Route>      
 
       </Routes>

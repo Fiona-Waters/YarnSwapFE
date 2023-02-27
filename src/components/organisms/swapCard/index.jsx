@@ -1,14 +1,18 @@
 import { Badge, ButtonGroup, Card, CardFooter, Divider, HStack, Stack, StackDivider, VStack } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 import { addListing, addSwap } from "../../../api/yarn-swap-api";
+import { createSendbirdChannel } from "../../../sendbird";
 import { PrimaryButton } from "../../atoms/primaryButton";
 import { ListingHeadBody } from "../../molecules/listingHeadBody";
 
 export function SwapCard(props) {
     const { swap, listing, listings, currentUser, refreshSwaps, refreshListings } = props
-    var outgoingSwap = Boolean(listing.userId != currentUser);
-    var incomingSwap = Boolean(listing.userId === currentUser);
+    var outgoingSwap = Boolean(listing.userId != currentUser.uid);
+    var incomingSwap = Boolean(listing.userId === currentUser.uid);
     var swapDeclined = Boolean(swap.swap.swapStatus === "swap denied")
     var swapRequested = Boolean(swap.swap.swapStatus === "swap requested")
+    var swapAccepted = Boolean(swap.swap.swapStatus === "swap accepted")
+    const navigate = useNavigate();
 
     const badge = () => {
         if (swap.swap.swapStatus === "swap requested") {
@@ -44,60 +48,76 @@ export function SwapCard(props) {
         await addListing(swapListing)
         await refreshListings()
         await refreshSwaps()
-        
     }
 
     async function onSubmitAccepted() {
-        swap.swap.swapStatus == "swap accepted"
-        //call update swap function to update above
-        // create a chat between both users
-        // add this chat to the swap - send to firebase
+        swap.swap.swapStatus = "swap accepted"
+        const newChannel = await createSendbirdChannel(currentUser.uid, swap.swap)
+        swap.swap.chatChannelUrl = newChannel.url;
+        await addSwap(swap.swap)
+        refreshSwaps()
+    }
+
+    function goToChat() {
+        navigate(`/swapchat`, {
+            state: {
+                chatUrl: swap.swap.chatChannelUrl
+            }
+        })
     }
 
     async function removeSwap() {
         swap.swap.swapStatus = "Archived"
-        const thisSwap = swap.swap
-        thisSwap.swapStatus = "Archived"
-        await addSwap(thisSwap)
-        await refreshSwaps()
+        await addSwap(swap.swap)
     }
 
     const incomingSwapButtons = () => {
         if (incomingSwap && swapRequested) {
             return (
                 <ButtonGroup spacing='2'>
-                    <PrimaryButton label='Accept' />
+                    <PrimaryButton label='Accept' onClick={onSubmitAccepted} />
                     <PrimaryButton label='Decline' onClick={onSubmitDeclined} />
                 </ButtonGroup>
             )
         }
-        // if (incomingSwap && swapDeclined) {
-        //     return (
-        //         <PrimaryButton label='Remove' onClick={removeSwap} />
-        //     )
-        // }
+        if (incomingSwap && swapAccepted) {
+            return (
+                <PrimaryButton label='Chat' onClick={goToChat} />
+            )
+        }
     }
 
     const outgoingSwapButtons = () => {
         if (outgoingSwap && swapDeclined) {
             return (
-                <PrimaryButton label='Remove' onClick={removeSwap} />
+                <ButtonGroup spacing='2'>
+                    <PrimaryButton label='Remove' onClick={removeSwap} />
+                    <PrimaryButton label='Chat' onClick={goToChat} />
+                </ButtonGroup>
+            )
+        }
+        if (outgoingSwap && swapAccepted) {
+            return (
+                <ButtonGroup spacing='2'>
+
+                    <PrimaryButton label='Chat' onClick={goToChat} />
+                </ButtonGroup>
             )
         }
     }
 
 
     return (
-            <Card maxW='lg' minW={56} align={"center"} p={5} border='4px' borderColor={'brand.blue'} >
-                {badge()}
-                <HStack divider={<StackDivider />} spacing='4'>
-                    <ListingHeadBody listing={swapListing} />
-                </HStack>
-                <br></br>
-                <CardFooter>
-                    {incomingSwapButtons()}
-                    {outgoingSwapButtons()}
-                </CardFooter>
-            </Card>
+        <Card maxW='lg' minW={56} align={"center"} p={5} border='4px' borderColor={'brand.blue'} >
+            {badge()}
+            <HStack divider={<StackDivider />} spacing='4'>
+                <ListingHeadBody listing={swapListing} />
+            </HStack>
+            <br></br>
+            <CardFooter>
+                {incomingSwapButtons()}
+                {outgoingSwapButtons()}
+            </CardFooter>
+        </Card>
     )
 }

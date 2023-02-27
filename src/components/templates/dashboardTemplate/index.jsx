@@ -18,7 +18,7 @@ export function DashboardTemplate(props) {
     useEffect(() => {
         const l = [];
         listings?.map((listing) => {
-            if (listing.userId == currentUser) {
+            if (listing.userId == currentUser.uid) {
                 l.push(listing)
             }
         })
@@ -56,7 +56,7 @@ export function DashboardTemplate(props) {
                 <Spacer />
                 <PrimaryButton label={'Search'} />
             </HStack>
-            <Heading alignSelf={"flex-start"} fontFamily={"sans-serif"} fontSize={"2xl"} color={'black'} fontWeight={'bold'}>My Listings</Heading>
+            <Heading as='h3' size='md' alignSelf={"flex-start"} fontFamily={"sans-serif"} fontWeight={'bold'}>My Listings</Heading>
             <AddListingForm isOpen={isOpen} onClose={onClose} refreshListings={refreshListings} currentUser={currentUser} listing={listingToEdit} />
             <SimpleGrid p={'5'} columns={gridCount} spacing={'8'} w={'full'}>
                 {userListings?.map((listing, i) => (

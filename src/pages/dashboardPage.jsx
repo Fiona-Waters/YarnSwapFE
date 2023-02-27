@@ -16,7 +16,7 @@ const DashboardPage = () => {
         )
     }
     return (
-        <DashboardTemplate listings={data} refreshListings={refetch} currentUser={auth.currentUser.uid} />
+        <DashboardTemplate listings={data} refreshListings={refetch} currentUser={auth.currentUser} />
     );
 };
 

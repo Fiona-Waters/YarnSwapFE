@@ -9,11 +9,11 @@ export function ListingsPageTemplate(props) {
 
     const { listings, refreshListings, currentUser } = props
     const [ allOtherListings, setAllOtherListings ] = useState()
-    
+
     useEffect(() => {
         const l = [];
         listings.map((listing) => {
-            if (listing.userId != currentUser && listing.swappable == true && listing.status == 'Available') {
+            if (listing.userId != currentUser.uid && listing.swappable == true && listing.status == 'Available') {
                 l.push(listing)
             }
         })

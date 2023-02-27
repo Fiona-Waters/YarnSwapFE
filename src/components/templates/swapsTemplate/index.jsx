@@ -16,10 +16,10 @@ export function SwapsTemplate(props) {
         const i = [];
         const o = [];
         swaps?.map((swap) => {
-            if (swap.swap.swapperUserId == currentUser && swap.swap.swapStatus != "Archived") {
+            if (swap.swap.swapperUserId == currentUser.uid && swap.swap.swapStatus != "Archived") {
                 i.push(swap)
             }
-            if (swap.swap.swappeeUserId == currentUser && swap.swap.swapStatus != "Archived") {
+            if (swap.swap.swappeeUserId == currentUser.uid && swap.swap.swapStatus != "Archived") {
                 o.push(swap)
             }
         })

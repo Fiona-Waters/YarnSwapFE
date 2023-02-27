@@ -16,7 +16,7 @@ const ListingsPage = () => {
         )
     }
     return (
-        <ListingsPageTemplate listings={data} refreshListings={refetch} currentUser={auth.currentUser.uid}/>
+        <ListingsPageTemplate listings={data} refreshListings={refetch} currentUser={auth.currentUser}/>
     );
 };
 
