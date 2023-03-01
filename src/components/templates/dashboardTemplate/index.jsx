@@ -1,8 +1,6 @@
 import { useBreakpoint, useBreakpointValue, useDisclosure, HStack, VStack, Box, SimpleGrid, Spacer, Heading } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { set } from "react-hook-form";
-import { getBrands } from "../../../api/yarn-swap-api";
 import { PrimaryButton } from "../../atoms/primaryButton";
 import { AddListingForm } from "../../organisms/addListingForm";
 import { Listing } from "../../organisms/listing";

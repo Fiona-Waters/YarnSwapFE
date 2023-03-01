@@ -6,7 +6,7 @@ import {
 } from "@chakra-ui/react";
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useQuery } from "react-query";
-import { addListing, getBrands, getFibres, getListings, getWeights } from "../../../api/yarn-swap-api";
+import { addListing, getBrands, getFibres, getWeights } from "../../../api/yarn-swap-api";
 import { PrimaryButton } from "../../atoms/primaryButton";
 import { useForm } from "react-hook-form";
 import ImageUploading from 'react-images-uploading'

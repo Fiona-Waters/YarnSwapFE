@@ -9,8 +9,9 @@ export function Listing(props) {
         md: 'row'
     })
     const { listing, currentUser, refreshListings } = props
-
-    var isListingOwner = Boolean(currentUser.uid == listing.userId)
+    if(currentUser){
+        var isListingOwner = Boolean(currentUser.uid == listing.userId)
+    }
     //TODO only allow swap if user has a token!
     let isYarnSwappable;
     if (listing.swappable == true) {
