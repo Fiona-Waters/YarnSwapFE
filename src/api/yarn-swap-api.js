@@ -98,18 +98,17 @@ export const addUser = async (newUser) => {
     }
 };
 
-export const getUser = async (userId) => {
+export const getUser = async () => {
     const token = await auth.currentUser.getIdToken(true)
     try {
         const response = await fetch(
-            `${baseURL}/users`,
+            `${baseURL}/user/${auth.currentUser.uid}`,
             {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                     'X-ID-TOKEN': token
                 },
-                body: JSON.stringify(userId)
             }
         );
         if(!response.ok) {

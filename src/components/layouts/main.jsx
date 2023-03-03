@@ -6,6 +6,8 @@ import { Logo } from '../atoms/logo';
 import { PrimaryButton } from '../atoms/primaryButton';
 import { NavigationMenu } from '../organisms/nav';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import { useQuery } from 'react-query';
+import { getUser } from '../../api/yarn-swap-api';
 
 function MainLayout() {
     const navigate = useNavigate();
@@ -20,6 +22,9 @@ function MainLayout() {
     }
 
     const [user, loading, error] = useAuthState(auth)
+    const { data } = useQuery('getUser', getUser)
+    console.log("here", data)
+
 
 
     if (loading) {
@@ -40,8 +45,10 @@ function MainLayout() {
         return (
             <>
                 <HStack w="full" p={4}>
-                    <Spacer />
                     <DarkModeButton />
+                    <Spacer />
+
+                    <div>Logged in as {data?.userName}</div>
                     <PrimaryButton onClick={handleLogout} label={'Logout'} />
 
                 </HStack>

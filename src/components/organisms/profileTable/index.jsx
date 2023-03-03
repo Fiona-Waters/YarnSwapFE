@@ -12,8 +12,8 @@ import {
     Flex,
     IconButton
 } from '@chakra-ui/react'
-
-import { EditableUsernameField } from '../../atoms/editableUsernameField';
+import { AddUsernameForm } from '../../atoms/addUsernameForm';
+import { PrimaryButton } from '../../atoms/primaryButton';
 
 export function ProfileTable(props) {
     const { currentUser } = props;
@@ -24,7 +24,7 @@ export function ProfileTable(props) {
     const userImage = currentUser.photoURL;
 
     // TODO analytics to calculate listings added to date, ongoing swaps, completed swaps, maybe member since?
-    // TODO delete/archive account button
+    // TODO delete/archive account button - user popover or modal
 
 
     return (
@@ -47,7 +47,7 @@ export function ProfileTable(props) {
                     <Tr>
                         <Td>Username</Td>
                         <Td>
-                            <EditableUsernameField currentUser={currentUser} />
+                            <AddUsernameForm currentUser={currentUser} />
                         </Td>
                         <Td></Td>
                     </Tr>
@@ -77,6 +77,14 @@ export function ProfileTable(props) {
                     <Tr>
                         <Td>Completed Swaps</Td>
                         <Td>2</Td>
+                        <Td></Td>
+
+                    </Tr>
+                    <Tr>
+                        <Td></Td>
+                        <Td>
+                            <PrimaryButton label='Delete Account' />
+                        </Td>
                         <Td></Td>
 
                     </Tr>
