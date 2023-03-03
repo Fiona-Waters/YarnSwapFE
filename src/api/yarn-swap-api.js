@@ -75,6 +75,52 @@ export const addSwap = async (newSwap) => {
     }
 };
 
+export const addUser = async (newUser) => {
+    const token = await auth.currentUser.getIdToken(true)
+    try {
+        const response = await fetch(
+            `${baseURL}/users`,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-ID-TOKEN': token
+                },
+                body: JSON.stringify(newUser)
+            }
+        );
+        if(!response.ok) {
+            throw new Error(response.statusText);
+        }
+        return await response.json();
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const getUser = async (userId) => {
+    const token = await auth.currentUser.getIdToken(true)
+    try {
+        const response = await fetch(
+            `${baseURL}/users`,
+            {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-ID-TOKEN': token
+                },
+                body: JSON.stringify(userId)
+            }
+        );
+        if(!response.ok) {
+            throw new Error(response.statusText);
+        }
+        return await response.json();
+    } catch (error) {
+        throw error;
+    }
+}
+
 export const getBrands = async () => {
     try {
         const response = await fetch(

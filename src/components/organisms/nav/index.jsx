@@ -25,9 +25,9 @@ export function NavigationMenu() {
             <BreadcrumbItem isCurrentPage={page === '/wishlist'} fontWeight={page === '/wishlist' ? 'bold': 'normal'}>
                 <BreadcrumbLink href="/wishlist">Wishlist</BreadcrumbLink>
             </BreadcrumbItem>
-            <BreadcrumbItem isCurrentPage={page === '/forum'} fontWeight={page === '/forum' ? 'bold': 'normal'}>
+            {/* <BreadcrumbItem isCurrentPage={page === '/forum'} fontWeight={page === '/forum' ? 'bold': 'normal'}>
                 <BreadcrumbLink href="/forum">Forum</BreadcrumbLink>
-            </BreadcrumbItem>
+            </BreadcrumbItem> */}
             <BreadcrumbItem isCurrentPage={page === '/about'} fontWeight={page === '/about' ? 'bold': 'normal'}>
                 <BreadcrumbLink href="/about">About</BreadcrumbLink>
             </BreadcrumbItem>
