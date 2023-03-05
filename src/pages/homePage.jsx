@@ -2,6 +2,7 @@ import { getListings } from "../api/yarn-swap-api"
 import { HomePageTemplate } from "../components/templates/homePageTemplate";
 import { useQuery } from 'react-query';
 import { Logo } from "../components/atoms/logo";
+import { Heading } from "@chakra-ui/react";
 
 const HomePage = () => {
     const { data, isLoading } = useQuery('listings',
@@ -11,7 +12,7 @@ const HomePage = () => {
 
     if (isLoading) {
         return (
-            <div>Loading</div>
+            <Heading as='h3' size='md'>Loading, please wait</Heading>
         )
     }
     // TODO add search bar etc see wireframes

@@ -2,12 +2,16 @@ import { getListings, getSwaps } from "../api/yarn-swap-api"
 import { useQuery } from 'react-query';
 import { getAuth } from "firebase/auth";
 import { SwapsTemplate } from "../components/templates/swapsTemplate";
+import { Heading } from "@chakra-ui/react";
 
 
 const SwapsPage = () => {
     const { data: swaps, isLoading: isLoading1, refetch: refetchSwaps } = useQuery('swaps',
         getSwaps
-    );
+    ,
+    {
+        staleTime: 10000
+    });
     const { data: listings, isLoading: isLoading2, refetch: refetchListing } = useQuery('listings',
      getListings
     );
@@ -15,7 +19,7 @@ const SwapsPage = () => {
 
     if (isLoading1) {
         return (
-            <div>Loading</div>
+            <Heading as='h3' size='md'>Loading, please wait</Heading>
         )
     }
     return (

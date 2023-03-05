@@ -2,6 +2,7 @@ import { getListings } from "../api/yarn-swap-api"
 import { useQuery } from 'react-query';
 import { getAuth } from "firebase/auth";
 import { ListingsPageTemplate } from "../components/templates/listingsPageTemplate";
+import { Heading } from "@chakra-ui/react";
 
 const ListingsPage = () => {
     const { data, isLoading, refetch } = useQuery('listings',
@@ -12,7 +13,7 @@ const ListingsPage = () => {
 
     if (isLoading) {
         return (
-            <div>Loading</div>
+            <Heading as='h3' size='md'>Loading, please wait</Heading>
         )
     }
     return (

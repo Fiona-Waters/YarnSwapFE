@@ -89,7 +89,7 @@ export const addUser = async (newUser) => {
                 body: JSON.stringify(newUser)
             }
         );
-        if(!response.ok) {
+        if (!response.ok) {
             throw new Error(response.statusText);
         }
         return await response.json();
@@ -98,7 +98,7 @@ export const addUser = async (newUser) => {
     }
 };
 
-export const getUser = async () => {
+export const getUserProfile = async () => {
     const token = await auth.currentUser.getIdToken(true)
     try {
         const response = await fetch(
@@ -111,7 +111,7 @@ export const getUser = async () => {
                 },
             }
         );
-        if(!response.ok) {
+        if (!response.ok) {
             throw new Error(response.statusText);
         }
         return await response.json();

@@ -2,11 +2,12 @@ import { FormControl, Input } from '@chakra-ui/react'
 import { useMemo, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useQuery } from 'react-query';
-import { addUser, getUser } from '../../../api/yarn-swap-api';
+import { useNavigate } from 'react-router-dom';
+import { addUser, getUserProfile } from '../../../api/yarn-swap-api';
 import { PrimaryButton } from '../primaryButton'
 
 export function AddUsernameForm(props) {
-    const { data: user } = useQuery('getUser', getUser)
+    const { data: user } = useQuery('getUserProfile', getUserProfile)
     const userMemo = useMemo(() => {
         console.log("hello! use memo", user)
         return user;
@@ -19,14 +20,20 @@ export function AddUsernameForm(props) {
             reset(user)
         }
     },[user])
-
-
-    const { currentUser } = props;
+    const navigate = useNavigate();
+    const { currentUser, navigateOnSave } = props;
     async function onSubmit(values) {
         console.log("values", values)
         values.ID = currentUser.uid;
-        values.remainingTokens = 0;
-        await addUser(values)
+        values.accountStatus = "Active"
+        try {
+            await addUser(values)
+            if(navigateOnSave) {
+                navigate(navigateOnSave)
+            }
+        } catch (e) {
+            console.log("error adding user", e)
+        }
     }
 
     return (

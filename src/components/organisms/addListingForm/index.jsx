@@ -61,7 +61,7 @@ export function AddListingForm(props) {
     }
 
     async function onSubmit(values) {
-        values.userId = currentUser;
+        values.userId = currentUser.uid;
         values.swappable = values.swappable === true;
         if (values.swappable === true) {
             values.status = "Available"

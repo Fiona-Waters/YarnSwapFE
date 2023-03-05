@@ -1,10 +1,11 @@
 //import './App.css'
-import { Routes, Route } from "react-router-dom"
+import { Routes, Route, BrowserRouter } from "react-router-dom"
 import HomePage from './pages/homePage'
 import About from './components/About'
 import Listings from './components/Listings'
 import MainLayout from "./components/layouts/main"
 import { QueryClient, QueryClientProvider } from "react-query"
+import { ReactQueryDevtools } from "react-query/devtools";
 import { ChakraProvider } from "@chakra-ui/react"
 import { theme } from './theme.js'
 import RegisterLogin from "./pages/register-login"
@@ -13,31 +14,42 @@ import ListingsPage from "./pages/listingsPage"
 import SwapsPage from "./pages/swapsPage"
 import { SwapChatPage } from "./pages/swapChatPage"
 import MyProfilePage from "./pages/myProfilePage"
+import ProfilePage from "./pages/profilePage"
 
 
 function App() {
-  const queryClient = new QueryClient()
-
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        cacheTime: 1800000,
+        staleTime: 1800000
+      }
+    }
+  })
   return (
     <QueryClientProvider client={queryClient}>
       <ChakraProvider theme={theme}>
-      <Routes>
-        <Route index element={ <HomePage /> }/>
-        <Route path="login" element={<RegisterLogin/>}/>
-        <Route path="register" element={<RegisterLogin/>}/>
+        <BrowserRouter >
+        <Routes>
+          <Route index element={<HomePage />} />
+          <Route path="login" element={<RegisterLogin />} />
+          <Route path="register" element={<RegisterLogin />} />
+          <Route path="profile" element={<ProfilePage />} />
           <Route path="/*" element={<MainLayout />}>
-            <Route path="dashboard" element={<DashboardPage/>}/>
-            <Route path="about" element={ <About/> }/>
-            <Route path="listings" element={ <ListingsPage/> }/>
-            <Route path="swaps" element={ <SwapsPage/> } />
-            <Route path="swapchat" element={<SwapChatPage/> }/>
-            <Route path="profile" element={<MyProfilePage/>} />
-          </Route>      
+            <Route path="dashboard" element={<DashboardPage />} />
+            <Route path="about" element={<About />} />
+            <Route path="listings" element={<ListingsPage />} />
+            <Route path="swaps" element={<SwapsPage />} />
+            <Route path="swapchat" element={<SwapChatPage />} />
+            <Route path="myprofile" element={<MyProfilePage />} />
+          </Route>
 
-      </Routes>
-    </ChakraProvider>
+        </Routes>
+        </BrowserRouter>
+      </ChakraProvider>
+      <ReactQueryDevtools/>
     </QueryClientProvider>
- 
+
   )
 }
 

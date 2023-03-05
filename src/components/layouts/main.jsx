@@ -1,4 +1,4 @@
-import { Box, Container, Divider, Flex, HStack, Spacer, Stack, VStack } from '@chakra-ui/react';
+import { Box, Container, Divider, Flex, Heading, HStack, Spacer, Stack, VStack } from '@chakra-ui/react';
 import { getAuth, signOut } from 'firebase/auth';
 import { Outlet, Link, useNavigate, Router, Navigate } from 'react-router-dom';
 import { DarkModeButton } from '../atoms/darkModeButton';
@@ -7,7 +7,7 @@ import { PrimaryButton } from '../atoms/primaryButton';
 import { NavigationMenu } from '../organisms/nav';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useQuery } from 'react-query';
-import { getUser } from '../../api/yarn-swap-api';
+import { getUserProfile } from '../../api/yarn-swap-api';
 
 function MainLayout() {
     const navigate = useNavigate();
@@ -22,9 +22,17 @@ function MainLayout() {
     }
 
     const [user, loading, error] = useAuthState(auth)
-    const { data } = useQuery('getUser', getUser)
-    console.log("here", data)
+    const { data, isLoading } = useQuery('getUserProfile', getUserProfile)
 
+    if(isLoading) {
+        return <Heading as='h3' size='md' alignContent='center'>Loading, please wait</Heading>
+    }
+
+    // if there is a user but no user profile navigate to the profile page
+    if (user && (data?.userName == "" || !data) && !isLoading) {
+        navigate("/profile")
+        return 
+    }
 
 
     if (loading) {
