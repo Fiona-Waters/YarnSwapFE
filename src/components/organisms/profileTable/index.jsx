@@ -14,11 +14,9 @@ import {
 } from '@chakra-ui/react'
 import { AddUsernameForm } from '../../atoms/addUsernameForm';
 import { PrimaryButton } from '../../atoms/primaryButton';
-import { addUser, getUserProfile } from '../../../api/yarn-swap-api';
+import { addListing, addUser, getListings, getUserProfile } from '../../../api/yarn-swap-api';
 import { useQuery } from 'react-query';
 import { useToast } from '@chakra-ui/react'
-import { useNavigate } from 'react-router-dom';
-
 
 export function ProfileTable(props) {
     const { currentUser, navigateOnSave } = props;
@@ -29,21 +27,36 @@ export function ProfileTable(props) {
     }
     const userImage = currentUser.photoURL;
 
-    const { data, isLoading } = useQuery('getUserProfile', getUserProfile)
+    const { data: userProfile, isLoading, refetch } = useQuery('getUserProfile', getUserProfile)
+    const { data: listings } = useQuery('listings', getListings)
 
-    // TODO analytics to calculate listings added to date, ongoing swaps, completed swaps, maybe member since?
-    // TODO delete/archive account button 
+    // TODO analytics to calculate listings added to date, ongoing swaps, completed swaps, 
+    // maybe member since?
+    // TODO after 30 days delete user account and listings
+    // when account is archived set tokens to 0, when restored set it to 
+    // number of swappable and active listings
     const toast = useToast();
-    const navigate = useNavigate();
     let isNewUser;
-    if (!data?.userName) {
+    if (!userProfile?.userName) {
         isNewUser = true;
     }
-    console.log(currentUser)
+    let isUserArchived;
+    if (userProfile?.accountStatus == "Archived") {
+        isUserArchived = true;
+    }
+
     async function archiveAccount() {
-        user.id = currentUser.uid
-        user.accountStatus = "Archived"
-        await addUser(user)
+        const thisUser = userProfile
+        thisUser.id = currentUser.uid
+        thisUser.accountStatus = "Archived"
+        await addUser(thisUser)
+        listings?.map(async (listing) => {
+            if (listing.userId == currentUser.uid) {
+                listing.status = "Archived"
+            }
+            await addListing(listing)
+        })
+        refetch()
         toast({
             title: 'Account Deleted.',
             description: "Your account has been archived and will be deleted along with your listings in 30 days.",
@@ -51,9 +64,30 @@ export function ProfileTable(props) {
             duration: 9000,
             isClosable: true,
         })
-        navigate("/dashboard")
-        //        onClose()
+
     }
+
+    async function restoreAccount() {
+        const thisUser = userProfile
+        thisUser.id = currentUser.uid
+        thisUser.accountStatus = "Active"
+        await addUser(thisUser)
+        listings?.map(async (listing) => {
+            if (listing.userId == currentUser.uid) {
+                listing.status = "Active"
+            }
+            await addListing(listing)
+        })
+        refetch()
+        toast({
+            title: 'Account Restored.',
+            description: "Your account has been restored",
+            status: 'success',
+            duration: 9000,
+            isClosable: true,
+        })
+    }
+
 
     return (
         <TableContainer border='2px' borderColor='brand.blue' p='10px'>
@@ -89,33 +123,39 @@ export function ProfileTable(props) {
                         : <>
                             <Tr>
                                 <Td>Current Token Total</Td>
-                                <Td>{data?.remainingTokens}</Td>
+                                <Td>{userProfile?.remainingTokens}</Td>
                                 <Td></Td>
 
                             </Tr>
                             <Tr>
                                 <Td>Listings Added to Date</Td>
-                                <Td>{data?.amtListingsAdded}</Td>
+                                <Td>{userProfile?.amtListingsAdded}</Td>
                                 <Td></Td>
 
                             </Tr>
                             <Tr>
                                 <Td>Completed Swaps</Td>
-                                <Td>{data?.amtSwapsCompleted}</Td>
+                                <Td>{userProfile?.amtSwapsCompleted}</Td>
                                 <Td></Td>
 
                             </Tr>
                             <Tr>
                                 <Td>Account Status</Td>
-                                <Td>{data?.accountStatus}</Td>
+                                <Td>{userProfile?.accountStatus}</Td>
                                 <Td></Td>
 
                             </Tr>
                             <Tr>
                                 <Td></Td>
-                                <Td>
-                                    <PrimaryButton label='Delete Account' onClick={archiveAccount} />
-                                </Td>
+                                {!isUserArchived
+                                    ? <Td>
+                                        <PrimaryButton label='Delete Account' onClick={archiveAccount} />
+                                    </Td>
+                                    : <Td>
+                                        <PrimaryButton label='Restore Account' onClick={restoreAccount} />
+
+                                    </Td>
+                                }
                                 <Td></Td>
                             </Tr>
                         </>
