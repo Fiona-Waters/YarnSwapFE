@@ -30,11 +30,7 @@ export function ProfileTable(props) {
     const { data: userProfile, isLoading, refetch } = useQuery('getUserProfile', getUserProfile)
     const { data: listings } = useQuery('listings', getListings)
 
-    // TODO analytics to calculate listings added to date, ongoing swaps, completed swaps, 
-    // maybe member since?
-    // TODO after 30 days delete user account and listings
-    // when account is archived set tokens to 0, when restored set it to 
-    // number of swappable and active listings
+    // delete users profile after 30 days - and firebase auth    const toast = useToast();
     const toast = useToast();
     let isNewUser;
     if (!userProfile?.userName) {
@@ -50,16 +46,10 @@ export function ProfileTable(props) {
         thisUser.id = currentUser.uid
         thisUser.accountStatus = "Archived"
         await addUser(thisUser)
-        listings?.map(async (listing) => {
-            if (listing.userId == currentUser.uid) {
-                listing.status = "Archived"
-            }
-            await addListing(listing)
-        })
         refetch()
         toast({
             title: 'Account Deleted.',
-            description: "Your account has been archived and will be deleted along with your listings in 30 days.",
+            description: "Your account and listings have been archived and will be deleted along with your listings in 30 days.",
             status: 'success',
             duration: 9000,
             isClosable: true,
@@ -72,16 +62,10 @@ export function ProfileTable(props) {
         thisUser.id = currentUser.uid
         thisUser.accountStatus = "Active"
         await addUser(thisUser)
-        listings?.map(async (listing) => {
-            if (listing.userId == currentUser.uid) {
-                listing.status = "Active"
-            }
-            await addListing(listing)
-        })
         refetch()
         toast({
             title: 'Account Restored.',
-            description: "Your account has been restored",
+            description: "Your account and listings have been restored",
             status: 'success',
             duration: 9000,
             isClosable: true,
@@ -134,8 +118,8 @@ export function ProfileTable(props) {
 
                             </Tr>
                             <Tr>
-                                <Td>Completed Swaps</Td>
-                                <Td>{userProfile?.amtSwapsCompleted}</Td>
+                                <Td>Swaps</Td>
+                                <Td> {userProfile?.amtSwapsCompleted}</Td>
                                 <Td></Td>
 
                             </Tr>

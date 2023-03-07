@@ -1,6 +1,7 @@
 import { Box, Button, ButtonGroup, Card, CardBody, CardFooter, CardHeader, Image, List, ListItem, useBreakpointValue, useDisclosure } from "@chakra-ui/react";
 import { ListingHeadBody } from "../../molecules/listingHeadBody";
-import { addListing, addSwap } from "../../../api/yarn-swap-api";
+import { addListing, addSwap, getUserProfile } from "../../../api/yarn-swap-api";
+import { useQuery } from 'react-query';
 import { useState } from "react";
 
 export function Listing(props) {
@@ -12,7 +13,14 @@ export function Listing(props) {
     if(currentUser){
         var isListingOwner = Boolean(currentUser.uid == listing.userId)
     }
-    //TODO only allow swap if user has a token!
+    const { data: user } = useQuery('getUserProfile', getUserProfile)
+   // only allow a user to request a swap if they are active and have at least 1 token
+   // by hiding swap button on listings page
+    let swapPermission;
+    if (user?.accountStatus == "Active" && user?.remainingTokens >= 1) {
+        swapPermission = true;
+    }
+
     let isYarnSwappable;
     if (listing.swappable == true) {
         isYarnSwappable = "Yes"
@@ -24,7 +32,7 @@ export function Listing(props) {
     const onEditClick = () => {
         initiateEditListing(listing)
     }
- 
+
     let newSwap = {}
     async function onSubmitSwap() {
         const thisListing = listing
@@ -53,7 +61,10 @@ export function Listing(props) {
 
                         : <ButtonGroup spacing='3'>
                             <Button border={'2px'} borderColor={'gray.500'} backgroundColor={'brand.blue'} textColor={'black'} role={'add to wishlist'}>Add to Wishlist</Button>
-                            <Button border={'2px'} borderColor={'gray.500'} backgroundColor={'brand.blue'} textColor={'black'} role={'request swap'} onClick={onSubmitSwap} >Swap</Button>
+                            {swapPermission
+                                ? <Button border={'2px'} borderColor={'gray.500'} backgroundColor={'brand.blue'} textColor={'black'} role={'request swap'} onClick={onSubmitSwap} >Swap</Button>
+                                : <></>
+                            }
                         </ButtonGroup>
                     }
                 </CardFooter>
