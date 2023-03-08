@@ -1,8 +1,6 @@
 //import './App.css'
 import { Routes, Route, BrowserRouter } from "react-router-dom"
 import HomePage from './pages/homePage'
-import About from './components/About'
-import Listings from './components/Listings'
 import MainLayout from "./components/layouts/main"
 import { QueryClient, QueryClientProvider } from "react-query"
 import { ReactQueryDevtools } from "react-query/devtools";
@@ -15,6 +13,7 @@ import SwapsPage from "./pages/swapsPage"
 import { SwapChatPage } from "./pages/swapChatPage"
 import MyProfilePage from "./pages/myProfilePage"
 import ProfilePage from "./pages/profilePage"
+import AboutPage from "./pages/aboutPage"
 
 
 function App() {
@@ -37,7 +36,7 @@ function App() {
           <Route path="profile" element={<ProfilePage />} />
           <Route path="/*" element={<MainLayout />}>
             <Route path="dashboard" element={<DashboardPage />} />
-            <Route path="about" element={<About />} />
+            <Route path="about" element={<AboutPage />} />
             <Route path="listings" element={<ListingsPage />} />
             <Route path="swaps" element={<SwapsPage />} />
             <Route path="swapchat" element={<SwapChatPage />} />

@@ -12,6 +12,7 @@ export function SwapCard(props) {
     var swapDeclined = Boolean(swap.swap.swapStatus === "swap denied")
     var swapRequested = Boolean(swap.swap.swapStatus === "swap requested")
     var swapAccepted = Boolean(swap.swap.swapStatus === "swap accepted")
+    var swapCancelled = Boolean(swap.swap.swapStatus === "swap cancelled")
     const navigate = useNavigate();
 
     const badge = () => {
@@ -28,6 +29,11 @@ export function SwapCard(props) {
         if (swap.swap.swapStatus === "swap accepted") {
             return (
                 <Badge colorScheme={'green'} fontSize='18px'>Swap Accepted</Badge>
+            )
+        }
+        if (swap.swap.swapStatus === "swap cancelled") {
+            return (
+                <Badge colorScheme={'purple'} fontSize='18px'>Swap Cancelled</Badge>
             )
         }
     }
@@ -69,8 +75,19 @@ export function SwapCard(props) {
     async function removeSwap() {
         swap.swap.swapStatus = "Archived"
         await addSwap(swap.swap)
+        refreshSwaps()
     }
 
+    async function cancelSwap() {
+        swap.swap.swapStatus = "swap cancelled"
+        await addSwap(swap.swap)
+        swapListing.status = "Available"
+        await addListing(swapListing)
+        await refreshListings()
+        await refreshSwaps()
+    }
+
+    // incoming swaps are those requested from me
     const incomingSwapButtons = () => {
         if (incomingSwap && swapRequested) {
             return (
@@ -86,8 +103,13 @@ export function SwapCard(props) {
             )
         }
     }
-
+    // outgoing swaps are my requests
     const outgoingSwapButtons = () => {
+        if (outgoingSwap && swapRequested) {
+            return (
+                <PrimaryButton label='Cancel' onClick={cancelSwap} />
+            )
+        }
         if (outgoingSwap && swapDeclined) {
             return (
                 <ButtonGroup spacing='2'>
@@ -98,10 +120,12 @@ export function SwapCard(props) {
         }
         if (outgoingSwap && swapAccepted) {
             return (
-                <ButtonGroup spacing='2'>
-
-                    <PrimaryButton label='Chat' onClick={goToChat} />
-                </ButtonGroup>
+                <PrimaryButton label='Chat' onClick={goToChat} />
+            )
+        }
+        if (swapCancelled) {
+            return (
+                <PrimaryButton label='Remove' onClick={removeSwap} />
             )
         }
     }
