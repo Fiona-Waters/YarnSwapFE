@@ -30,7 +30,6 @@ export function ProfileTable(props) {
     const { data: userProfile, isLoading, refetch } = useQuery('getUserProfile', getUserProfile)
     const { data: listings } = useQuery('listings', getListings)
 
-    // delete users profile after 30 days - and firebase auth    const toast = useToast();
     const toast = useToast();
     let isNewUser;
     if (!userProfile?.userName) {
@@ -109,13 +108,6 @@ export function ProfileTable(props) {
                                 <Td>Current Token Total</Td>
                                 <Td>{userProfile?.remainingTokens}</Td>
                                 <Td></Td>
-
-                            </Tr>
-                            <Tr>
-                                <Td>Listings Added to Date</Td>
-                                <Td>{userProfile?.amtListingsAdded}</Td>
-                                <Td></Td>
-
                             </Tr>
                             <Tr>
                                 <Td>Swaps</Td>
