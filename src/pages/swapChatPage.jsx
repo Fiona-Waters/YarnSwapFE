@@ -14,7 +14,7 @@ export const SwapChatPage = () => {
             <Text fontSize='xl'>
                 Chat here to arrange postage or collection.
                 <br></br>
-                For more info and guidelines see our <Link to={'/about'}>ABOUT page.</Link>
+                For more info and guidelines see our <Link to={'/about'} Link>ABOUT</Link> page.
 
             </Text>
             <Spacer p='2px'/>

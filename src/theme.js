@@ -14,7 +14,8 @@ export const theme = extendTheme({
   },
   brand: {
     blue: '#90CDF4',
-    teal: '#81E6D9'
+    teal: '#81E6D9',
+    navBlue: '#4aaeed',
   }
 },
   fonts: {

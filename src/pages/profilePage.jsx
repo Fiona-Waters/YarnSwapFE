@@ -17,6 +17,7 @@ const ProfilePage = () => {
             <Heading p={'5px'} alignItems={'center'}>User Profile</Heading>
             <br></br>
             <Badge colorScheme={'red'} fontSize='18px'>Please enter a username and click save to complete registration</Badge>
+            <Badge colorScheme={'red'} fontSize='18px'>This username will be displayed publicly</Badge>
             <MyProfileTemplate currentUser={user} navigateOnSave={'/dashboard'}/>
         </Container>
     );

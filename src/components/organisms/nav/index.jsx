@@ -13,25 +13,25 @@ export function NavigationMenu() {
 
     return (
         <Breadcrumb separator="" spacing="20px"  fontSize={'xl'}>
-            <BreadcrumbItem isCurrentPage={page === '/dashboard'} fontWeight={page === '/dashboard' ? 'bold': 'normal'}>
+            <BreadcrumbItem isCurrentPage={page === '/dashboard'} fontWeight={page === '/dashboard' ? 'bold': 'normal'} color={page === '/dashboard' ? 'brand.navBlue': 'black'}>
                 <BreadcrumbLink as={Link} to="/dashboard">Dashboard</BreadcrumbLink>
             </BreadcrumbItem>
-            <BreadcrumbItem isCurrentPage={page === '/listings'} fontWeight={page === '/listings' ? 'bold': 'normal'}>
+            <BreadcrumbItem isCurrentPage={page === '/listings'} fontWeight={page === '/listings' ? 'bold': 'normal'} color={page === '/listings' ? 'brand.navBlue': 'black'}>
                 <BreadcrumbLink as={Link} to="/listings">Listings</BreadcrumbLink>
             </BreadcrumbItem>
-            <BreadcrumbItem isCurrentPage={page === '/swaps'} fontWeight={page === '/swaps' ? 'bold': 'normal'}>
+            <BreadcrumbItem isCurrentPage={page === '/swaps'} fontWeight={page === '/swaps' ? 'bold': 'normal'} color={page === '/swaps' ? 'brand.navBlue': 'black'}>
                 <BreadcrumbLink as={Link} to="/swaps">Swaps</BreadcrumbLink>
             </BreadcrumbItem>
-            <BreadcrumbItem isCurrentPage={page === '/wishlist'} fontWeight={page === '/wishlist' ? 'bold': 'normal'}>
+            <BreadcrumbItem isCurrentPage={page === '/wishlist'} fontWeight={page === '/wishlist' ? 'bold': 'normal'} color={page === '/wishlist' ? 'brand.navBlue': 'black'}>
                 <BreadcrumbLink as={Link} to="/wishlist">Wishlist</BreadcrumbLink>
             </BreadcrumbItem>
             {/* <BreadcrumbItem isCurrentPage={page === '/forum'} fontWeight={page === '/forum' ? 'bold': 'normal'}>
                 <BreadcrumbLink href="/forum">Forum</BreadcrumbLink>
             </BreadcrumbItem> */}
-            <BreadcrumbItem isCurrentPage={page === '/about'} fontWeight={page === '/about' ? 'bold': 'normal'}>
+            <BreadcrumbItem isCurrentPage={page === '/about'} fontWeight={page === '/about' ? 'bold': 'normal'} color={page === '/about' ? 'brand.navBlue': 'black'}>
                 <BreadcrumbLink as={Link} to="/about">About</BreadcrumbLink>
             </BreadcrumbItem>
-            <BreadcrumbItem isCurrentPage={page === '/myprofile'} fontWeight={page === '/myprofile' ? 'bold': 'normal'}>
+            <BreadcrumbItem isCurrentPage={page === '/myprofile'} fontWeight={page === '/myprofile' ? 'bold': 'normal'} color={page === '/myprofile' ? 'brand.navBlue': 'black'}>
                 <BreadcrumbLink as={Link} to="/myprofile">My Profile</BreadcrumbLink>
             </BreadcrumbItem>
         </Breadcrumb>

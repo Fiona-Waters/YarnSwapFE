@@ -9,26 +9,23 @@ import { PrimaryButton } from '../primaryButton'
 export function AddUsernameForm(props) {
     const { data: user } = useQuery('getUserProfile', getUserProfile)
     const userMemo = useMemo(() => {
-        console.log("hello! use memo", user)
         return user;
     }, [user])
-    const { register, handleSubmit, formState: { errors, isSubmitting }, reset } = useForm({defaultValues: user});
+    const { register, handleSubmit, formState: { errors, isSubmitting }, reset } = useForm({ defaultValues: user });
     console.log("data", user)
     useEffect(() => {
-        console.log("well")
-        if(user) {
+        if (user) {
             reset(user)
         }
-    },[user])
+    }, [user])
     const navigate = useNavigate();
     const { currentUser, navigateOnSave } = props;
     async function onSubmit(values) {
-        console.log("values", values)
         values.ID = currentUser.uid;
         values.accountStatus = "Active"
         try {
             await addUser(values)
-            if(navigateOnSave) {
+            if (navigateOnSave) {
                 navigate(navigateOnSave)
             }
         } catch (e) {

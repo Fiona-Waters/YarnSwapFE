@@ -42,7 +42,7 @@ export function ListingHeadBody(props) {
                         <InfoRow label={"Status"} value1={listing?.status} />
                     </ListItem>
                     <ListItem borderBottomColor={'brand.blue'} borderBottomWidth={'1px'}>
-                        <InfoRow label={"Owner"} value1={listing?.userName} />
+                        <InfoRow label={"Username"} value1={listing?.userName} />
                     </ListItem>
                 </List>
             </CardBody>

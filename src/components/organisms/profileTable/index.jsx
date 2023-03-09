@@ -73,13 +73,12 @@ export function ProfileTable(props) {
 
 
     return (
-        <TableContainer border='2px' borderColor='brand.blue' p='10px'>
+        <TableContainer border='2px' borderColor='brand.blue' p='20px'>
             <Table size='lg' variant='striped' >
                 <Thead>
                     <Tr>
-                        <Th>My Profile</Th>
-                        <Th>{currentUser.displayName}
-                        </Th>
+                        <Th fontSize={'lg'}>User Details</Th>
+                        <Th></Th>
                         <Th>
                             {userImage
                                 ? <Image src={userImage} alt='profile pic' />
@@ -90,10 +89,19 @@ export function ProfileTable(props) {
                 </Thead>
                 <Tbody>
                     <Tr>
-                        <Td>Username</Td>
-                        <Td>
-                            <AddUsernameForm currentUser={currentUser} navigateOnSave={navigateOnSave} />
+                        <Td>Name</Td>
+                        <Td>{currentUser.displayName}
                         </Td>
+                        <Td></Td>
+                    </Tr>
+                    <Tr>
+                        <Td>Username</Td>
+                        {isNewUser
+                            ? <Td>
+                                <AddUsernameForm currentUser={currentUser} navigateOnSave={navigateOnSave} />
+                            </Td>
+                            : <Td>{userProfile?.userName}</Td>
+                        }
                         <Td></Td>
                     </Tr>
                     <Tr>
@@ -105,7 +113,7 @@ export function ProfileTable(props) {
                         ? <></>
                         : <>
                             <Tr>
-                                <Td>Current Token Total</Td>
+                                <Td>Tokens</Td>
                                 <Td>{userProfile?.remainingTokens}</Td>
                                 <Td></Td>
                             </Tr>
