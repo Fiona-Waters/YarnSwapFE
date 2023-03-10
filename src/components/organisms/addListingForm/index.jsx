@@ -63,13 +63,15 @@ export function AddListingForm(props) {
     async function onSubmit(values) {
         values.userId = currentUser.uid;
         values.swappable = values.swappable === true;
-        if (values.swappable === true) {
+        if (listing?.status == "Declined") {
+            values.status = "Awaiting approval"
+        } else if (values.swappable === true) {
             values.status = "Available"
         } else {
             values.status = "Unavailable"
         }
-
-        values.status = values.status
+        //TODO TRY THIS
+       // values.status = values.status
         try {
             await addListing(values)
             onClose()
@@ -300,14 +302,13 @@ export function AddListingForm(props) {
                     </form>
                 </DrawerBody>
                 <DrawerFooter minH="24">
-                    {edit && !archived
-                        ? <PrimaryButton label="Archive Listing" size="md" p="8" onClick={archiveListing} />
-                        : <></>
-                    }
+                    {edit && !archived &&
+                        <PrimaryButton label="Archive Listing" size="md" p="8" onClick={archiveListing} />
+                                        }
                     <br></br>
-                    {archived
-                        ? <PrimaryButton label="Make Listing Active" size="md" p="8" onClick={unArchiveListing} />
-                        : <></>
+                    {archived &&
+                        <PrimaryButton label="Make Listing Active" size="md" p="8" onClick={unArchiveListing} />
+                    
                     }
                     <Divider />
                     <Button variant='outline' mr={4} onClick={onClose} >

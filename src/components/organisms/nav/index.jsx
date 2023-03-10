@@ -37,11 +37,10 @@ export function NavigationMenu() {
             <BreadcrumbItem isCurrentPage={page === '/myprofile'} fontWeight={page === '/myprofile' ? 'bold' : 'normal'} color={page === '/myprofile' ? 'brand.navBlue' : 'normal'}>
                 <BreadcrumbLink as={Link} to="/myprofile">My Profile</BreadcrumbLink>
             </BreadcrumbItem>
-            {isAdminUser
-                ? <BreadcrumbItem isCurrentPage={page === '/admin'} fontWeight={page === '/admin' ? 'bold' : 'normal'} color={page === '/admin' ? 'brand.navBlue' : 'normal'}>
+            {isAdminUser &&
+                <BreadcrumbItem isCurrentPage={page === '/admin'} fontWeight={page === '/admin' ? 'bold' : 'normal'} color={page === '/admin' ? 'brand.navBlue' : 'normal'}>
                     <BreadcrumbLink as={Link} to="/admin">Admin</BreadcrumbLink>
                 </BreadcrumbItem>
-                : <></>
             }
         </Breadcrumb>
     )

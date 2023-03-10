@@ -1,4 +1,4 @@
-import { Button, ButtonGroup, Card, CardFooter, Popover, PopoverContent, PopoverTrigger, useBreakpointValue } from "@chakra-ui/react";
+import { Button, ButtonGroup, Card, CardFooter, Popover, PopoverContent, PopoverTrigger, useBreakpointValue, useDisclosure } from "@chakra-ui/react";
 import { ListingHeadBody } from "../../molecules/listingHeadBody";
 import { addListing, addSwap, getUserProfile } from "../../../api/yarn-swap-api";
 import { useQuery } from 'react-query';
@@ -10,6 +10,7 @@ export function Listing(props) {
         md: 'row'
     })
     const { listing, currentUser, refreshListings } = props
+    const { isOpen, onClose, onOpen } = useDisclosure()
     if (currentUser) {
         var isListingOwner = Boolean(currentUser.uid == listing.userId)
     }
@@ -54,8 +55,8 @@ export function Listing(props) {
         }
         refreshListings()
     }
-  
-    async function approveListing() { 
+
+    async function approveListing() {
         listing.status = "Available"
         await addListing(listing)
         // TODO add flag to listing to show approved? or just show at top of users dashboard?
@@ -63,45 +64,34 @@ export function Listing(props) {
     }
 
 
-    function rejectListing() { 
-//        listing.status = "Declined"
-//        listing.note =values.// whatever the admin users enters in decline form
-        // change listing status to declined and provide a reason (badge on listing card?)
-        // add flag to listing in users dashboard
-    }
-
     return (
         <Card maxW={72} minW={56} align={"center"} border='4px' p={0} borderColor={'brand.teal'} >
             <ListingHeadBody listing={listing} currentUser={currentUser} isYarnSwappable={isYarnSwappable} />
-            {currentUser
-                ? <CardFooter>
+            {currentUser &&
+                <CardFooter>
                     {isListingOwner
                         ? <Button border={'2px'} borderColor={'gray.500'} backgroundColor={'brand.blue'} textColor={'black'} role={'edit'} onClick={onEditClick} >Edit</Button>
-
                         : <ButtonGroup spacing='3'>
                             {!awaitingApproval
                                 ? <Button border={'2px'} borderColor={'gray.500'} backgroundColor={'brand.blue'} textColor={'black'} role={'add to wishlist'}>Add to Wishlist</Button>
                                 : <ButtonGroup>
                                     <Button border={'2px'} borderColor={'gray.500'} backgroundColor={'brand.blue'} textColor={'black'} role={'approve listing'} onClick={approveListing} >Approve</Button>
-                                   <Popover>
-                                    <PopoverTrigger>
-                                    <Button border={'2px'} borderColor={'gray.500'} backgroundColor={'brand.blue'} textColor={'black'} role={'reject listing'} onClick={rejectListing} >Decline</Button>
-                                    </PopoverTrigger>
-                                    <PopoverContent>
-                                        <DeclinePopoverForm/>
-                                    </PopoverContent>
+                                    <Popover isOpen={isOpen} onClose={onClose}>
+                                        <PopoverTrigger>
+                                            <Button border={'2px'} borderColor={'gray.500'} backgroundColor={'brand.blue'} textColor={'black'} role={'reject listing'} onClick={onOpen}>Decline</Button>
+                                        </PopoverTrigger>
+                                        <PopoverContent>
+                                            <DeclinePopoverForm listing={listing} onClose={onClose} refreshListings={refreshListings}/>
+                                        </PopoverContent>
                                     </Popover>
                                 </ButtonGroup>
                             }
-                            {swapPermission && !awaitingApproval
-                                ? <Button border={'2px'} borderColor={'gray.500'} backgroundColor={'brand.blue'} textColor={'black'} role={'request swap'} onClick={onSubmitSwap} >Swap</Button>
-                                : <></>
+                            {swapPermission && !awaitingApproval &&
+                                <Button border={'2px'} borderColor={'gray.500'} backgroundColor={'brand.blue'} textColor={'black'} role={'request swap'} onClick={onSubmitSwap} >Swap</Button>
                             }
                         </ButtonGroup>
                     }
                 </CardFooter>
-
-                : <></>
             }
         </Card>
     )

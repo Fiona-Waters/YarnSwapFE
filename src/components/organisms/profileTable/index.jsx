@@ -80,9 +80,8 @@ export function ProfileTable(props) {
                         <Th fontSize={'lg'}>User Details</Th>
                         <Th></Th>
                         <Th>
-                            {userImage
-                                ? <Image src={userImage} alt='profile pic' />
-                                : <></>
+                            {userImage &&
+                                <Image src={userImage} alt='profile pic' />
                             }
                         </Th>
                     </Tr>
@@ -109,9 +108,8 @@ export function ProfileTable(props) {
                         <Td>{userSignUpThrough}</Td>
                         <Td></Td>
                     </Tr>
-                    {isNewUser
-                        ? <></>
-                        : <>
+                    {!isNewUser &&
+                        <>
                             <Tr>
                                 <Td>Tokens</Td>
                                 <Td>{userProfile?.remainingTokens}</Td>

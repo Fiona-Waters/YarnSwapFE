@@ -9,6 +9,7 @@ export function AdminPageTemplate(props) {
     const [listingsForApproval, setListingsForApproval] = useState([])
 
     useEffect(() => {
+        console.log("this one", listings)
         const l = [];
         listings?.map((listing) => {
             // An admin will only see listings here that are awaiting approval and that are not their own
@@ -37,7 +38,7 @@ export function AdminPageTemplate(props) {
             <Heading as='h3' size='md' alignSelf={"flex-start"} fontFamily={"sans-serif"} fontWeight={'bold'}>Listings For Approval</Heading>
             <SimpleGrid p={'5'} columns={gridCount} spacing={'8'} w={'full'}>
                 {listingsForApproval?.map((listing, i) => (
-                    <Listing listing={listing} key={i} currentUser={currentUser} />
+                    <Listing refreshListings={refreshListings} listing={listing} key={i} currentUser={currentUser} />
                 ))}
 
             </SimpleGrid>

@@ -1,4 +1,5 @@
-import { Box, CardBody, CardFooter, CardHeader, Image, List, ListItem } from "@chakra-ui/react";
+import { InfoIcon } from "@chakra-ui/icons";
+import { Box, CardBody, CardFooter, CardHeader, Image, List, ListItem, Tooltip } from "@chakra-ui/react";
 import { InfoRow } from "../../atoms/infoRow";
 
 export function ListingHeadBody(props) {
@@ -14,6 +15,9 @@ export function ListingHeadBody(props) {
             </CardHeader>
             <CardBody w={'full'}>
                 <List>
+                    <ListItem borderBottomColor={'brand.blue'} borderBottomWidth={'1px'}>
+                        <InfoRow label={"Username"} value1={listing?.userName} />
+                    </ListItem>
                     <ListItem borderBottomColor={'brand.blue'} borderBottomWidth={'1px'}>
                         <InfoRow label={"Brand"} value1={listing?.brand} />
                     </ListItem>
@@ -40,9 +44,11 @@ export function ListingHeadBody(props) {
                     </ListItem>
                     <ListItem borderBottomColor={'brand.blue'} borderBottomWidth={'1px'}>
                         <InfoRow label={"Status"} value1={listing?.status} />
-                    </ListItem>
-                    <ListItem borderBottomColor={'brand.blue'} borderBottomWidth={'1px'}>
-                        <InfoRow label={"Username"} value1={listing?.userName} />
+                        {listing?.status === 'Declined' &&
+                            <Tooltip label={listing?.listingNote}>
+                                <InfoIcon />
+                            </Tooltip>
+                        }
                     </ListItem>
                 </List>
             </CardBody>
