@@ -1,6 +1,6 @@
-import { Box, Container, Divider, Flex, Heading, HStack, Spacer, Stack, VStack } from '@chakra-ui/react';
+import { Box, Container, Heading, HStack, Spacer, Stack } from '@chakra-ui/react';
 import { getAuth, signOut } from 'firebase/auth';
-import { Outlet, Link, useNavigate, Router, Navigate } from 'react-router-dom';
+import { Outlet, useNavigate, Navigate } from 'react-router-dom';
 import { DarkModeButton } from '../atoms/darkModeButton';
 import { Logo } from '../atoms/logo';
 import { PrimaryButton } from '../atoms/primaryButton';

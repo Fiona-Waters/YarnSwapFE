@@ -14,6 +14,7 @@ import { SwapChatPage } from "./pages/swapChatPage"
 import MyProfilePage from "./pages/myProfilePage"
 import ProfilePage from "./pages/profilePage"
 import AboutPage from "./pages/aboutPage"
+import ProtectedRoute from "./protectedRoute";
 
 
 function App() {
@@ -41,6 +42,7 @@ function App() {
             <Route path="swaps" element={<SwapsPage />} />
             <Route path="swapchat" element={<SwapChatPage />} />
             <Route path="myprofile" element={<MyProfilePage />} />
+            <Route path="admin" element={<ProtectedRoute/> } />
           </Route>
 
         </Routes>

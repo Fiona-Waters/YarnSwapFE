@@ -15,7 +15,7 @@ const HomePage = () => {
             <Heading as='h3' size='md'>Loading, please wait</Heading>
         )
     }
-    // TODO add search bar etc see wireframes
+
     return (
         <>
            
