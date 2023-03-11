@@ -65,13 +65,7 @@ export function AddListingForm(props) {
         values.swappable = values.swappable === true;
         if (listing?.status == "Declined") {
             values.status = "Awaiting approval"
-        } else if (values.swappable === true) {
-            values.status = "Available"
-        } else {
-            values.status = "Unavailable"
         }
-        //TODO TRY THIS
-       // values.status = values.status
         try {
             await addListing(values)
             onClose()

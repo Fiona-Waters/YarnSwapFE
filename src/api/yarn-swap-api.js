@@ -98,6 +98,30 @@ export const addUser = async (newUser) => {
     }
 };
 
+export const getUserProfileById = async (listingUserId) => {
+    const token = await auth.currentUser.getIdToken(true)
+    try {
+        const response = await fetch(
+            `${baseURL}/user/${listingUserId}`,
+        {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-ID-TOKEN': token
+                },
+            }
+        );
+        if (!response.ok) {
+            throw new Error(response.statusText);
+        }
+        return await response.json();
+    } catch (error) {
+        throw error;
+    }
+}
+
+
+
 export const getUserProfile = async () => {
     const token = await auth.currentUser.getIdToken(true)
     try {

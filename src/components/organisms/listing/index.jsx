@@ -1,6 +1,6 @@
 import { Button, ButtonGroup, Card, CardFooter, Popover, PopoverContent, PopoverTrigger, useBreakpointValue, useDisclosure } from "@chakra-ui/react";
 import { ListingHeadBody } from "../../molecules/listingHeadBody";
-import { addListing, addSwap, getUserProfile } from "../../../api/yarn-swap-api";
+import { addListing, addSwap, addUser, getUserProfile, getUserProfileById } from "../../../api/yarn-swap-api";
 import { useQuery } from 'react-query';
 import { DeclinePopoverForm } from "../../atoms/popoverForm";
 
@@ -15,6 +15,12 @@ export function Listing(props) {
         var isListingOwner = Boolean(currentUser.uid == listing.userId)
     }
     const { data: user } = useQuery('getUserProfile', getUserProfile)
+    const {data: listingUser } = useQuery(['getUserProfileById', listing?.userId], ({queryKey}) => {
+        console.log('queryKey',queryKey)
+        return getUserProfileById(queryKey[1])
+    })
+    console.log(listingUser)
+
     // only allow a user to request a swap if they are active and have at least 1 token
     // by hiding swap button on listings page
     let swapPermission;
@@ -41,7 +47,7 @@ export function Listing(props) {
     let newSwap = {}
     async function onSubmitSwap() {
         const thisListing = listing
-        thisListing.status = "Unavailable"
+        thisListing.status = "Swap requested"
         await addListing(thisListing)
         newSwap.swapName = `${thisListing.brand} ${thisListing.colourway} Yarn Chat`
         newSwap.swapperUserID = listing.userId
@@ -59,8 +65,13 @@ export function Listing(props) {
     async function approveListing() {
         listing.status = "Available"
         await addListing(listing)
-        // TODO add flag to listing to show approved? or just show at top of users dashboard?
-
+        
+        const updatedListingUser = {
+            ...listingUser,
+            id: listing.userId,
+            remainingTokens: listingUser.remainingTokens +1
+        }
+        await addUser(updatedListingUser)
     }
 
 
@@ -81,7 +92,7 @@ export function Listing(props) {
                                             <Button border={'2px'} borderColor={'gray.500'} backgroundColor={'brand.blue'} textColor={'black'} role={'reject listing'} onClick={onOpen}>Decline</Button>
                                         </PopoverTrigger>
                                         <PopoverContent>
-                                            <DeclinePopoverForm listing={listing} onClose={onClose} refreshListings={refreshListings}/>
+                                            <DeclinePopoverForm listing={listing} refreshListings={refreshListings}/>
                                         </PopoverContent>
                                     </Popover>
                                 </ButtonGroup>

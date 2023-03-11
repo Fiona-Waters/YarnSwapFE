@@ -30,7 +30,7 @@ const AboutPage = () => {
 
                 <AccordionItem>
                     <h2>
-                        <AccordionButton _expanded={{ bg: 'brand.teal', color: 'black' }}>
+                        <AccordionButton _expanded={{ bg: 'brand.blue', color: 'black' }}>
                             <Box as="span" flex='1' textAlign='left' fontSize='2xl'>
                                 FAQs
                             </Box>
