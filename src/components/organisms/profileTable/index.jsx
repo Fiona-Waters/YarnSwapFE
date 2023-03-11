@@ -11,12 +11,24 @@ import {
     TableContainer,
     Flex,
     IconButton,
+    useDisclosure,
+    Spacer,
+    Button,
 } from '@chakra-ui/react'
+import {
+    AlertDialog,
+    AlertDialogBody,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogContent,
+    AlertDialogOverlay,
+  } from '@chakra-ui/react'
 import { AddUsernameForm } from '../../atoms/addUsernameForm';
 import { PrimaryButton } from '../../atoms/primaryButton';
 import { addListing, addUser, getListings, getUserProfile } from '../../../api/yarn-swap-api';
 import { useQuery } from 'react-query';
 import { useToast } from '@chakra-ui/react'
+import React from 'react';
 
 export function ProfileTable(props) {
     const { currentUser, navigateOnSave } = props;
@@ -29,6 +41,8 @@ export function ProfileTable(props) {
 
     const { data: userProfile, isLoading, refetch } = useQuery('getUserProfile', getUserProfile)
     const { data: listings } = useQuery('listings', getListings)
+    const { isOpen, onOpen, onClose } = useDisclosure()
+    const cancelRef = React.useRef()
 
     const toast = useToast();
     let isNewUser;
@@ -53,6 +67,7 @@ export function ProfileTable(props) {
             duration: 9000,
             isClosable: true,
         })
+        onClose()
 
     }
 
@@ -131,7 +146,9 @@ export function ProfileTable(props) {
                                 <Td></Td>
                                 {!isUserArchived
                                     ? <Td>
-                                        <PrimaryButton label='Delete Account' onClick={archiveAccount} />
+                                        {/* <PrimaryButton label='Delete Account' onClick={archiveAccount} /> */}
+                                        
+                                        <PrimaryButton label='Delete Account' onClick={onOpen} />
                                     </Td>
                                     : <Td>
                                         <PrimaryButton label='Restore Account' onClick={restoreAccount} />
@@ -145,6 +162,28 @@ export function ProfileTable(props) {
 
                 </Tbody>
             </Table>
+            <AlertDialog
+            isOpen={isOpen}
+            leastDestructiveRef={cancelRef}
+            onClose={onClose}
+            >
+                <AlertDialogOverlay>
+                    <AlertDialogContent>
+                        <AlertDialogHeader fontSize='lg' fontWeight='bold'>Delete Account</AlertDialogHeader>
+                        <AlertDialogBody>
+                            Are you sure you want to delete your account? It will be archived along with your listings for 30 days, 
+                            after which it will be deleted permanently.
+                        </AlertDialogBody>
+                        <AlertDialogFooter>
+                            <PrimaryButton label='Cancel' ref={cancelRef} onClick={onClose} marginRight='10px'/>
+                            <Button label='Delete Account' backgroundColor='red' colorScheme='red' onClick={archiveAccount} >Delete Account </Button>
+
+                        </AlertDialogFooter>
+                    </AlertDialogContent>
+                </AlertDialogOverlay>
+
+            </AlertDialog>
         </TableContainer>
+        
     )
 }
