@@ -15,8 +15,8 @@ export function Listing(props) {
         var isListingOwner = Boolean(currentUser.uid == listing.userId)
     }
     const { data: user } = useQuery('getUserProfile', getUserProfile)
-    const {data: listingUser } = useQuery(['getUserProfileById', listing?.userId], ({queryKey}) => {
-        console.log('queryKey',queryKey)
+    const { data: listingUser } = useQuery(['getUserProfileById', listing?.userId], ({ queryKey }) => {
+        console.log('queryKey', queryKey)
         return getUserProfileById(queryKey[1])
     })
     console.log(listingUser)
@@ -59,13 +59,12 @@ export function Listing(props) {
         } catch (e) {
             console.log(e.message)
         }
-        refreshListings()
+        await refreshListings()
     }
 
     async function approveListing() {
         listing.status = "Available"
         await addListing(listing)
-        
         const updatedListingUser = {
             ...listingUser,
             id: listing.userId,
@@ -74,6 +73,16 @@ export function Listing(props) {
         await addUser(updatedListingUser)
     }
 
+    async function onSubmitDeclined(values) {
+        listing.status = "Declined"
+        listing.listingNote = values?.listingNote
+        console.log(values)
+        console.log("listing", listing)
+        await addListing(listing)
+        onClose()
+        await refreshListings()
+        //TODO not refreshing listings
+    }
 
     return (
         <Card maxW={72} minW={56} align={"center"} border='4px' p={0} borderColor={'brand.teal'} >
@@ -92,7 +101,7 @@ export function Listing(props) {
                                             <Button border={'2px'} borderColor={'gray.500'} backgroundColor={'brand.blue'} textColor={'black'} role={'reject listing'} onClick={onOpen}>Decline</Button>
                                         </PopoverTrigger>
                                         <PopoverContent>
-                                            <DeclinePopoverForm listing={listing} refreshListings={refreshListings}/>
+                                            <DeclinePopoverForm fieldname={'listingNote'} onSubmit={onSubmitDeclined} />
                                         </PopoverContent>
                                     </Popover>
                                 </ButtonGroup>

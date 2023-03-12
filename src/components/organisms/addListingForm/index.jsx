@@ -70,7 +70,7 @@ export function AddListingForm(props) {
             await addListing(values)
             onClose()
             reset()
-            refreshListings()
+            await refreshListings()
             setImages([])
             setSwappable.off()
         } catch (e) {

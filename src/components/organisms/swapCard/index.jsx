@@ -1,7 +1,8 @@
-import { Badge, ButtonGroup, Card, CardFooter, Divider, HStack, Stack, StackDivider, VStack } from "@chakra-ui/react";
+import { Badge, Button, ButtonGroup, Card, CardFooter, HStack, Popover, PopoverContent, PopoverTrigger, StackDivider, Text, useDisclosure } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { addListing, addSwap } from "../../../api/yarn-swap-api";
 import { createSendbirdChannel } from "../../../sendbird";
+import { DeclinePopoverForm } from "../../atoms/popoverForm";
 import { PrimaryButton } from "../../atoms/primaryButton";
 import { ListingHeadBody } from "../../molecules/listingHeadBody";
 
@@ -14,6 +15,7 @@ export function SwapCard(props) {
     var swapAccepted = Boolean(swap.swap.swapStatus === "swap accepted")
     var swapCancelled = Boolean(swap.swap.swapStatus === "swap cancelled")
     const navigate = useNavigate();
+    const { isOpen, onClose, onOpen } = useDisclosure()
 
     const badge = () => {
         if (swap.swap.swapStatus === "swap requested") {
@@ -45,23 +47,16 @@ export function SwapCard(props) {
         }
     })
 
-    async function onSubmitDeclined() {
-        swap.swap.swapStatus = "swap denied"
-        const thisSwap = swap.swap
-        thisSwap.swapStatus = "swap denied"
-        await addSwap(thisSwap)
-        swapListing.status = "Available"
-        await addListing(swapListing)
-        await refreshListings()
-        await refreshSwaps()
-    }
-
     async function onSubmitAccepted() {
         swap.swap.swapStatus = "swap accepted"
         const newChannel = await createSendbirdChannel(currentUser.uid, swap.swap)
         swap.swap.chatChannelUrl = newChannel.url;
-        await addSwap(swap.swap)
-        refreshSwaps()
+        try {
+            await addSwap(swap.swap)
+        } catch (e) {
+            console.log("error adding swap", e.message)
+        }
+        await refreshSwaps()
     }
 
     function goToChat() {
@@ -74,15 +69,48 @@ export function SwapCard(props) {
 
     async function removeSwap() {
         swap.swap.swapStatus = "Archived"
-        await addSwap(swap.swap)
-        refreshSwaps()
+        try {
+            await addSwap(swap.swap)
+        } catch (e) {
+            console.log("error adding swap", e.message)
+        }
+        await refreshSwaps()
     }
 
     async function cancelSwap() {
         swap.swap.swapStatus = "swap cancelled"
-        await addSwap(swap.swap)
+        try {
+            await addSwap(swap.swap)
+
+        } catch (e) {
+            console.log("error adding swap", e.message)
+        }
         swapListing.status = "Available"
-        await addListing(swapListing)
+        try {
+            await addListing(swapListing)
+        } catch (e) {
+            console.log("error adding listing", e.message)
+        }
+        await refreshListings()
+        await refreshSwaps()
+    }
+
+    async function onSubmitDeclined(values) {
+        swap.swap.swapStatus = "swap denied"
+        swap.swap.swapNote = values?.swapNote
+        console.log("swap decline", values)
+        try {
+            await addSwap(swap.swap)
+        } catch (e) {
+            console.log("error updating swap", e.message)
+        }
+        swapListing.status = "Available"
+        try {
+            await addListing(swapListing)
+        } catch (e) {
+            console.log("error adding listing", e.message)
+        }
+        onClose()
         await refreshListings()
         await refreshSwaps()
     }
@@ -93,7 +121,14 @@ export function SwapCard(props) {
             return (
                 <ButtonGroup spacing='2'>
                     <PrimaryButton label='Accept' onClick={onSubmitAccepted} />
-                    <PrimaryButton label='Decline' onClick={onSubmitDeclined} />
+                    <Popover isOpen={isOpen} onClose={onClose}>
+                        <PopoverTrigger>
+                            <Button border={'2px'} borderColor={'gray.500'} backgroundColor={'brand.blue'} textColor={'black'} role={'reject swap'} onClick={onOpen}>Decline</Button>
+                        </PopoverTrigger>
+                        <PopoverContent>
+                            <DeclinePopoverForm onSubmit={onSubmitDeclined} fieldname={'swapNote'} />
+                        </PopoverContent>
+                    </Popover>
                 </ButtonGroup>
             )
         }
@@ -114,7 +149,6 @@ export function SwapCard(props) {
             return (
                 <ButtonGroup spacing='2'>
                     <PrimaryButton label='Remove' onClick={removeSwap} />
-                    <PrimaryButton label='Chat' onClick={goToChat} />
                 </ButtonGroup>
             )
         }
@@ -134,6 +168,9 @@ export function SwapCard(props) {
     return (
         <Card maxW='lg' minW={56} align={"center"} p={5} border='4px' borderColor={'brand.blue'} >
             {badge()}
+            {outgoingSwap && swapDeclined &&
+                <Text as='mark' noOfLines={3}> Reason: {swap.swap.swapNote}</Text>
+            }
             <HStack divider={<StackDivider />} spacing='4'>
                 <ListingHeadBody listing={swapListing} />
             </HStack>
