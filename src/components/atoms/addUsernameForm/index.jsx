@@ -1,4 +1,4 @@
-import { FormControl, Input } from '@chakra-ui/react'
+import { FormControl, Input, useToast } from '@chakra-ui/react'
 import { useMemo, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useQuery } from 'react-query';
@@ -7,6 +7,7 @@ import { addUser, getUserProfile } from '../../../api/yarn-swap-api';
 import { PrimaryButton } from '../primaryButton'
 
 export function AddUsernameForm(props) {
+    const toast = useToast()
     const { data: user } = useQuery('getUserProfile', getUserProfile)
     const userMemo = useMemo(() => {
         return user;
@@ -20,6 +21,7 @@ export function AddUsernameForm(props) {
     }, [user])
     const navigate = useNavigate();
     const { currentUser, navigateOnSave } = props;
+
     async function onSubmit(values) {
         values.ID = currentUser.uid;
         values.accountStatus = "Active"
@@ -29,7 +31,18 @@ export function AddUsernameForm(props) {
                 navigate(navigateOnSave)
             }
         } catch (e) {
-            console.log("error adding user", e)
+            if (e.message == "Bad Request") {
+                console.log("username not unique")
+                toast({
+                    title: 'Username invalid',
+                    position: 'top',
+                    description: "This username is not available, please choose another",
+                    status: 'warning',
+                    duration: 9000,
+                    isClosable: true,
+                })
+            }
+            console.log("error adding user", e.message)
         }
     }
 
