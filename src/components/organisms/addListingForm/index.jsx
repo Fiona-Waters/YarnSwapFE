@@ -264,7 +264,7 @@ export function AddListingForm(props) {
                                             dragProps,
                                         }) => (
                                             <div className="upload__image-wrapper">
-                                                <Button border={'2px'} borderColor={'gray.500'} textColor={'black'}
+                                                <Button border={'2px'} backgroundColor={'brand.blue'} borderColor={'gray.500'} textColor={'black'}
                                                     style={isDragging ? { color: 'red' } : undefined}
                                                     onClick={onImageUpload}
                                                     {...dragProps}

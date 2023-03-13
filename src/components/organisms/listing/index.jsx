@@ -68,9 +68,13 @@ export function Listing(props) {
         const updatedListingUser = {
             ...listingUser,
             id: listing.userId,
-            remainingTokens: listingUser.remainingTokens +1
+            remainingTokens: listingUser.remainingTokens + 1
         }
-        await addUser(updatedListingUser)
+        try {
+            await addUser(updatedListingUser)
+        } catch (e) {
+            console.log(e.message)
+        }
     }
 
     async function onSubmitDeclined(values) {

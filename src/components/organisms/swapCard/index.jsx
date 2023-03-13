@@ -1,6 +1,7 @@
 import { Badge, Button, ButtonGroup, Card, CardFooter, HStack, Popover, PopoverContent, PopoverTrigger, StackDivider, Text, useDisclosure } from "@chakra-ui/react";
+import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
-import { addListing, addSwap } from "../../../api/yarn-swap-api";
+import { addListing, addSwap, addUser, getUserProfileById } from "../../../api/yarn-swap-api";
 import { createSendbirdChannel } from "../../../sendbird";
 import { DeclinePopoverForm } from "../../atoms/popoverForm";
 import { PrimaryButton } from "../../atoms/primaryButton";
@@ -14,29 +15,44 @@ export function SwapCard(props) {
     var swapRequested = Boolean(swap.swap.swapStatus === "swap requested")
     var swapAccepted = Boolean(swap.swap.swapStatus === "swap accepted")
     var swapCancelled = Boolean(swap.swap.swapStatus === "swap cancelled")
+    var parcelSent = Boolean(swap.swap.swapStatus === "parcel sent")
+    var swapCompleted = Boolean(swap.swap.swapStatus === "swap completed")
+
     const navigate = useNavigate();
     const { isOpen, onClose, onOpen } = useDisclosure()
+    // need to get the swappee
+    const { data: swappee } = useQuery(['getUserProfileById', swap?.swap.swappeeUserId], ({ queryKey }) => {
+        return getUserProfileById(queryKey[1])
+    })
+    console.log("swappee", swappee)
+    console.log(swap.swap.swappeeUserId)
 
     const badge = () => {
-        if (swap.swap.swapStatus === "swap requested") {
-            return (
-                <Badge colorScheme={'yellow'} fontSize='18px'>Swap Requested</Badge>
-            )
-        }
-        if (swap.swap.swapStatus === "swap denied") {
-            return (
-                <Badge colorScheme={'red'} fontSize='18px'>Swap Denied</Badge>
-            )
-        }
-        if (swap.swap.swapStatus === "swap accepted") {
-            return (
-                <Badge colorScheme={'green'} fontSize='18px'>Swap Accepted</Badge>
-            )
-        }
-        if (swap.swap.swapStatus === "swap cancelled") {
-            return (
-                <Badge colorScheme={'purple'} fontSize='18px'>Swap Cancelled</Badge>
-            )
+        switch (swap.swap.swapStatus) {
+            case "swap requested":
+                return (
+                    <Badge colorScheme={'yellow'} fontSize='18px'>Swap Requested</Badge>
+                )
+            case "swap denied":
+                return (
+                    <Badge colorScheme={'red'} fontSize='18px'>Swap Denied</Badge>
+                )
+            case "swap accepted":
+                return (
+                    <Badge colorScheme={'green'} fontSize='18px'>Swap Accepted</Badge>
+                )
+            case "swap cancelled":
+                return (
+                    <Badge colorScheme={'purple'} fontSize='18px'>Swap Cancelled</Badge>
+                )
+            case "parcel sent":
+                return (
+                    <Badge colorScheme={'pink'} fontSize='18px'>Parcel Sent</Badge>
+                )
+            case "swap completed":
+                return (
+                    <Badge colorScheme={'orange'} fontSize='18px'>Swap Completed</Badge>
+                )
         }
     }
 
@@ -115,6 +131,44 @@ export function SwapCard(props) {
         await refreshSwaps()
     }
 
+    async function onParcelSent() {
+        swap.swap.swapStatus = "parcel sent"
+        try {
+            await addSwap(swap.swap)
+
+        } catch (e) {
+            console.log("error adding swap", e.message)
+        }
+        await refreshSwaps()
+    }
+
+    async function completeSwap() {
+        swap.swap.swapStatus = "swap completed"
+        try {
+            await addSwap(swap.swap)
+        } catch (e) {
+            console.log("error adding swap", e.message)
+        }
+        swapListing.status = "Archived"
+        try {
+            await addListing(swapListing)
+        } catch (e) {
+            console.log("error adding swap listing", e.message)
+        }
+        const updatedSwappee = {
+            ...swappee,
+            id: swap?.swap.swappeeUserId,
+            remainingTokens: swappee.remainingTokens - 1
+        }
+        try {
+            await addUser(updatedSwappee)
+        } catch (e) {
+            console.log("error updating swappee user", e.message)
+        }
+        await refreshSwaps()
+        await refreshListings()
+    }
+
     // incoming swaps are those requested from me
     const incomingSwapButtons = () => {
         if (incomingSwap && swapRequested) {
@@ -134,10 +188,19 @@ export function SwapCard(props) {
         }
         if (incomingSwap && swapAccepted) {
             return (
+                <ButtonGroup spacing='2'>
+                    <PrimaryButton label='Chat' onClick={goToChat} />
+                    <PrimaryButton label='Parcel Sent' onClick={onParcelSent} />
+                </ButtonGroup>
+            )
+        }
+        if (parcelSent) {
+            return (
                 <PrimaryButton label='Chat' onClick={goToChat} />
             )
         }
     }
+
     // outgoing swaps are my requests
     const outgoingSwapButtons = () => {
         if (outgoingSwap && swapRequested) {
@@ -157,9 +220,14 @@ export function SwapCard(props) {
                 <PrimaryButton label='Chat' onClick={goToChat} />
             )
         }
-        if (swapCancelled) {
+        if (swapCancelled || swapCompleted) {
             return (
                 <PrimaryButton label='Remove' onClick={removeSwap} />
+            )
+        }
+        if (outgoingSwap && parcelSent) {
+            return (
+                <PrimaryButton label='Parcel received' onClick={completeSwap} />
             )
         }
     }
