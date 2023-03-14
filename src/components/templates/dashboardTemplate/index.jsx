@@ -1,7 +1,8 @@
-import { useBreakpoint, useBreakpointValue, useDisclosure, HStack, VStack, Box, SimpleGrid, Spacer, Heading } from "@chakra-ui/react";
+import { useBreakpoint, useBreakpointValue, useDisclosure, HStack, VStack, Box, SimpleGrid, Spacer, Heading, Input } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { PrimaryButton } from "../../atoms/primaryButton";
+import { Search } from "../../atoms/search";
 import { AddListingForm } from "../../organisms/addListingForm";
 import { Listing } from "../../organisms/listing";
 
@@ -12,16 +13,36 @@ export function DashboardTemplate(props) {
 
     const [listingToEdit, setListingToEdit] = useState()
     const [userListings, setUserListings] = useState([])
+    const [filterBrand, setFilterBrand] = useState("")
+    const [filterWeight, setFilterWeight] = useState("")
+    const [filterFibre, setFilterFibre] = useState("")
+    const [filterUsername, setFilterUsername] = useState("")
+
 
     useEffect(() => {
-        const l = [];
+        let l = [];
         listings?.map((listing) => {
             if (listing.userId == currentUser.uid) {
                 l.push(listing)
             }
         })
+        
+        if(filterBrand) {
+            l = l.filter((i) => i.brand?.toLowerCase().search(filterBrand.toLowerCase()) !== -1)
+        }
+        if(filterWeight) {
+            l = l.filter((i) => i.weight?.toLowerCase().search(filterWeight.toLowerCase()) !== -1)
+        }
+        if(filterFibre) {
+            l = l.filter((i) => i.fibre?.toLowerCase().search(filterFibre.toLowerCase()) !== -1)
+        }
+        if(filterUsername) {
+            l = l.filter((i) => i.weight?.toLowerCase().search(filterUsername.toLowerCase()) !== -1)
+        }
+
         setUserListings(l)
-    }, [listings, currentUser])
+
+    }, [listings, currentUser, filterBrand, filterWeight, filterFibre, filterUsername])
 
 
     const initiateEditListing = (listing) => {
@@ -52,7 +73,7 @@ export function DashboardTemplate(props) {
             <HStack w="full" >
                 <PrimaryButton label={'Create Listing'} onClick={initiateCreateListing} />
                 <Spacer />
-                <PrimaryButton label={'Search'} />
+                <Search/>
             </HStack>
             <Heading as='h3' size='md' alignSelf={"flex-start"} fontFamily={"sans-serif"} fontWeight={'bold'}>My Listings</Heading>
             <AddListingForm isOpen={isOpen} onClose={onClose} refreshListings={refreshListings} currentUser={currentUser} listing={listingToEdit} />
