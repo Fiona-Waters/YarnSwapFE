@@ -103,7 +103,7 @@ export const getUserProfileById = async (listingUserId) => {
     try {
         const response = await fetch(
             `${baseURL}/user/${listingUserId}`,
-        {
+            {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -144,6 +144,21 @@ export const getUserProfile = async () => {
     }
 }
 
+export const getUsers = async () => {
+    try {
+        const response = await fetch(
+            `${baseURL}/users`
+        );
+        if (!response.ok) {
+            throw new Error(response.json().message);
+        }
+        return await response.json();
+    } catch (error) {
+        throw error;
+    }
+};
+
+
 export const getBrands = async () => {
     try {
         const response = await fetch(
@@ -176,6 +191,20 @@ export const getFibres = async () => {
     try {
         const response = await fetch(
             `${baseURL}/fibres`
+        );
+        if (!response.ok) {
+            throw new Error(response.json().message);
+        }
+        return await response.json();
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const getListingStatuses = async () => {
+    try {
+        const response = await fetch(
+            `${baseURL}/listing-statuses`
         );
         if (!response.ok) {
             throw new Error(response.json().message);

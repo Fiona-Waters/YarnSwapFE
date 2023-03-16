@@ -1,4 +1,4 @@
-import { useBreakpoint, useBreakpointValue, useDisclosure, HStack, VStack, Box, SimpleGrid, Spacer, Heading, Input } from "@chakra-ui/react";
+import { useBreakpoint, useBreakpointValue, useDisclosure, HStack, VStack, Box, SimpleGrid, Spacer, Heading, Input, filter } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { PrimaryButton } from "../../atoms/primaryButton";
@@ -7,7 +7,6 @@ import { AddListingForm } from "../../organisms/addListingForm";
 import { Listing } from "../../organisms/listing";
 
 export function DashboardTemplate(props) {
-    //TODO add search box and functionality
 
     const { listings, refreshListings, currentUser } = props
 
@@ -17,6 +16,7 @@ export function DashboardTemplate(props) {
     const [filterWeight, setFilterWeight] = useState("")
     const [filterFibre, setFilterFibre] = useState("")
     const [filterUsername, setFilterUsername] = useState("")
+    const [filterStatus, setFilterStatus] = useState("")
 
 
     useEffect(() => {
@@ -26,23 +26,34 @@ export function DashboardTemplate(props) {
                 l.push(listing)
             }
         })
-        
-        if(filterBrand) {
+
+        if (filterBrand) {
             l = l.filter((i) => i.brand?.toLowerCase().search(filterBrand.toLowerCase()) !== -1)
         }
-        if(filterWeight) {
+        if (filterWeight) {
             l = l.filter((i) => i.weight?.toLowerCase().search(filterWeight.toLowerCase()) !== -1)
         }
-        if(filterFibre) {
-            l = l.filter((i) => i.fibre?.toLowerCase().search(filterFibre.toLowerCase()) !== -1)
+        if (filterFibre) {
+            l = l.filter((i) => i.fibreContent?.toLowerCase().search(filterFibre.toLowerCase()) !== -1)
         }
-        if(filterUsername) {
-            l = l.filter((i) => i.weight?.toLowerCase().search(filterUsername.toLowerCase()) !== -1)
+        if (filterUsername) {
+            l = l.filter((i) => i.userName?.toLowerCase().search(filterUsername.toLowerCase()) !== -1)
+        }
+        if (filterStatus) {
+            l = l.filter((i) => i.status?.toLowerCase().search(filterStatus.toLowerCase()) !== -1)
         }
 
         setUserListings(l)
 
-    }, [listings, currentUser, filterBrand, filterWeight, filterFibre, filterUsername])
+    }, [listings, currentUser, filterBrand, filterWeight, filterFibre, filterUsername, filterStatus])
+
+    const handleChange = (type, value) => {
+        if (type === "brand") setFilterBrand(value)
+        else if (type === "weight") setFilterWeight(value)
+        else if (type === "fibre") setFilterFibre(value)
+        else if (type === "username") setFilterUsername(value)
+        else if (type === "status") setFilterStatus(value)
+    }
 
 
     const initiateEditListing = (listing) => {
@@ -73,7 +84,7 @@ export function DashboardTemplate(props) {
             <HStack w="full" >
                 <PrimaryButton label={'Create Listing'} onClick={initiateCreateListing} />
                 <Spacer />
-                <Search/>
+                <Search onUserInput={handleChange} filterBrand={filterBrand} filterWeight={filterWeight} filterFibre={filterFibre} filterUsername={filterUsername} listings={listings} filterStatus={filterStatus} currentUser={currentUser.uid} isDashboard />
             </HStack>
             <Heading as='h3' size='md' alignSelf={"flex-start"} fontFamily={"sans-serif"} fontWeight={'bold'}>My Listings</Heading>
             <AddListingForm isOpen={isOpen} onClose={onClose} refreshListings={refreshListings} currentUser={currentUser} listing={listingToEdit} />
