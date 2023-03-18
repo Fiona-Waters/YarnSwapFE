@@ -2,7 +2,7 @@ import {
     Divider, FormControl, FormLabel, VStack, Input,
     NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper,
     Select, Drawer, DrawerOverlay, DrawerContent, DrawerBody, DrawerCloseButton,
-    DrawerHeader, DrawerFooter, Button, FormErrorMessage, Portal, useBoolean, Switch
+    DrawerHeader, DrawerFooter, Button, FormErrorMessage, Switch, Tooltip
 } from "@chakra-ui/react";
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useQuery } from "react-query";
@@ -19,6 +19,7 @@ import {
 import { useToast } from '@chakra-ui/react'
 import { storage } from "../../../firebase";
 import { ref, getDownloadURL, uploadString } from "firebase/storage"
+import { InfoIcon } from "@chakra-ui/icons";
 
 export function AddListingForm(props) {
     const { isOpen, onClose, refreshListings, currentUser, listings, listing } = props;
@@ -35,6 +36,7 @@ export function AddListingForm(props) {
     const toast = useToast();
     var edit = listing?.id;
     var archived = Boolean(listing?.status === "Archived");
+    var swappableTooltip = "Enable if you want to swap this yarn, otherwise it will not be viewable to other users."
 
     const onChange = async (imageList, addUpdateIndex) => {
         //data for submit
@@ -42,7 +44,7 @@ export function AddListingForm(props) {
         const filename = imageList[0]?.file.name
         setImages(imageList)
         if (dataUrl) {
-            const storageRef = ref(storage, `/files/${currentUser}/${filename}`)
+            const storageRef = ref(storage, `/files/${currentUser.uid}/${filename}`)
             const uploadRes = await uploadString(storageRef, dataUrl, 'data_url');
             if (uploadRes.ref) {
                 const downloadUrl = await getDownloadURL(uploadRes.ref)
@@ -112,7 +114,7 @@ export function AddListingForm(props) {
                     ? <DrawerHeader bg="brand.blue" minH="24">Edit Listing</DrawerHeader>
                     : <DrawerHeader bg="brand.blue" minH="24">Add a Listing</DrawerHeader>
                 }
-                <DrawerBody p="8">
+                <DrawerBody>
                     {errors.root &&
                         <Alert status='error'>
                             <AlertIcon />
@@ -212,7 +214,12 @@ export function AddListingForm(props) {
                                 <FormErrorMessage>{errors.originalCount?.message}</FormErrorMessage>
                             </FormControl>
                             <FormControl>
-                                <FormLabel htmlFor='swappable'>Swappable</FormLabel>
+
+                                <FormLabel htmlFor='swappable'>Swappable
+                                    <Tooltip label={swappableTooltip} placement='right-end'>
+                                        <InfoIcon boxSize={6} paddingLeft={"3px"} color='blue' />
+                                    </Tooltip>
+                                </FormLabel>
                                 <Switch  {...register('swappable', {
                                 })} />
                             </FormControl>
@@ -241,10 +248,9 @@ export function AddListingForm(props) {
                                                     onClick={onImageUpload}
                                                     {...dragProps}
                                                 >
-                                                    Click here to upload an image or just drag and drop
+                                                    Click here to upload an image or drag and drop
                                                 </Button>
                                                 &nbsp;
-                                                <Divider />
                                                 {imageList.map((image, index) => (
                                                     <div key={index} className="image-item">
                                                         <img src={image['data_url']} alt="" width="100" />
@@ -259,7 +265,7 @@ export function AddListingForm(props) {
                                             </div>
                                         )}
                                     </ImageUploading>
-                                    <Input type="hidden" {...register('image', { required: true, message: "Please upload a photo" })} />
+                                    <Input type="hidden" {...register('image', { required: "This is required" })} />
                                 </div>
                                 <FormErrorMessage>{errors.image?.message}</FormErrorMessage>
                             </FormControl>

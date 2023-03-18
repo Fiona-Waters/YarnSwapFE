@@ -97,7 +97,7 @@ export function Listing(props) {
                         ? <Button border={'2px'} borderColor={'gray.500'} backgroundColor={'brand.blue'} textColor={'black'} role={'edit'} onClick={onEditClick} >Edit</Button>
                         : <ButtonGroup spacing='3'>
                             {!awaitingApproval
-                                ? <Button border={'2px'} borderColor={'gray.500'} backgroundColor={'brand.blue'} textColor={'black'} role={'add to wishlist'}>Add to Wishlist</Button>
+                                ? <Button isDisabled={true} border={'2px'} borderColor={'gray.500'} backgroundColor={'brand.blue'} textColor={'black'} role={'add to wishlist'}>Add to Wishlist</Button>
                                 : <ButtonGroup>
                                     <Button border={'2px'} borderColor={'gray.500'} backgroundColor={'brand.blue'} textColor={'black'} role={'approve listing'} onClick={approveListing} >Approve</Button>
                                     <Popover isOpen={isOpen} onClose={onClose}>

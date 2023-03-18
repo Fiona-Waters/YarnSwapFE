@@ -15,6 +15,7 @@ import MyProfilePage from "./pages/myProfilePage"
 import ProfilePage from "./pages/profilePage"
 import AboutPage from "./pages/aboutPage"
 import ProtectedRoute from "./protectedRoute";
+import { WishlistPage } from "./pages/wishlistPage";
 
 
 function App() {
@@ -40,6 +41,7 @@ function App() {
             <Route path="about" element={<AboutPage />} />
             <Route path="listings" element={<ListingsPage />} />
             <Route path="swaps" element={<SwapsPage />} />
+            <Route path='wishlist' element={<WishlistPage/>} />
             <Route path="swapchat" element={<SwapChatPage />} />
             <Route path="myprofile" element={<MyProfilePage />} />
             <Route path="admin" element={<ProtectedRoute/> } />
