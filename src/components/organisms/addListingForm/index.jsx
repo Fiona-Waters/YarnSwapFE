@@ -33,32 +33,23 @@ export function AddListingForm(props) {
     const [file, setFile] = React.useState("");
     const maxNumber = 1;
     const toast = useToast();
-    const [swappable, setSwappable,] = useBoolean(listing?.swappable);
     var edit = listing?.id;
     var archived = Boolean(listing?.status === "Archived");
-    //  console.log("SWAPPABLE, useBoolean", swappable)
 
     const onChange = async (imageList, addUpdateIndex) => {
         //data for submit
-        console.log("imagelist", imageList)
         const dataUrl = imageList[0]?.data_url
         const filename = imageList[0]?.file.name
         setImages(imageList)
         if (dataUrl) {
             const storageRef = ref(storage, `/files/${currentUser}/${filename}`)
             const uploadRes = await uploadString(storageRef, dataUrl, 'data_url');
-            console.log('uploadRes', uploadRes);
             if (uploadRes.ref) {
                 const downloadUrl = await getDownloadURL(uploadRes.ref)
                 setValue('image', downloadUrl);
             }
         }
     };
-    const onSwappableChanged = () => {
-        //       console.log("IM FIRING")
-        setSwappable.toggle()
-        setValue('swappable', swappable)
-    }
 
     async function onSubmit(values) {
         values.userId = currentUser.uid;
@@ -72,7 +63,6 @@ export function AddListingForm(props) {
             reset()
             await refreshListings()
             setImages([])
-            setSwappable.off()
         } catch (e) {
             console.log(e.message)
             setError('root.serverError', {
@@ -90,7 +80,6 @@ export function AddListingForm(props) {
             duration: 9000,
             isClosable: true,
         })
-        //        onClose()
     }
 
     const unArchiveListing = () => {
@@ -102,15 +91,10 @@ export function AddListingForm(props) {
             duration: 9000,
             isClosable: true,
         })
-        //    onClose()
     }
     useEffect(() => {
         reset(listing);
     }, [listing])
-
-    function handleChange(event) {
-        setFile(event.target.files[0])
-    }
 
     return (
         <Drawer
@@ -230,20 +214,8 @@ export function AddListingForm(props) {
                             <FormControl>
                                 <FormLabel htmlFor='swappable'>Swappable</FormLabel>
                                 <Switch  {...register('swappable', {
-                                    setValueAs: swappable
                                 })} />
-                                <Input type="hidden" {...register('swappable')} />
                             </FormControl>
-                            {/* <FormControl isInvalid={!!errors.swappable}>
-                                <FormLabel htmlFor='swappable'>Yarn Destiny</FormLabel>
-                                <Select {...register('swappable', {
-                                    required: 'This is required'
-                                })}>
-                                    <option value={true}>Swap</option>
-                                    <option value={false}>Stash</option>
-                                </Select>
-                                <FormErrorMessage>{errors.swappable?.message}</FormErrorMessage>
-                            </FormControl> */}
                             <FormControl isInvalid={!!errors.image}>
                                 <FormLabel htmlFor="image">Image</FormLabel>
 
@@ -287,7 +259,7 @@ export function AddListingForm(props) {
                                             </div>
                                         )}
                                     </ImageUploading>
-                                    <Input type="hidden" {...register('image', { required: false })} />
+                                    <Input type="hidden" {...register('image', { required: true, message: "Please upload a photo" })} />
                                 </div>
                                 <FormErrorMessage>{errors.image?.message}</FormErrorMessage>
                             </FormControl>
@@ -298,11 +270,11 @@ export function AddListingForm(props) {
                 <DrawerFooter minH="24">
                     {edit && !archived &&
                         <PrimaryButton label="Archive Listing" size="md" p="8" onClick={archiveListing} />
-                                        }
+                    }
                     <br></br>
                     {archived &&
                         <PrimaryButton label="Make Listing Active" size="md" p="8" onClick={unArchiveListing} />
-                    
+
                     }
                     <Divider />
                     <Button variant='outline' mr={4} onClick={onClose} >
