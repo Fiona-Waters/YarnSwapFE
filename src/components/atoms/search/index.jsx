@@ -54,7 +54,7 @@ export function Search(props) {
     return (
 
         <div>
-            <PrimaryButton label={'Search...'} ref={btnRef} onClick={onOpen} />
+            <PrimaryButton label={'Filter...'} ref={btnRef} onClick={onOpen} />
 
             <Drawer
                 isOpen={isOpen}

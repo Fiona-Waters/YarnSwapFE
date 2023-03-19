@@ -86,6 +86,12 @@ export function ProfileTable(props) {
         })
     }
 
+    const timestamp = userProfile?.creationTimestamp
+    const memberSince = new Date(timestamp).toLocaleString("en-US", {
+        month: "short",
+        day: "2-digit",
+        year: "numeric",
+    })
 
     return (
         <TableContainer border='2px' borderColor='brand.blue' p='20px'>
@@ -139,6 +145,12 @@ export function ProfileTable(props) {
                             <Tr>
                                 <Td>Account Status</Td>
                                 <Td>{userProfile?.accountStatus}</Td>
+                                <Td></Td>
+
+                            </Tr>
+                            <Tr>
+                                <Td>Member Since</Td>
+                                <Td>{memberSince}</Td>
                                 <Td></Td>
 
                             </Tr>

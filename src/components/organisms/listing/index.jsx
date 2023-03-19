@@ -49,7 +49,7 @@ export function Listing(props) {
         const thisListing = listing
         thisListing.status = "Swap requested"
         await addListing(thisListing)
-        newSwap.swapName = `${thisListing.brand} ${thisListing.colourway} Yarn Chat`
+        newSwap.swapName = `${thisListing.brand} ${thisListing.colourway} Yarn Swap`
         newSwap.swapperUserID = listing.userId
         newSwap.SwappeeUserID = currentUser.uid;
         newSwap.listingID = listing.id

@@ -56,7 +56,12 @@ export function AddListingForm(props) {
     async function onSubmit(values) {
         values.userId = currentUser.uid;
         values.swappable = values.swappable === true;
+        // if the listing is being edited after being declined, mark it now as awaiting approval again
         if (listing?.status == "Declined") {
+            values.status = "Awaiting approval"
+        }
+        // if the listing is being edited and the swappable variable is being updated to true, mark as awaiting approval
+        if (listing?.swappable == false && values.swappable == true) {
             values.status = "Awaiting approval"
         }
         try {

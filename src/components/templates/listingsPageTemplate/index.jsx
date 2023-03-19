@@ -16,6 +16,9 @@ export function ListingsPageTemplate(props) {
     const [filterUsername, setFilterUsername] = useState("")
     const [filterStatus, setFilterStatus] = useState("")
 
+    // order the listings by most recent first
+    listings.reverse()
+    
     useEffect(() => {
         let l = [];
         listings.map((listing) => {

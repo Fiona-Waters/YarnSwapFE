@@ -1,4 +1,4 @@
-import { Box, Container, Heading, HStack, Spacer, Stack } from '@chakra-ui/react';
+import { Avatar, Box, Container, Divider, Heading, HStack, Spacer, Stack, Text, Wrap, WrapItem } from '@chakra-ui/react';
 import { getAuth, signOut } from 'firebase/auth';
 import { Outlet, useNavigate, Navigate } from 'react-router-dom';
 import { DarkModeButton } from '../atoms/darkModeButton';
@@ -24,14 +24,14 @@ function MainLayout() {
     const [user, loading, error] = useAuthState(auth)
     const { data, isLoading } = useQuery('getUserProfile', getUserProfile)
 
-    if(isLoading) {
+    if (isLoading) {
         return <Heading as='h3' size='md' alignContent='center'>Loading, please wait</Heading>
     }
 
     // if there is a user but no user profile navigate to the profile page
     if (user && (data?.userName == "" || !data) && !isLoading) {
         navigate("/profile")
-        return 
+        return
     }
 
 
@@ -55,8 +55,18 @@ function MainLayout() {
                 <HStack w="full" p={4}>
                     <DarkModeButton />
                     <Spacer />
+                    {auth.currentUser.photoURL &&
+                        <Wrap>
+                            <WrapItem>
+                                <Avatar name={auth.currentUser.displayName} src={auth.currentUser.photoURL} />
+                            </WrapItem>
+                        </Wrap>
+                    }
+                    <Text fontSize='lg'>Logged in as {data?.userName}</Text>
+                    <Divider orientation='vertical' />
+                    <Text fontSize='lg'>Tokens : {data?.remainingTokens}</Text>
+                    <Divider orientation='vertical' />
 
-                    <div>Logged in as {data?.userName}</div>
                     <PrimaryButton onClick={handleLogout} label={'Logout'} />
 
                 </HStack>

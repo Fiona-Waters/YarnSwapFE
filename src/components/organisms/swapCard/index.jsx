@@ -242,6 +242,10 @@ export function SwapCard(props) {
             <HStack divider={<StackDivider />} spacing='4'>
                 <ListingHeadBody listing={swapListing} />
             </HStack>
+            {swapDate && <div>
+                Swap requested on - {swapDate}
+            </div>
+            }
             <br></br>
             <CardFooter>
                 {incomingSwapButtons()}
