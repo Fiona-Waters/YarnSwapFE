@@ -8,6 +8,7 @@ import { NavigationMenu } from '../organisms/nav';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useQuery } from 'react-query';
 import { getUserProfile } from '../../api/yarn-swap-api';
+import NavBar from '../atoms/responsiveNav';
 
 function MainLayout() {
     const navigate = useNavigate();
@@ -74,8 +75,8 @@ function MainLayout() {
 
                     <Logo h={40} w={40} />
                     <br></br>
-                    <NavigationMenu />
-                    <Stack flex="1" w="full" pt={12}>
+                    <NavBar/>
+                    <Stack flex="1" w="full" pt={12} >
                         <Outlet />
                     </Stack>
                 </Container>
