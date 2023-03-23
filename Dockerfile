@@ -2,6 +2,7 @@ FROM node
 RUN useradd fiona
 WORKDIR /app
 COPY package.json .
+COPY yarn.lock .
 RUN yarn
 COPY . .
 EXPOSE 5173
