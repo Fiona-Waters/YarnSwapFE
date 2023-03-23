@@ -9,7 +9,8 @@ RUN yarn
 RUN yarn build
 
 # Bundle static assets with nginx
-FROM nginx:1.21.0-alpine as production
+FROM nginxinc/nginx-unprivileged as production
+# FROM nginx:1.21.0-alpine as production
 ENV NODE_ENV production
 # Copy built assets from `builder` image
 COPY --from=builder /app/dist /usr/share/nginx/html
