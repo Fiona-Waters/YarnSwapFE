@@ -1,7 +1,7 @@
 import { getListings } from "../api/yarn-swap-api"
 import { useQuery } from 'react-query';
 import { getAuth } from "firebase/auth";
-import { DashboardTemplate } from "../components/templates/dashboardTemplate";
+import DashboardTemplate from "../components/templates/dashboardTemplate";
 import { Heading } from "@chakra-ui/react";
 
 const DashboardPage = () => {

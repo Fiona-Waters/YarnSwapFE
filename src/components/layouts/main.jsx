@@ -1,10 +1,10 @@
 import { Avatar, Box, Container, Divider, Heading, HStack, Spacer, Stack, Text, Wrap, WrapItem } from '@chakra-ui/react';
 import { getAuth, signOut } from 'firebase/auth';
 import { Outlet, useNavigate, Navigate } from 'react-router-dom';
-import { DarkModeButton } from '../atoms/darkModeButton';
-import { Logo } from '../atoms/logo';
-import { PrimaryButton } from '../atoms/primaryButton';
-import { NavigationMenu } from '../organisms/nav';
+import DarkModeButton from '../atoms/darkModeButton';
+import Logo from '../atoms/logo';
+import PrimaryButton from '../atoms/primaryButton';
+import NavigationMenu from '../organisms/nav';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useQuery } from 'react-query';
 import { getUserProfile } from '../../api/yarn-swap-api';

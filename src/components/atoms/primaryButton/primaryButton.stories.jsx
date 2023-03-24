@@ -2,7 +2,7 @@
 import { ChakraProvider } from '@chakra-ui/react';
 import React from 'react';
 import { theme } from '../../../theme';
-import { PrimaryButton } from './index';
+import PrimaryButton from './index';
 
 export default {
   title: 'Atoms/PrimaryButton',

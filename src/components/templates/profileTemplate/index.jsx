@@ -1,8 +1,8 @@
-import { ProfileTable } from "../../organisms/profileTable";
+import ProfileTable from "../../organisms/profileTable";
 import { useBreakpoint, useBreakpointValue, useDisclosure, HStack, VStack, Box, SimpleGrid, Spacer, Heading } from "@chakra-ui/react";
 
 
-export function MyProfileTemplate(props) {
+export default function MyProfileTemplate(props) {
 
     const bp = useBreakpoint();
 

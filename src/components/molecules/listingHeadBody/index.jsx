@@ -1,8 +1,8 @@
 import { InfoIcon } from "@chakra-ui/icons";
 import { Box, CardBody, CardFooter, CardHeader, Image, List, ListItem, Tooltip } from "@chakra-ui/react";
-import { InfoRow } from "../../atoms/infoRow";
+import InfoRow from "../../atoms/infoRow";
 
-export function ListingHeadBody(props) {
+export default function ListingHeadBody(props) {
     const { listing, currentUser, isYarnSwappable } = props;
     return (
 

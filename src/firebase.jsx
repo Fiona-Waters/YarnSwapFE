@@ -5,7 +5,7 @@ import firebase from 'firebase/compat/app';
 import { FacebookAuthProvider, getAuth, EmailAuthProvider } from "firebase/auth";
 import { GoogleAuthProvider } from "firebase/auth";
 import { Box, Text, VStack } from "@chakra-ui/react";
-import { Logo } from "./components/atoms/logo";
+import Logo from "./components/atoms/logo";
 import { getStorage } from "firebase/storage";
 
 
@@ -46,7 +46,7 @@ const uiConfig = {
   ],
 };
 
-function SignInScreen() {
+export function SignInScreen() {
   return (
     <VStack h='full' w='full' minH='100vh' spacing={12} pt={120}>
       <Box>
@@ -61,5 +61,3 @@ function SignInScreen() {
     </VStack>
   );
 }
-
-export default SignInScreen

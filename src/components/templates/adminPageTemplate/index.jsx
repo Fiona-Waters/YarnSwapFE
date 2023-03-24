@@ -1,9 +1,9 @@
 import { useBreakpoint, useBreakpointValue, useDisclosure, HStack, VStack, Box, SimpleGrid, Spacer, Heading } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { Listing } from "../../organisms/listing";
+import Listing from "../../organisms/listing";
 
-export function AdminPageTemplate(props) {
+export default function AdminPageTemplate(props) {
 
     const { listings, refreshListings, currentUser } = props
     const [listingsForApproval, setListingsForApproval] = useState([])

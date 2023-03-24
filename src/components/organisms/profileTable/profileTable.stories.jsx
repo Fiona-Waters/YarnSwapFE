@@ -1,6 +1,6 @@
 import { ChakraProvider } from '@chakra-ui/react';
 import React from 'react';
-import { ProfileTable } from '.';
+import ProfileTable from '.';
 import { theme } from '../../../theme';
 
 export default {

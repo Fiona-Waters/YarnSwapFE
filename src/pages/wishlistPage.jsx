@@ -8,3 +8,5 @@ export const WishlistPage = () => {
         </VStack>
     );
 };
+
+export default WishlistPage;

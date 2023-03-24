@@ -1,7 +1,6 @@
 import { Box, Button, Divider, Heading, Spacer, Text } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-import { PrimaryButton } from "../components/atoms/primaryButton";
-import { MySendbirdApp } from "../components/organisms/sendbird";
+import MySendbirdApp from "../components/organisms/sendbird";
 
 export const SwapChatPage = () => {
 
@@ -29,3 +28,5 @@ export const SwapChatPage = () => {
     )
 
 }
+
+export default SwapChatPage;

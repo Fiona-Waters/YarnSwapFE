@@ -1,12 +1,8 @@
 import { ButtonGroup, FormControl, FormErrorMessage, Input, Stack } from '@chakra-ui/react'
-import { list } from 'firebase/storage';
-import { useMemo, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { useQuery } from 'react-query';
-import { addListing, getUserProfile } from '../../../api/yarn-swap-api';
-import { PrimaryButton } from '../primaryButton'
+import PrimaryButton from '../primaryButton'
 
-export function DeclinePopoverForm(props) {
+export default function DeclinePopoverForm(props) {
     const { onSubmit, fieldname } = props; 
 
     

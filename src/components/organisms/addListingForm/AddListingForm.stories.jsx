@@ -1,7 +1,7 @@
 
 import { ChakraProvider } from '@chakra-ui/react';
 import React from 'react';
-import { AddListingForm } from './index';
+import AddListingForm from './index';
 import { theme } from '../../../theme';
 
 export default {

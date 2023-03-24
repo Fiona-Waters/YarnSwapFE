@@ -2,7 +2,7 @@
 import { ChakraProvider } from '@chakra-ui/react';
 import React from 'react';
 import { theme } from '../../../theme';
-import { DarkModeButton } from './index';
+import DarkModeButton from './index';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {

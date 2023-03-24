@@ -7,7 +7,7 @@ import {
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useQuery } from "react-query";
 import { addListing, getBrands, getFibres, getWeights } from "../../../api/yarn-swap-api";
-import { PrimaryButton } from "../../atoms/primaryButton";
+import PrimaryButton from "../../atoms/primaryButton";
 import { useForm } from "react-hook-form";
 import ImageUploading from 'react-images-uploading'
 import {
@@ -21,7 +21,7 @@ import { storage } from "../../../firebase";
 import { ref, getDownloadURL, uploadString } from "firebase/storage"
 import { InfoIcon } from "@chakra-ui/icons";
 
-export function AddListingForm(props) {
+export default function AddListingForm(props) {
     const { isOpen, onClose, refreshListings, currentUser, listings, listing } = props;
     const { data: brands } = useQuery('getBrands', getBrands)
     const { data: weights } = useQuery('getWeights', getWeights)

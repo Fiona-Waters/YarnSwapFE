@@ -1,7 +1,7 @@
 import { getListings, getSwaps } from "../api/yarn-swap-api"
 import { useQuery } from 'react-query';
 import { getAuth } from "firebase/auth";
-import { SwapsTemplate } from "../components/templates/swapsTemplate";
+import SwapsTemplate from "../components/templates/swapsTemplate";
 import { Heading } from "@chakra-ui/react";
 
 

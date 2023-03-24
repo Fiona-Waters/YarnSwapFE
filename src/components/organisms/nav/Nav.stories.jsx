@@ -1,7 +1,7 @@
 import { ChakraProvider } from '@chakra-ui/react';
 import React from 'react';
 import { theme } from '../../../theme';
-import { NavigationMenu } from './index';
+import NavigationMenu from './index';
 
 export default {
   title: 'Organisms/Nav',

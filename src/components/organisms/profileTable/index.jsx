@@ -23,14 +23,14 @@ import {
     AlertDialogContent,
     AlertDialogOverlay,
   } from '@chakra-ui/react'
-import { AddUsernameForm } from '../../atoms/addUsernameForm';
-import { PrimaryButton } from '../../atoms/primaryButton';
+import AddUsernameForm from '../../atoms/addUsernameForm';
+import PrimaryButton from '../../atoms/primaryButton';
 import { addListing, addUser, getListings, getUserProfile } from '../../../api/yarn-swap-api';
 import { useQuery } from 'react-query';
 import { useToast } from '@chakra-ui/react'
 import React from 'react';
 
-export function ProfileTable(props) {
+export default function ProfileTable(props) {
     const { currentUser, navigateOnSave } = props;
 
     let userSignUpThrough = currentUser?.providerData[0]?.providerId

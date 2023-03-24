@@ -1,7 +1,7 @@
 import SendbirdChat from "@sendbird/chat";
 import { GroupChannelModule } from "@sendbird/chat/groupChannel";
 
-export async function createSendbirdChannel(currentUser, swap) {
+export default async function createSendbirdChannel(currentUser, swap) {
     const sb = SendbirdChat.init({
         appId: "30065601-9ED0-439D-B3BA-00FA76024F4F",
         modules: [

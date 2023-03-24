@@ -4,9 +4,9 @@ import { useForm } from 'react-hook-form';
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { addUser, getUserProfile } from '../../../api/yarn-swap-api';
-import { PrimaryButton } from '../primaryButton'
+import PrimaryButton from '../primaryButton'
 
-export function AddUsernameForm(props) {
+export default function AddUsernameForm(props) {
     const toast = useToast()
     const { data: user } = useQuery('getUserProfile', getUserProfile)
     const userMemo = useMemo(() => {

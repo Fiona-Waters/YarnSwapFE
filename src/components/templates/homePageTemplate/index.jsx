@@ -1,12 +1,12 @@
 import { Box, Button, ButtonGroup, HStack, SimpleGrid, useBreakpoint, useBreakpointValue, VStack } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Logo } from "../../atoms/logo";
-import { PrimaryButton } from "../../atoms/primaryButton";
+import Logo from "../../atoms/logo";
+import PrimaryButton from "../../atoms/primaryButton";
 
-import { Listing } from "../../organisms/listing";
+import Listing from "../../organisms/listing";
 
-export function HomePageTemplate(props) {
+export default function HomePageTemplate(props) {
 
     const { listings } = props;
     const [ availableListings, setAvailableListings ] = useState([])

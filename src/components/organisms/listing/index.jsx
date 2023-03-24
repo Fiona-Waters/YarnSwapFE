@@ -1,10 +1,10 @@
 import { Button, ButtonGroup, Card, CardFooter, Popover, PopoverContent, PopoverTrigger, useBreakpointValue, useDisclosure } from "@chakra-ui/react";
-import { ListingHeadBody } from "../../molecules/listingHeadBody";
+import ListingHeadBody from "../../molecules/listingHeadBody";
 import { addListing, addSwap, addUser, getUserProfile, getUserProfileById } from "../../../api/yarn-swap-api";
 import { useQuery } from 'react-query';
-import { DeclinePopoverForm } from "../../atoms/popoverForm";
+import DeclinePopoverForm from "../../atoms/popoverForm";
 
-export function Listing(props) {
+export default function Listing(props) {
     const textLayout = useBreakpointValue({
         base: 'column',
         md: 'row'

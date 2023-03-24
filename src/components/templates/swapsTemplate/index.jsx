@@ -1,12 +1,10 @@
 import { Box, Divider, Flex, Heading, SimpleGrid, Spacer, Tab, TabList, TabPanel, TabPanels, Tabs, useBreakpoint, useBreakpointValue, useControllableProp } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { PrimaryButton } from "../../atoms/primaryButton";
-import { Listing } from "../../organisms/listing";
-import { SwapCard } from "../../organisms/swapCard";
+import SwapCard from "../../organisms/swapCard";
 
 
-export function SwapsTemplate(props) {
+export default function SwapsTemplate(props) {
 
     const { swaps, listings, refreshListings, refreshSwaps, currentUser } = props
     const [inComingSwaps, setIncomingSwaps] = useState([])

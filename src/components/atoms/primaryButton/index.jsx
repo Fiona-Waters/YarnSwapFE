@@ -2,7 +2,7 @@ import { Button } from "@chakra-ui/react"
 
 
 
-export function PrimaryButton(props) {
+export default function PrimaryButton(props) {
 
     const {label, onClick } = props
 

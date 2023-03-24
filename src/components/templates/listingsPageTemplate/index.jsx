@@ -1,12 +1,9 @@
 import { useBreakpoint, useBreakpointValue, useDisclosure, HStack, VStack, Box, SimpleGrid, Spacer, Heading } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
-import { set } from "react-hook-form";
-import { PrimaryButton } from "../../atoms/primaryButton";
-import { Search } from "../../atoms/search";
-import { Listing } from "../../organisms/listing";
+import Search from "../../atoms/search";
+import Listing from "../../organisms/listing";
 
-export function ListingsPageTemplate(props) {
-    //TODO add search box and functionality
+export default function ListingsPageTemplate(props) {
 
     const { listings, refreshListings, currentUser } = props
     const [allOtherListings, setAllOtherListings] = useState()

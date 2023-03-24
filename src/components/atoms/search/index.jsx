@@ -10,13 +10,13 @@ import {
     DrawerContent,
     DrawerCloseButton,
 } from '@chakra-ui/react'
-import { PrimaryButton } from "../primaryButton";
+import PrimaryButton from "../primaryButton";
 import {
     FormControl,
     FormLabel,
 } from '@chakra-ui/react'
 
-export function Search(props) {
+export default function Search(props) {
     const { listings, onUserInput, filterBrand, filterWeight, filterFibre, filterUsername, filterStatus, currentUser, isDashboard } = props;
     const [searchTerm, setSearchTerm] = useState('')
     const { data: brands } = useQuery('getBrands', getBrands)

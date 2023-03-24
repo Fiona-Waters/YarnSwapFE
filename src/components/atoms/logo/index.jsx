@@ -2,7 +2,7 @@ import { Image, Icon } from "@chakra-ui/react";
 import logo from '../../../assets/logo.svg'
 
 
-export function Logo(params) {
+export default function Logo(params) {
 
 
     return (

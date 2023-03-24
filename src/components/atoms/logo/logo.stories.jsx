@@ -1,7 +1,7 @@
 import { ChakraProvider } from '@chakra-ui/react';
 import React from 'react';
 import { theme } from '../../../theme';
-import { Logo } from './index';
+import Logo from './index';
 
 export default {
   title: 'Atoms/Logo',

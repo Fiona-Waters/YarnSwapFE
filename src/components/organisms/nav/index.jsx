@@ -7,7 +7,7 @@ import { useQuery } from 'react-query';
 import { Link, useLocation } from 'react-router-dom'
 import { getUserProfile } from '../../../api/yarn-swap-api';
 
-export function NavigationMenu() {
+export default function NavigationMenu() {
     const { data: userProfile } = useQuery('getUserProfile', getUserProfile)
     var isAdminUser = Boolean(userProfile?.role == "admin");
 

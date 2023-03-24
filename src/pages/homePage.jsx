@@ -1,7 +1,6 @@
 import { getListings } from "../api/yarn-swap-api"
-import { HomePageTemplate } from "../components/templates/homePageTemplate";
+import HomePageTemplate from "../components/templates/homePageTemplate";
 import { useQuery } from 'react-query';
-import { Logo } from "../components/atoms/logo";
 import { Heading } from "@chakra-ui/react";
 
 const HomePage = () => {

@@ -2,7 +2,7 @@ import { getListings } from "../api/yarn-swap-api"
 import { useQuery } from 'react-query';
 import { getAuth } from "firebase/auth";
 import { Heading } from "@chakra-ui/react";
-import { AdminPageTemplate } from "../components/templates/adminPageTemplate";
+import AdminPageTemplate from "../components/templates/adminPageTemplate";
 
 const AdminPage = () => {
     const { data, isLoading, refetch } = useQuery('listings',

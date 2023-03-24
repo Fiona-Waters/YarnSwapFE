@@ -1,7 +1,7 @@
 
 import { Card, ChakraProvider } from '@chakra-ui/react';
 import React from 'react';
-import { SwapCard } from './index';
+import SwapCard from './index';
 import { theme } from '../../../theme';
 
 export default {

@@ -1,12 +1,12 @@
 import { useBreakpoint, useBreakpointValue, useDisclosure, HStack, VStack, Box, SimpleGrid, Spacer, Heading, Input, filter } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { PrimaryButton } from "../../atoms/primaryButton";
-import { Search } from "../../atoms/search";
-import { AddListingForm } from "../../organisms/addListingForm";
-import { Listing } from "../../organisms/listing";
+import PrimaryButton from "../../atoms/primaryButton";
+import Search from "../../atoms/search";
+import AddListingForm from "../../organisms/addListingForm";
+import Listing from "../../organisms/listing";
 
-export function DashboardTemplate(props) {
+export default function DashboardTemplate(props) {
 
     const { listings, refreshListings, currentUser } = props
 

@@ -1,8 +1,8 @@
 import { Badge, Container, Heading } from "@chakra-ui/react";
 import { getAuth } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { Logo } from "../components/atoms/logo";
-import { MyProfileTemplate } from "../components/templates/profileTemplate";
+import Logo from "../components/atoms/logo";
+import MyProfileTemplate from "../components/templates/profileTemplate";
 
 const ProfilePage = () => {
     const auth = getAuth();

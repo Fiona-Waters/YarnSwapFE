@@ -1,9 +1,8 @@
 
 import { Heading, Spacer, Stack, Text, useBreakpointValue } from "@chakra-ui/react";
-import { Listing } from "../../organisms/listing";
 
 
-export function InfoRow(props) {
+export default function InfoRow(props) {
 
     const {label, value1, value2} = props
 

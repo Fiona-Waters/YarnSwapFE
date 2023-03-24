@@ -6,7 +6,7 @@ import { useLocation } from "react-router-dom";
 
 
 
-export function MySendbirdApp() {
+export default function MySendbirdApp() {
 const auth = getAuth()
 const {state} = useLocation();
 const {chatUrl} = state

@@ -2,12 +2,12 @@ import { Badge, Button, ButtonGroup, Card, CardFooter, HStack, Popover, PopoverC
 import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { addListing, addSwap, addUser, getUserProfileById } from "../../../api/yarn-swap-api";
-import { createSendbirdChannel } from "../../../sendbird";
-import { DeclinePopoverForm } from "../../atoms/popoverForm";
-import { PrimaryButton } from "../../atoms/primaryButton";
-import { ListingHeadBody } from "../../molecules/listingHeadBody";
+import createSendbirdChannel from "../../../sendbird";
+import DeclinePopoverForm from "../../atoms/popoverForm";
+import PrimaryButton from "../../atoms/primaryButton";
+import ListingHeadBody from "../../molecules/listingHeadBody";
 
-export function SwapCard(props) {
+export default function SwapCard(props) {
     const { swap, listing, listings, currentUser, refreshSwaps, refreshListings } = props
     var outgoingSwap = Boolean(listing.userId != currentUser.uid);
     var incomingSwap = Boolean(listing.userId === currentUser.uid);
@@ -20,7 +20,6 @@ export function SwapCard(props) {
 
     const navigate = useNavigate();
     const { isOpen, onClose, onOpen } = useDisclosure()
-    // need to get the swappee
     const { data: swappee } = useQuery(['getUserProfileById', swap?.swap.swappeeUserId], ({ queryKey }) => {
         return getUserProfileById(queryKey[1])
     })

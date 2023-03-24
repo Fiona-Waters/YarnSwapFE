@@ -1,7 +1,7 @@
 
 import { ChakraProvider } from '@chakra-ui/react';
 import React from 'react';
-import { Listing } from './index';
+import Listing from './index';
 import { theme } from '../../../theme';
 
 export default {

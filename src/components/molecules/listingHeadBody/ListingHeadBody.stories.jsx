@@ -2,7 +2,7 @@
 import { ChakraProvider } from '@chakra-ui/react';
 import { Card } from '@chakra-ui/react';
 import React from 'react';
-import { ListingHeadBody } from './index';
+import ListingHeadBody from './index';
 import { theme } from '../../../theme';
 
 export default {

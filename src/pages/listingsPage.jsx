@@ -1,7 +1,7 @@
 import { getListings } from "../api/yarn-swap-api"
 import { useQuery } from 'react-query';
 import { getAuth } from "firebase/auth";
-import { ListingsPageTemplate } from "../components/templates/listingsPageTemplate";
+import ListingsPageTemplate from "../components/templates/listingsPageTemplate";
 import { Heading } from "@chakra-ui/react";
 
 const ListingsPage = () => {
