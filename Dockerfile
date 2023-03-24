@@ -1,3 +1,4 @@
+
 FROM node:16-alpine as builder
 # Set the working directory to /app inside the container
 WORKDIR /app
@@ -20,16 +21,3 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 EXPOSE 5173
 # Start nginx
 CMD ["nginx", "-g", "daemon off;"]
-
-
-
-# FROM node
-# RUN useradd fiona
-# WORKDIR /app
-# COPY package.json .
-# COPY yarn.lock .
-# RUN yarn
-# COPY . .
-# EXPOSE 5173
-# USER fiona
-# CMD ["yarn", "dev"]
