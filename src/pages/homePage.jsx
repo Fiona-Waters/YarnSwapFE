@@ -1,21 +1,25 @@
 import { getListings } from "../api/yarn-swap-api"
-import Home from "../components/listings";
-import {useQuery} from 'react-query';
+import HomePageTemplate from "../components/templates/homePageTemplate";
+import { useQuery } from 'react-query';
+import { Heading } from "@chakra-ui/react";
 
 const HomePage = () => {
-    const {data, isLoading} = useQuery('listings',
+    const { data, isLoading } = useQuery('listings',
         getListings
     );
-    
-    
-    if(isLoading) {
+
+
+    if (isLoading) {
         return (
-            <div>Loading</div>
+            <Heading as='h3' size='md'>Loading, please wait</Heading>
         )
     }
+
     return (
-        <Home
-        listings={data} />
+        <>
+           
+            <HomePageTemplate listings={data} />
+        </>
     );
 };
 
