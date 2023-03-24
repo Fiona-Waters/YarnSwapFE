@@ -65,9 +65,6 @@ function MainLayout() {
                     }
                     <Text fontSize='lg'>Logged in as {data?.userName}</Text>
                     <Divider orientation='vertical' />
-                    <Text fontSize='lg'>Tokens : {data?.remainingTokens}</Text>
-                    <Divider orientation='vertical' />
-
                     <PrimaryButton onClick={handleLogout} label={'Logout'} />
 
                 </HStack>
