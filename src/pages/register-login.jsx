@@ -1,7 +1,7 @@
 import { Logo } from "../components/atoms/logo";
 import SignInScreen from "../firebase";
 
-const RegisterLogin = () =>
+export const RegisterLogin = () =>
 {
     return (
         <SignInScreen />
