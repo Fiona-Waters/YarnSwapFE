@@ -6,7 +6,7 @@ import { QueryClient, QueryClientProvider } from "react-query"
 import { ReactQueryDevtools } from "react-query/devtools";
 import { ChakraProvider } from "@chakra-ui/react"
 import { theme } from './theme.js'
-import RegisterLogin from "./pages/register-login"
+import { RegisterLogin } from "./pages/register-login"
 import DashboardPage from "./pages/dashboardPage"
 import ListingsPage from "./pages/listingsPage"
 import SwapsPage from "./pages/swapsPage"
