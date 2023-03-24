@@ -8,11 +8,48 @@ export default defineConfig({
     svgr(),
     react(),
     VitePWA({
+      includeAssets: ['logo.svg'],
+      manifest: {
+          "theme_color": "#ffffff",
+          "background_color": "#ffffff",
+          "display": "standalone",
+          "scope": "/",
+          "start_url": "/",
+          "name": "Yarn Swap",
+          "short_name": "Yarn Swap",
+          "description": "Yarn Swap Progressive Web Application",
+          "icons": [
+              {
+                  "src": "/icon-192x192.png",
+                  "sizes": "192x192",
+                  "type": "image/png"
+              },
+              {
+                  "src": "/icon-256x256.png",
+                  "sizes": "256x256",
+                  "type": "image/png"
+              },
+              {
+                  "src": "/icon-384x384.png",
+                  "sizes": "384x384",
+                  "type": "image/png"
+              },
+              {
+                  "src": "/icon-512x512.png",
+                  "sizes": "512x512",
+                  "type": "image/png"
+              }
+          ]
+      },
       registerType: 'autoUpdate',
       devOptions: {
         enabled: true
       },
-      injectRegister: 'auto'
+      injectRegister: 'auto',
+      workbox: {
+        clientsClaim: true,
+        globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
+      }
     })
   ],
   server: {
