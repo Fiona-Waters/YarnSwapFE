@@ -1,8 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
-import firebase from 'firebase/compat/app';
-import { FacebookAuthProvider, getAuth, EmailAuthProvider } from "firebase/auth";
+import {StyledFirebaseAuth} from 'react-firebaseui';
+import { getAuth, EmailAuthProvider } from "firebase/auth";
 import { GoogleAuthProvider } from "firebase/auth";
 import { Box, Text, VStack } from "@chakra-ui/react";
 import Logo from "./components/atoms/logo";
@@ -46,7 +45,7 @@ const uiConfig = {
   ],
 };
 
-export function SignInScreen() {
+export default function SignInScreen() {
   return (
     <VStack h='full' w='full' minH='100vh' spacing={12} pt={120}>
       <Box>

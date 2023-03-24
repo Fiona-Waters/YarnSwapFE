@@ -18,7 +18,7 @@ export const getListings = async () => {
 };
 
 export const addListing = async (newListing) => {
-    const token = await auth.currentUser.getIdToken(true)
+    const token = await auth.currentUser?.getIdToken(true)
     try {
         const response = await fetch(
             `${baseURL}/listings`
@@ -54,7 +54,7 @@ export const getSwaps = async () => {
 };
 
 export const addSwap = async (newSwap) => {
-    const token = await auth.currentUser.getIdToken(true)
+    const token = await auth.currentUser?.getIdToken(true)
     try {
         const response = await fetch(
             `${baseURL}/swaps`
@@ -76,7 +76,7 @@ export const addSwap = async (newSwap) => {
 };
 
 export const addUser = async (newUser) => {
-    const token = await auth.currentUser.getIdToken(true)
+    const token = await auth.currentUser?.getIdToken(true)
     try {
         const response = await fetch(
             `${baseURL}/users`,
@@ -99,7 +99,7 @@ export const addUser = async (newUser) => {
 };
 
 export const getUserProfileById = async (listingUserId) => {
-    const token = await auth.currentUser.getIdToken(true)
+    const token = await auth.currentUser?.getIdToken(true)
     try {
         const response = await fetch(
             `${baseURL}/user/${listingUserId}`,
@@ -123,7 +123,7 @@ export const getUserProfileById = async (listingUserId) => {
 
 
 export const getUserProfile = async () => {
-    const token = await auth.currentUser.getIdToken(true)
+    const token = await auth.currentUser?.getIdToken(true)
     try {
         const response = await fetch(
             `${baseURL}/user/${auth.currentUser.uid}`,

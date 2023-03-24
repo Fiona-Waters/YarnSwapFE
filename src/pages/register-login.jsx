@@ -1,4 +1,4 @@
-import { SignInScreen } from "../firebase";
+import SignInScreen from "../firebase";
 
 export const RegisterLogin = () =>
 {
