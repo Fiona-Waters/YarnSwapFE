@@ -51,7 +51,6 @@ export default function SwapsTemplate(props) {
                     <TabPanel>
                         <Flex spacing='4' p={5}>
                             <Box flex='1' p={5} align={"center"} >
-                                <Heading as='h3' size='md'> Requested From Me </Heading>
                                 <br></br>
                                 <SimpleGrid columns={gridCount} spacing={'8'} w={'full'}>
                                     {inComingSwaps?.map((swap, i) =>
@@ -65,7 +64,6 @@ export default function SwapsTemplate(props) {
                     <TabPanel>
                         <Flex spacing='4' p={5}>
                             <Box flex='1' p={5} align={"center"} >
-                                <Heading as='h3' size='md'> My Requests </Heading>
                                 <br></br>
                                 <SimpleGrid columns={gridCount} spacing={'8'} w={'full'}>
                                     {outgoingSwaps?.map((swap, i) => (

@@ -17,7 +17,7 @@ export default function SwapCard(props) {
     var swapCancelled = Boolean(swap.swap.swapStatus === "swap cancelled")
     var parcelSent = Boolean(swap.swap.swapStatus === "parcel sent")
     var swapCompleted = Boolean(swap.swap.swapStatus === "swap completed")
-
+    var swapDate = swap.swap.timestamp
     const navigate = useNavigate();
     const { isOpen, onClose, onOpen } = useDisclosure()
     const { data: swappee } = useQuery(['getUserProfileById', swap?.swap.swappeeUserId], ({ queryKey }) => {

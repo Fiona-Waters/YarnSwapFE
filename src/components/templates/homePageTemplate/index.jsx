@@ -33,7 +33,6 @@ export default function HomePageTemplate(props) {
         '2xl': 5
     })
 
-    console.log(bp, gridCount);
     return (
         <VStack h="full" w="full" minH="100vh" spacing={12} pt={120}>
             <Box>
