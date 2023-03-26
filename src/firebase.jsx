@@ -52,7 +52,7 @@ export default function SignInScreen() {
         <Logo w={40} h={40} />
       </Box>
       <Box>
-        <Text >Please choose your preferred method below...</Text>
+        <Text data-cy="choose-provider-text" >Please choose your preferred method below...</Text>
       </Box>
       <Box>
       <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth} />

@@ -1,4 +1,4 @@
-import { AlertDialog, AlertDialogBody, AlertDialogCloseButton, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, useDisclosure } from '@chakra-ui/react'
+import { AlertDialog, AlertDialogBody, AlertDialogCloseButton, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, Button, useDisclosure } from '@chakra-ui/react'
 import React from 'react'
 import PWAInstallerPrompt from 'react-pwa-installer-prompt'
 import PrimaryButton from '../primaryButton'
@@ -26,7 +26,7 @@ const ReactPrompt = () => {
                             Would you like to install Yarn Swap?
                         </AlertDialogBody>
                         <AlertDialogFooter>
-                            <Button label='No, Thanks!' ref={cancelRef} onClick={onClose} ></Button>
+                            <Button label='No, Thanks!' ref={cancelRef} onClick={onClose} >No Thanks</Button>
                             <PrimaryButton label='Yes, Please!' colorScheme='blue' ml={3} onClick={onClick} />
                         </AlertDialogFooter>
                     </AlertDialogContent>

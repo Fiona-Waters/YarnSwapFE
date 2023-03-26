@@ -45,7 +45,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <Offline > You are now offline - please note Yarn Swap has limited capabilities while offline!</Offline>
       <ChakraProvider theme={theme}>
-        <ReactPrompt />
+        <ReactPrompt /> 
         <BrowserRouter >
           <Routes>
             <Route index element={<HomePage />} />

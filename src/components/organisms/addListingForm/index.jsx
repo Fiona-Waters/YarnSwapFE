@@ -132,7 +132,7 @@ export default function AddListingForm(props) {
                             <Input type="hidden" {...register('status')} />
                             <FormControl isInvalid={!!errors.brand}>
                                 <FormLabel htmlFor='brand'>Brand</FormLabel>
-                                <Select id='brand'
+                                <Select id='brand' data-cy="select-brand"
                                     {...register('brand', {
                                         required: 'This is required',
                                     })} placeholder='Choose a yarn brand'>
@@ -144,7 +144,7 @@ export default function AddListingForm(props) {
                             </FormControl>
                             <FormControl isInvalid={!!errors.colourway}>
                                 <FormLabel htmlFor='colourway'>Colourway</FormLabel>
-                                <Input id='colourway' placeholder='Colourway' type='text' {...register('colourway', {
+                                <Input id='colourway' data-cy="add-listing-colourway" placeholder='Colourway' type='text' {...register('colourway', {
                                     required: 'This is required',
                                     minLength: { value: 3, message: 'Minimum length is 3 characters' },
                                 })} />
@@ -154,7 +154,7 @@ export default function AddListingForm(props) {
                             </FormControl>
                             <FormControl isInvalid={!!errors.weight}>
                                 <FormLabel htmlFor='weight'>Weight</FormLabel>
-                                <Select id='weight'
+                                <Select id='weight' data-cy="select-weight"
                                     {...register('weight', {
                                         required: 'This is required',
                                     })} placeholder='Choose a yarn weight'>
@@ -166,7 +166,7 @@ export default function AddListingForm(props) {
                             </FormControl>
                             <FormControl isInvalid={!!errors.fibreContent}>
                                 <FormLabel htmlFor='fibreContent'>Fibre Content</FormLabel>
-                                <Select id='fibreContent'
+                                <Select id='fibreContent' data-cy="select-fibre"
                                     {...register('fibreContent', {
                                         required: 'This is required',
                                     })} placeholder='Choose a fibre'>
@@ -178,7 +178,7 @@ export default function AddListingForm(props) {
                             </FormControl>
                             <FormControl isInvalid={!!errors.unitWeight}>
                                 <FormLabel htmlFor='unitWeight'>Unit Weight (grams)</FormLabel>
-                                <Input id='unitWeight' placeholder="100" type='number' {...register('unitWeight', {
+                                <Input data-cy="add-listing-unitWeight" id='unitWeight' placeholder="100" type='number' {...register('unitWeight', {
                                     required: 'This is required',
                                     minLength: { value: 1, message: 'please include weight in grams' },
                                     valueAsNumber: true
@@ -189,7 +189,7 @@ export default function AddListingForm(props) {
                             </FormControl>
                             <FormControl isInvalid={!!errors.meterage}>
                                 <FormLabel htmlFor='meterage'>Length (metres)</FormLabel>
-                                <Input id='meterage' placeholder="425" type='number' {...register('meterage', {
+                                <Input data-cy="add-listing-meterage" id='meterage' placeholder="425" type='number' {...register('meterage', {
                                     required: 'This is required',
                                     minLength: { value: 3, message: 'please include length in metres' },
                                     valueAsNumber: true
@@ -200,12 +200,12 @@ export default function AddListingForm(props) {
                             </FormControl>
                             <FormControl isInvalid={!!errors.dyeLot}>
                                 <FormLabel htmlFor='dyeLot'>Dyelot</FormLabel>
-                                <Input id='dyeLot' placeholder="abc123" type='text' {...register('dyeLot')} />
+                                <Input data-cy="add-listing-dyelot" id='dyeLot' placeholder="abc123" type='text' {...register('dyeLot')} />
                                 <FormErrorMessage>{errors.dyeLot?.message}</FormErrorMessage>
                             </FormControl>
                             <FormControl isInvalid={!!errors.originalCount}>
                                 <FormLabel htmlFor='originalCount'>Quantity</FormLabel>
-                                <NumberInput id='originalCount' defaultValue={1} min={1} max={20} {...register('originalCount', {
+                                <NumberInput data-cy="add-listing-originalCount" id='originalCount' defaultValue={1} min={1} max={20} {...register('originalCount', {
                                     required: 'This is required',
                                     minLength: { value: 1, message: 'please include a quantity' },
                                     valueAsNumber: true
@@ -225,14 +225,14 @@ export default function AddListingForm(props) {
                                         <InfoIcon boxSize={6} paddingLeft={"3px"} color='blue' />
                                     </Tooltip>
                                 </FormLabel>
-                                <Switch  {...register('swappable', {
+                                <Switch data-cy="add-listing-swappable" {...register('swappable', {
                                 })} />
                             </FormControl>
                             <FormControl isInvalid={!!errors.image}>
                                 <FormLabel htmlFor="image">Image</FormLabel>
 
                                 <div className="App">
-                                    <ImageUploading
+                                    <ImageUploading 
                                         multiple
                                         value={images}
                                         onChange={onChange}
@@ -248,7 +248,7 @@ export default function AddListingForm(props) {
                                             dragProps,
                                         }) => (
                                             <div className="upload__image-wrapper">
-                                                <Button border={'2px'} backgroundColor={'brand.blue'} borderColor={'gray.500'} textColor={'black'}
+                                                <Button data-cy="add-listing-image" border={'2px'} backgroundColor={'brand.blue'} borderColor={'gray.500'} textColor={'black'}
                                                     style={isDragging ? { color: 'red' } : undefined}
                                                     onClick={onImageUpload}
                                                     {...dragProps}
