@@ -16,5 +16,8 @@ jobs:
           start: yarn preview
           browser: chrome
           headless: true
-          record: false
+          record: true
+        env:
+          # pass the Dashboard record key as an environment variable
+          CYPRESS_RECORD_KEY: ${{ secrets.dashboardRecordKey }}
         
