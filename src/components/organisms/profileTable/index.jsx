@@ -94,7 +94,7 @@ export default function ProfileTable(props) {
     })
 
     return (
-        <TableContainer border='2px' borderColor='brand.blue' p='20px'>
+        <TableContainer data-cy="profile-table" border='2px' borderColor='brand.blue' p='20px'>
             <Table size='lg' variant='striped' >
                 <Thead>
                     <Tr>
