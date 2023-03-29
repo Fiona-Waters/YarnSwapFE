@@ -126,7 +126,7 @@ export const getUserProfile = async () => {
     const token = await auth.currentUser?.getIdToken(true)
     try {
         const response = await fetch(
-            `${baseURL}/user/${auth.currentUser.uid}`,
+            `${baseURL}/user/${auth.currentUser?.uid}`,
             {
                 method: 'GET',
                 headers: {

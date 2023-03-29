@@ -37,7 +37,7 @@ export default function ProfileTable(props) {
     if (userSignUpThrough == 'password') {
         userSignUpThrough = `Email - ${currentUser.email}`
     }
-    const userImage = currentUser.photoURL;
+    const userImage = currentUser?.photoURL;
 
     const { data: userProfile, isLoading, refetch } = useQuery('getUserProfile', getUserProfile)
     const { data: listings } = useQuery('listings', getListings)
@@ -110,7 +110,7 @@ export default function ProfileTable(props) {
                 <Tbody>
                     <Tr>
                         <Td>Name</Td>
-                        <Td>{currentUser.displayName}
+                        <Td>{currentUser?.displayName}
                         </Td>
                         <Td></Td>
                     </Tr>

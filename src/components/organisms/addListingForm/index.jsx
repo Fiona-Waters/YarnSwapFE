@@ -44,7 +44,7 @@ export default function AddListingForm(props) {
         const filename = imageList[0]?.file.name
         setImages(imageList)
         if (dataUrl) {
-            const storageRef = ref(storage, `/files/${currentUser.uid}/${filename}`)
+            const storageRef = ref(storage, `/files/${currentUser?.uid}/${filename}`)
             const uploadRes = await uploadString(storageRef, dataUrl, 'data_url');
             if (uploadRes.ref) {
                 const downloadUrl = await getDownloadURL(uploadRes.ref)
@@ -54,7 +54,7 @@ export default function AddListingForm(props) {
     };
 
     async function onSubmit(values) {
-        values.userId = currentUser.uid;
+        values.userId = currentUser?.uid;
         values.swappable = values.swappable === true;
         // if the listing is being edited after being declined, mark it now as awaiting approval again
         if (listing?.status == "Declined") {
@@ -137,7 +137,7 @@ export default function AddListingForm(props) {
                                         required: 'This is required',
                                     })} placeholder='Choose a yarn brand'>
                                     {brands?.map((brand, i) => (
-                                        <option value={brand.brandName}>{brand.brandName} </option>
+                                        <option value={brand.brandName}>{brand.brandName} key={i} </option>
                                     ))}
                                 </Select>
                                 <FormErrorMessage>{errors.brand?.message}</FormErrorMessage>
@@ -159,7 +159,7 @@ export default function AddListingForm(props) {
                                         required: 'This is required',
                                     })} placeholder='Choose a yarn weight'>
                                     {weights?.map((weight, i) => (
-                                        <option value={weight.weightName}>{weight.weightName} </option>
+                                        <option value={weight.weightName}>{weight.weightName} key={i} </option>
                                     ))}
                                 </Select>
                                 <FormErrorMessage>{errors.weight?.message}</FormErrorMessage>
@@ -171,7 +171,7 @@ export default function AddListingForm(props) {
                                         required: 'This is required',
                                     })} placeholder='Choose a fibre'>
                                     {fibres?.map((fibre, i) => (
-                                        <option value={fibre.fibreName}>{fibre.fibreName} </option>
+                                        <option value={fibre.fibreName}>{fibre.fibreName} key={i} </option>
                                     ))}
                                 </Select>
                                 <FormErrorMessage>{errors.fibreContent?.message}</FormErrorMessage>
@@ -256,8 +256,8 @@ export default function AddListingForm(props) {
                                                     Click here to upload an image or drag and drop
                                                 </Button>
                                                 &nbsp;
-                                                {imageList.map((image, index) => (
-                                                    <div key={index} className="image-item">
+                                                {imageList.map((image, i) => (
+                                                    <div key={i} className="image-item">
                                                         <img src={image['data_url']} alt="" width="100" />
                                                         <div className="image-item__btn-wrapper">
                                                             <Button border={'2px'} borderColor={'gray.500'} backgroundColor={'brand.blue'} textColor={'black'}

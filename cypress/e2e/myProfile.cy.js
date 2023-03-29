@@ -1,3 +1,4 @@
+// go through login process before running test
 before(() => {
     cy.visit('http://localhost:4173')
     cy.wait(1000)
@@ -14,7 +15,7 @@ before(() => {
     cy.url().should('include', '/dashboard')
 })
 
-
+// navigate to the profile page and check the url
 describe('Go to my profile', () => {
     it('passes', () => {
         cy.get('[href="/myprofile"] > .chakra-text').should("be.visible")

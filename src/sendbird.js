@@ -17,7 +17,6 @@ export default async function createSendbirdChannel(currentUser, swap) {
     const params = {
         invitedUserIds: [swap.swappeeUserId, swap.swapperUserId],
         name: swap.swapName,
-        // TODO cover_url could be link to image used in listing
     }
     const newChannel = await sb.groupChannel.createChannel(params);
     return newChannel

@@ -85,7 +85,6 @@ export default function Listing(props) {
         await addListing(listing)
         onClose()
         await refreshListings()
-        //TODO not refreshing listings
     }
 
     return (

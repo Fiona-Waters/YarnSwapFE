@@ -1,3 +1,4 @@
+// go through login process before running test
 before(() => {
     cy.visit('http://localhost:4173')
     cy.wait(1000)
@@ -14,7 +15,7 @@ before(() => {
     cy.url().should('include', '/dashboard')
 })
 
-
+// step by step process of creating a listing
 describe('Create listing', () => {
     it('passes', () => {
         cy.get('.chakra-button').contains('Create Listing').click()
@@ -26,15 +27,10 @@ describe('Create listing', () => {
         cy.get('[data-cy="add-listing-meterage"]').type("250")
         cy.get('[data-cy="add-listing-swappable"]').click()
         cy.get('[data-cy="add-listing-image"]').click()
-        cy.get('input[type=file]').selectFile('public/icon-192x192.png', {force: true})
+        cy.get('input[type=file]').selectFile('public/icon-192x192.png', { force: true })
         cy.wait(5000)
         cy.get('[type="submit"]').click()
         cy.wait(5000)
-        
-
-
-
-        
 
 
 
@@ -42,7 +38,12 @@ describe('Create listing', () => {
 
 
 
-        
+
+
+
+
+
+
 
 
 

@@ -1,4 +1,4 @@
-
+// go through login process
 describe('Login spec', () => {
     it('passes', () => {
       cy.visit('http://localhost:4173')

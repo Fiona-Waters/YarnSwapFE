@@ -13,8 +13,8 @@ export default {
         (Story) => (
             <ChakraProvider theme={theme}>
                 <Card maxW={72} minW={56} align={"center"} border='4px' p={0} borderColor={'brand.teal'}>
-                <Story />
-</Card>
+                    <Story />
+                </Card>
             </ChakraProvider>
         ),
     ],
@@ -25,10 +25,15 @@ const Template = (args) => <ListingHeadBody {...args} />;
 export const listingHeadBody = Template.bind({});
 listingHeadBody.args = {
     listing: {
-        id: 1,
+        userName: 'fwaters123',
         brand: 'Green Elephant Yarn',
         colourway: 'Sunshine',
         weight: 'DK',
-        fibreContent: '100% Wool'
-      }
+        fibreContent: '100% Wool',
+        meterage: "200",
+        originalCount: 1,
+        swappable: true,
+        status: "Available",
+        image: "../../../../public/icon-192x192.png",
+    }
 };
