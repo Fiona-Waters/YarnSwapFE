@@ -137,7 +137,7 @@ export default function AddListingForm(props) {
                                         required: 'This is required',
                                     })} placeholder='Choose a yarn brand'>
                                     {brands?.map((brand, i) => (
-                                        <option value={brand.brandName}>{brand.brandName} key={i} </option>
+                                        <option value={brand.brandName} key={i}>{brand.brandName} </option>
                                     ))}
                                 </Select>
                                 <FormErrorMessage>{errors.brand?.message}</FormErrorMessage>
@@ -159,7 +159,7 @@ export default function AddListingForm(props) {
                                         required: 'This is required',
                                     })} placeholder='Choose a yarn weight'>
                                     {weights?.map((weight, i) => (
-                                        <option value={weight.weightName}>{weight.weightName} key={i} </option>
+                                        <option value={weight.weightName} key={i}>{weight.weightName} </option>
                                     ))}
                                 </Select>
                                 <FormErrorMessage>{errors.weight?.message}</FormErrorMessage>
@@ -171,7 +171,7 @@ export default function AddListingForm(props) {
                                         required: 'This is required',
                                     })} placeholder='Choose a fibre'>
                                     {fibres?.map((fibre, i) => (
-                                        <option value={fibre.fibreName}>{fibre.fibreName} key={i} </option>
+                                        <option value={fibre.fibreName} key={i}>{fibre.fibreName} </option>
                                     ))}
                                 </Select>
                                 <FormErrorMessage>{errors.fibreContent?.message}</FormErrorMessage>
