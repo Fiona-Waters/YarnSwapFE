@@ -8,12 +8,12 @@ import { Heading } from "@chakra-ui/react";
 const SwapsPage = () => {
     const { data: swaps, isLoading: isLoading1, refetch: refetchSwaps } = useQuery('swaps',
         getSwaps
-    ,
-    {
-        staleTime: 10000
-    });
+        ,
+        {
+            staleTime: 10000
+        });
     const { data: listings, isLoading: isLoading2, refetch: refetchListing } = useQuery('listings',
-     getListings
+        getListings
     );
     const auth = getAuth()
 

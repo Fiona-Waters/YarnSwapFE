@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import {StyledFirebaseAuth} from 'react-firebaseui';
+import { StyledFirebaseAuth } from 'react-firebaseui';
 import { getAuth, EmailAuthProvider } from "firebase/auth";
 import { GoogleAuthProvider } from "firebase/auth";
 import { Box, Text, VStack } from "@chakra-ui/react";
@@ -55,7 +55,7 @@ export default function SignInScreen() {
         <Text data-cy="choose-provider-text" >Please choose your preferred method below...</Text>
       </Box>
       <Box>
-      <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth} />
+        <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth} />
       </Box>
     </VStack>
   );

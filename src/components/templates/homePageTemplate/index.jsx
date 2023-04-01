@@ -3,14 +3,13 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Logo from "../../atoms/logo";
 import PrimaryButton from "../../atoms/primaryButton";
-
 import Listing from "../../organisms/listing";
 
 export default function HomePageTemplate(props) {
 
     const { listings } = props;
-    const [ availableListings, setAvailableListings ] = useState([])
-   
+    const [availableListings, setAvailableListings] = useState([])
+
     useEffect(() => {
         const l = [];
         listings?.map((listing) => {
@@ -20,7 +19,7 @@ export default function HomePageTemplate(props) {
         })
         setAvailableListings(l)
     }, [listings])
-    
+
 
     const bp = useBreakpoint();
 
@@ -36,12 +35,12 @@ export default function HomePageTemplate(props) {
     return (
         <VStack h="full" w="full" minH="100vh" spacing={12} pt={120}>
             <Box>
-                <Logo w={40} h={40}/>
+                <Logo w={40} h={40} />
             </Box>
             <HStack>
                 <ButtonGroup spacing='3'>
-                <Link to={'register'}><PrimaryButton label={'Register'}/></Link>
-                <Link to={'login'}><PrimaryButton label={'Login'}/></Link>
+                    <Link to={'register'}><PrimaryButton label={'Register'} /></Link>
+                    <Link to={'login'}><PrimaryButton label={'Login'} /></Link>
                 </ButtonGroup>
             </HStack>
             <Box >
@@ -49,7 +48,7 @@ export default function HomePageTemplate(props) {
                     {availableListings?.map((listing, i) => (
                         <Listing listing={listing} key={i}></Listing>
                     ))}
-                    
+
                 </SimpleGrid>
             </Box>
         </VStack>

@@ -18,7 +18,7 @@ export default function MyProfileTemplate(props) {
     const { currentUser, navigateOnSave } = props;
     return (
         <VStack w="full" flex="1" spacing={12}>
-        <ProfileTable currentUser={currentUser} navigateOnSave={navigateOnSave} />
+            <ProfileTable currentUser={currentUser} navigateOnSave={navigateOnSave} />
         </VStack>
     )
 }

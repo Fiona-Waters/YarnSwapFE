@@ -15,7 +15,7 @@ export default function ListingsPageTemplate(props) {
 
     // order the listings by most recent first
     listings.reverse()
-    
+
     useEffect(() => {
         let l = [];
         listings.map((listing) => {

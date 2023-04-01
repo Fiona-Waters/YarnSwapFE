@@ -16,10 +16,7 @@ const HomePage = () => {
     }
 
     return (
-        <>
-           
-            <HomePageTemplate listings={data} />
-        </>
+        <HomePageTemplate listings={data} />
     );
 };
 

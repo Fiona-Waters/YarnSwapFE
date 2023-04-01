@@ -7,7 +7,7 @@ import { persistQueryClient } from 'react-query/persistQueryClient-experimental'
 import { createWebStoragePersistor } from 'react-query/createWebStoragePersistor-experimental'
 import ReactPrompt from "./components/atoms/reactPrompt"
 import { ReactQueryDevtools } from "react-query/devtools";
-import { Offline, Online } from "react-detect-offline";
+import { Offline } from "react-detect-offline";
 import { ChakraProvider } from "@chakra-ui/react"
 import { theme } from './theme.js'
 import RegisterLogin from "./pages/register-login"
@@ -45,7 +45,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <Offline > You are now offline - please note Yarn Swap has limited capabilities while offline!</Offline>
       <ChakraProvider theme={theme}>
-        <ReactPrompt /> 
+        <ReactPrompt />
         <BrowserRouter >
           <Routes>
             <Route index element={<HomePage />} />

@@ -34,7 +34,7 @@ export default function AdminPageTemplate(props) {
 
     return (
         <VStack w="full" flex="1" spacing={12} >
-          
+
             <Heading as='h3' size='md' alignSelf={"flex-start"} fontFamily={"sans-serif"} fontWeight={'bold'}>Listings For Approval</Heading>
             <SimpleGrid p={'5'} columns={gridCount} spacing={'8'} w={'full'}>
                 {listingsForApproval?.map((listing, i) => (

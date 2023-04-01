@@ -5,7 +5,7 @@ import MyProfileTemplate from "../components/templates/profileTemplate";
 const MyProfilePage = () => {
     const auth = getAuth();
 
-    const [user, loading, error] = useAuthState(auth)
+    const [user] = useAuthState(auth)
 
     return (
         <MyProfileTemplate currentUser={user} />
