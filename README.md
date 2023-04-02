@@ -58,5 +58,6 @@ and can swap or procure yarns from others that could otherwise be forgotten or w
 * run `yarn serve`
 
 ###
-Information here can be supplemented by reading the full Yarn Swap Report Document which has been included in this repo.
+Information here can be supplemented by reading the full Yarn Swap Report Document:
+  - https://github.com/Fiona-Waters/YarnSwapFE/blob/main/FionaWaters-20095357-Project-FinalReport.pdf 
 
