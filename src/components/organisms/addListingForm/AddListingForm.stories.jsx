@@ -22,9 +22,18 @@ export default {
   ],
 };
 
-const Template = (args) => <AddListingForm {...args} />;
+const Template = (args) => <AddListingForm {...args} isOpen={true} />;
 
-export const Default = Template.bind({})
+export const Default = Template.bind({
+  isOpen: true,
+  onClose: () => {},
+  refreshListings: () => {},
+  currentUser: {
+    uid: "1234"
+  },
+  listing: {}
+
+})
 
 
 

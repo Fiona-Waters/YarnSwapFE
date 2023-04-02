@@ -19,7 +19,6 @@ export default function Listing(props) {
         console.log('queryKey', queryKey)
         return getUserProfileById(queryKey[1])
     })
-    console.log(listingUser)
 
     // only allow a user to request a swap if they are active and have at least 1 token
     // by hiding swap button on listings page
@@ -63,6 +62,9 @@ export default function Listing(props) {
     }
 
     async function approveListing() {
+        console.log("approve", listing.id)
+      // TODO is approving all listings with the same user - making all available even if they aren't awaiting approval
+        //  listing.id === listing.id need to set listing id and only update that one
         listing.status = "Available"
         await addListing(listing)
         const updatedListingUser = {

@@ -99,6 +99,13 @@ export default function AddListingForm(props) {
             isClosable: true,
         })
     }
+
+    const onCloseClicked = () => {
+        reset()
+        setImages([])
+        onClose()
+    }
+
     useEffect(() => {
         reset(listing);
     }, [listing])
@@ -107,7 +114,7 @@ export default function AddListingForm(props) {
         <Drawer
             isOpen={isOpen}
             placement='right'
-            onClose={onClose}
+            onClose={onCloseClicked}
             size={"xl"}
             closeOnEsc={false}
             closeOnOverlayClick={false}
@@ -261,9 +268,9 @@ export default function AddListingForm(props) {
                                                         <img src={image['data_url']} alt="" width="100" />
                                                         <div className="image-item__btn-wrapper">
                                                             <Button border={'2px'} borderColor={'gray.500'} backgroundColor={'brand.blue'} textColor={'black'}
-                                                                onClick={() => onImageUpdate(index)}>Update Image</Button>
+                                                                onClick={() => onImageUpdate(i)}>Update Image</Button>
                                                             <Divider />
-                                                            <Button border={'2px'} borderColor={'gray.500'} backgroundColor={'red.200'} textColor={'black'} onClick={() => onImageRemove(index)}>Remove Image</Button>
+                                                            <Button border={'2px'} borderColor={'gray.500'} backgroundColor={'red.200'} textColor={'black'} onClick={() => onImageRemove(i)}>Remove Image</Button>
                                                         </div>
                                                     </div>
                                                 ))}
@@ -284,11 +291,11 @@ export default function AddListingForm(props) {
                     }
                     <br></br>
                     {archived &&
-                        <PrimaryButton label="Make Listing Active" size="md" p="8" onClick={unArchiveListing} />
+                        <PrimaryButton label="Make Active" size="md" p="8" onClick={unArchiveListing} />
 
                     }
                     <Divider />
-                    <Button variant='outline' mr={4} onClick={onClose} >
+                    <Button variant='outline' mr={4} onClick={onCloseClicked} >
                         Cancel
                     </Button>
                     <PrimaryButton label="Save" isLoading={isSubmitting} type='submit' form="add-listing-form" />
