@@ -80,13 +80,13 @@ export default function DashboardTemplate(props) {
     const { isOpen, onOpen, onClose } = useDisclosure()
 
     return (
-        <VStack w="full" flex="1" spacing={12} >
+        <VStack w="full" flex="1" spacing={3} >
             <HStack w="full" >
                 <PrimaryButton label={'Create Listing'} onClick={initiateCreateListing} />
                 <Spacer />
                 <Search onUserInput={handleChange} filterBrand={filterBrand} filterWeight={filterWeight} filterFibre={filterFibre} filterUsername={filterUsername} listings={listings} filterStatus={filterStatus} currentUser={currentUser.uid} isDashboard />
             </HStack>
-            <Heading as='h3' size='md' alignSelf={"flex-start"} fontFamily={"sans-serif"} fontWeight={'bold'}>My Listings</Heading>
+            <Heading pt='5px' as='h3' size='md' alignSelf={"flex-start"} fontFamily={"sans-serif"} fontWeight={'bold'}>My Listings</Heading>
             <AddListingForm isOpen={isOpen} onClose={onClose} refreshListings={refreshListings} currentUser={currentUser} listing={listingToEdit} />
             <SimpleGrid p={'5'} columns={gridCount} spacing={'8'} w={'full'}>
                 {userListings?.map((listing, i) => (

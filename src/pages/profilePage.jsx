@@ -7,7 +7,7 @@ import MyProfileTemplate from "../components/templates/profileTemplate";
 const ProfilePage = () => {
     const auth = getAuth();
 
-    const [user, loading, error] = useAuthState(auth)
+    const [user] = useAuthState(auth)
 
     return (
 
@@ -18,7 +18,7 @@ const ProfilePage = () => {
             <br></br>
             <Badge colorScheme={'green'} fontSize='18px'>Please enter a username and click save to complete registration</Badge>
             <Badge colorScheme={'green'} fontSize='18px'>This username will be displayed publicly</Badge>
-            <MyProfileTemplate currentUser={user} navigateOnSave={'/dashboard'}/>
+            <MyProfileTemplate currentUser={user} navigateOnSave={'/dashboard'} />
         </Container>
     );
 };

@@ -7,10 +7,7 @@ import { Heading } from "@chakra-ui/react";
 const DashboardPage = () => {
     const { data, isLoading, refetch } = useQuery('listings',
         getListings
-    , {
-        cacheTime:180000,
-        staleTime:180000
-    });
+        , );
 
     const auth = getAuth()
 

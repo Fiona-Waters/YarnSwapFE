@@ -3,7 +3,11 @@ import { Routes, Route, BrowserRouter } from "react-router-dom"
 import HomePage from './pages/homePage'
 import MainLayout from "./components/layouts/main"
 import { QueryClient, QueryClientProvider } from "react-query"
+import { persistQueryClient } from 'react-query/persistQueryClient-experimental'
+import { createWebStoragePersistor } from 'react-query/createWebStoragePersistor-experimental'
+import ReactPrompt from "./components/atoms/reactPrompt"
 import { ReactQueryDevtools } from "react-query/devtools";
+import { Offline } from "react-detect-offline";
 import { ChakraProvider } from "@chakra-ui/react"
 import { theme } from './theme.js'
 import RegisterLogin from "./pages/register-login"
@@ -19,38 +23,50 @@ import WishlistPage from "./pages/wishlistPage";
 
 
 function App() {
+
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
-        cacheTime: 1800000,
-        staleTime: 1800000
+        cacheTime: (60000 * 5),
+        staleTime: 60000
       }
     }
   })
-  return (
-    <QueryClientProvider client={queryClient}>
-      <ChakraProvider theme={theme}>
-        <BrowserRouter >
-        <Routes>
-          <Route index element={<HomePage />} />
-          <Route path="login" element={<RegisterLogin />} />
-          <Route path="register" element={<RegisterLogin />} />
-          <Route path="profile" element={<ProfilePage />} />
-          <Route path="/*" element={<MainLayout />}>
-            <Route path="dashboard" element={<DashboardPage />} />
-            <Route path="about" element={<AboutPage />} />
-            <Route path="listings" element={<ListingsPage />} />
-            <Route path="swaps" element={<SwapsPage />} />
-            <Route path='wishlist' element={<WishlistPage/>} />
-            <Route path="swapchat" element={<SwapChatPage />} />
-            <Route path="myprofile" element={<MyProfilePage />} />
-            <Route path="admin" element={<ProtectedRoute/> } />
-          </Route>
 
-        </Routes>
+  const localStoragePersistor = createWebStoragePersistor({ storage: window.localStorage })
+
+  persistQueryClient({
+    queryClient,
+    persistor: localStoragePersistor,
+  })
+
+  return (
+
+    <QueryClientProvider client={queryClient}>
+      <Offline > You are now offline - please note Yarn Swap has limited capabilities while offline!</Offline>
+      <ChakraProvider theme={theme}>
+        <ReactPrompt />
+        <BrowserRouter >
+          <Routes>
+            <Route index element={<HomePage />} />
+            <Route path="login" element={<RegisterLogin />} />
+            <Route path="register" element={<RegisterLogin />} />
+            <Route path="profile" element={<ProfilePage />} />
+            <Route path="/*" element={<MainLayout />}>
+              <Route path="dashboard" element={<DashboardPage />} />
+              <Route path="about" element={<AboutPage />} />
+              <Route path="listings" element={<ListingsPage />} />
+              <Route path="swaps" element={<SwapsPage />} />
+              <Route path='wishlist' element={<WishlistPage />} />
+              <Route path="swapchat" element={<SwapChatPage />} />
+              <Route path="myprofile" element={<MyProfilePage />} />
+              <Route path="admin" element={<ProtectedRoute />} />
+            </Route>
+
+          </Routes>
         </BrowserRouter>
       </ChakraProvider>
-      <ReactQueryDevtools/>
+      <ReactQueryDevtools />
     </QueryClientProvider>
 
   )

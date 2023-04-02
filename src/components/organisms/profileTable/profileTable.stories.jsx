@@ -1,7 +1,9 @@
-import { ChakraProvider } from '@chakra-ui/react';
 import React from 'react';
-import ProfileTable from '.';
-import { theme } from '../../../theme';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { BrowserRouter } from 'react-router-dom';
+import ProfileTable from './index';
+
+const queryClient = new QueryClient()
 
 export default {
   title: 'Organisms/ProfileTable',
@@ -9,18 +11,19 @@ export default {
 
   decorators: [
     (Story) => (
-      <ChakraProvider theme={theme}>
-
-        <Story />
-
-      </ChakraProvider>
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <Story />
+        </BrowserRouter>
+      </QueryClientProvider>
     ),
   ],
 };
 
 const Template = (args) => <ProfileTable {...args} />;
 
-export const Table = Template.bind({});
-Table.args = {
-  displayName: 'Fiona Waters'
+export const Default = Template.bind({});
+Default.args = {
+  displayName: 'Fiona Waters',
+  photoUrl: ""
 };

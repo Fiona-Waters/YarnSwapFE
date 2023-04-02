@@ -9,25 +9,23 @@ import ListingHeadBody from "../../molecules/listingHeadBody";
 
 export default function SwapCard(props) {
     const { swap, listing, listings, currentUser, refreshSwaps, refreshListings } = props
-    var outgoingSwap = Boolean(listing.userId != currentUser.uid);
-    var incomingSwap = Boolean(listing.userId === currentUser.uid);
-    var swapDeclined = Boolean(swap.swap.swapStatus === "swap denied")
-    var swapRequested = Boolean(swap.swap.swapStatus === "swap requested")
-    var swapAccepted = Boolean(swap.swap.swapStatus === "swap accepted")
-    var swapCancelled = Boolean(swap.swap.swapStatus === "swap cancelled")
-    var parcelSent = Boolean(swap.swap.swapStatus === "parcel sent")
-    var swapCompleted = Boolean(swap.swap.swapStatus === "swap completed")
-
+    var outgoingSwap = Boolean(listing?.userId != currentUser?.uid);
+    var incomingSwap = Boolean(listing?.userId === currentUser?.uid);
+    var swapDeclined = Boolean(swap?.swap?.swapStatus === "swap denied")
+    var swapRequested = Boolean(swap?.swap?.swapStatus === "swap requested")
+    var swapAccepted = Boolean(swap?.swap?.swapStatus === "swap accepted")
+    var swapCancelled = Boolean(swap?.swap?.swapStatus === "swap cancelled")
+    var parcelSent = Boolean(swap?.swap?.swapStatus === "parcel sent")
+    var swapCompleted = Boolean(swap?.swap?.swapStatus === "swap completed")
+    var swapDate = swap?.swap?.timestamp
     const navigate = useNavigate();
     const { isOpen, onClose, onOpen } = useDisclosure()
-    const { data: swappee } = useQuery(['getUserProfileById', swap?.swap.swappeeUserId], ({ queryKey }) => {
+    const { data: swappee } = useQuery(['getUserProfileById', swap?.swap?.swappeeUserId], ({ queryKey }) => {
         return getUserProfileById(queryKey[1])
     })
-    console.log("swappee", swappee)
-    console.log(swap.swap.swappeeUserId)
 
     const badge = () => {
-        switch (swap.swap.swapStatus) {
+        switch (swap?.swap?.swapStatus) {
             case "swap requested":
                 return (
                     <Badge colorScheme={'yellow'} fontSize='18px'>Swap Requested</Badge>
@@ -57,17 +55,17 @@ export default function SwapCard(props) {
 
     let swapListing;
     listings?.map((listing) => {
-        if (listing.id === swap.swap.listingId) {
+        if (listing.id === swap?.swap.listingId) {
             swapListing = listing
         }
     })
 
     async function onSubmitAccepted() {
         swap.swap.swapStatus = "swap accepted"
-        const newChannel = await createSendbirdChannel(currentUser.uid, swap.swap)
+        const newChannel = await createSendbirdChannel(currentUser?.uid, swap?.swap)
         swap.swap.chatChannelUrl = newChannel.url;
         try {
-            await addSwap(swap.swap)
+            await addSwap(swap?.swap)
         } catch (e) {
             console.log("error adding swap", e.message)
         }
@@ -77,7 +75,7 @@ export default function SwapCard(props) {
     function goToChat() {
         navigate(`/swapchat`, {
             state: {
-                chatUrl: swap.swap.chatChannelUrl
+                chatUrl: swap?.swap.chatChannelUrl
             }
         })
     }
@@ -156,7 +154,7 @@ export default function SwapCard(props) {
         }
         const updatedSwappee = {
             ...swappee,
-            id: swap?.swap.swappeeUserId,
+            id: swap?.swap?.swappeeUserId,
             remainingTokens: swappee.remainingTokens - 1
         }
         try {
@@ -236,7 +234,7 @@ export default function SwapCard(props) {
         <Card maxW='lg' minW={56} align={"center"} p={5} border='4px' borderColor={'brand.blue'} >
             {badge()}
             {outgoingSwap && swapDeclined &&
-                <Text as='mark' noOfLines={3}> Reason: {swap.swap.swapNote}</Text>
+                <Text as='mark' noOfLines={3}> Reason: {swap?.swap?.swapNote}</Text>
             }
             <HStack divider={<StackDivider />} spacing='4'>
                 <ListingHeadBody listing={swapListing} />

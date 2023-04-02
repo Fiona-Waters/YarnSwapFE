@@ -1,7 +1,6 @@
-import { SignInScreen } from "../firebase";
+import SignInScreen from "../firebase";
 
-export const RegisterLogin = () =>
-{
+export const RegisterLogin = () => {
     return (
         <SignInScreen />
     )

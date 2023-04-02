@@ -18,7 +18,7 @@ export const getListings = async () => {
 };
 
 export const addListing = async (newListing) => {
-    const token = await auth.currentUser.getIdToken(true)
+    const token = await auth.currentUser?.getIdToken(true)
     try {
         const response = await fetch(
             `${baseURL}/listings`
@@ -54,7 +54,7 @@ export const getSwaps = async () => {
 };
 
 export const addSwap = async (newSwap) => {
-    const token = await auth.currentUser.getIdToken(true)
+    const token = await auth.currentUser?.getIdToken(true)
     try {
         const response = await fetch(
             `${baseURL}/swaps`
@@ -76,7 +76,7 @@ export const addSwap = async (newSwap) => {
 };
 
 export const addUser = async (newUser) => {
-    const token = await auth.currentUser.getIdToken(true)
+    const token = await auth.currentUser?.getIdToken(true)
     try {
         const response = await fetch(
             `${baseURL}/users`,
@@ -99,48 +99,60 @@ export const addUser = async (newUser) => {
 };
 
 export const getUserProfileById = async (listingUserId) => {
-    const token = await auth.currentUser.getIdToken(true)
-    try {
-        const response = await fetch(
-            `${baseURL}/user/${listingUserId}`,
-            {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-ID-TOKEN': token
-                },
+    const token = await auth.currentUser?.getIdToken(true)
+    // if no token then no call
+    if (token) {
+        try {
+            const response = await fetch(
+                `${baseURL}/user/${listingUserId}`,
+                {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-ID-TOKEN': token
+                    },
+                }
+            );
+            if (!response.ok) {
+                throw new Error(response.statusText);
             }
-        );
-        if (!response.ok) {
-            throw new Error(response.statusText);
+            return await response.json();
+        } catch (error) {
+            throw error;
         }
-        return await response.json();
-    } catch (error) {
-        throw error;
+    } else {
+        console.log("error",error)
+        return Promise.reject();
     }
+    
 }
 
 
 
 export const getUserProfile = async () => {
-    const token = await auth.currentUser.getIdToken(true)
-    try {
-        const response = await fetch(
-            `${baseURL}/user/${auth.currentUser.uid}`,
-            {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-ID-TOKEN': token
-                },
+    const token = await auth.currentUser?.getIdToken(true)
+    // if no token then no call
+    if (token) {
+        try {
+            const response = await fetch(
+                `${baseURL}/user/${auth.currentUser?.uid}`,
+                {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-ID-TOKEN': token
+                    },
+                }
+            );
+            if (!response.ok) {
+                throw new Error(response.statusText);
             }
-        );
-        if (!response.ok) {
-            throw new Error(response.statusText);
+            return await response.json();
+        } catch (error) {
+            throw error;
         }
-        return await response.json();
-    } catch (error) {
-        throw error;
+    } else {
+        console.log("error2", error)
     }
 }
 

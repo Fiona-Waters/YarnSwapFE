@@ -1,0 +1,23 @@
+name: Chrome headless
+
+on: push
+
+jobs:
+  chrome-headless:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Headless Chrome
+        uses: cypress-io/github-action@v5
+        timeout-minutes: 10
+        with:
+          build: yarn build
+          start: yarn preview
+          browser: chrome
+          headless: true
+          record: true
+        env:
+          # pass the Dashboard record key as an environment variable
+          CYPRESS_RECORD_KEY: ${{ secrets.dashboardRecordKey }}
+        

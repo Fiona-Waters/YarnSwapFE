@@ -1,5 +1,5 @@
 import { Avatar, Box, Container, Divider, Heading, HStack, Spacer, Stack, Text, Wrap, WrapItem } from '@chakra-ui/react';
-import { getAuth, signOut } from 'firebase/auth';
+import { getAuth, signOut, setPersistence, browserLocalPersistence } from 'firebase/auth';
 import { Outlet, useNavigate, Navigate } from 'react-router-dom';
 import DarkModeButton from '../atoms/darkModeButton';
 import Logo from '../atoms/logo';
@@ -13,6 +13,7 @@ import NavBar from '../atoms/responsiveNav';
 function MainLayout() {
     const navigate = useNavigate();
     const auth = getAuth();
+    setPersistence(auth, browserLocalPersistence)
     const handleLogout = () => {
         signOut(auth).then(() => {
             navigate("/");
@@ -63,7 +64,7 @@ function MainLayout() {
                             </WrapItem>
                         </Wrap>
                     }
-                    <Text fontSize='lg'>Logged in as {data?.userName}</Text>
+                    <Text fontSize='lg'>{data?.userName}</Text>
                     <Divider orientation='vertical' />
                     <PrimaryButton onClick={handleLogout} label={'Logout'} />
 
@@ -73,7 +74,7 @@ function MainLayout() {
                     <Logo h={40} w={40} />
                     <br></br>
                     <NavBar/>
-                    <Stack flex="1" w="full" pt={12} >
+                    <Stack flex="1" w="full" >
                         <Outlet />
                     </Stack>
                 </Container>
